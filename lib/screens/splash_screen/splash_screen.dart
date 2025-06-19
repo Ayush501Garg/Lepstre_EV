@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lepster/screens/onboarding_screen/onboarding_screen.dart';
+import '../../core/constants/image_path.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,22 +14,42 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+
+  bool showLogo = false;
 
   @override
   void initState() {
     super.initState();
 
-    // Animation controller for fade in
+    // Delay 1s before starting logo animation
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        showLogo = true;
+      });
+
+      _controller.forward();
+    });
+
+    // Initialize animation controller
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    // Fade animation from 0 to 1
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    _controller.forward();
+    // Scale animation from 0.8 to 1.0
+    _scaleAnimation = Tween<double>(
+      begin: 0.8,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
-    // Navigate after delay
+    // Navigate after delay (set short time for demo)
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
@@ -52,28 +73,23 @@ class _SplashScreenState extends State<SplashScreen>
             colors: [
               Color.fromARGB(255, 2, 242, 10),
               Color.fromARGB(255, 123, 245, 129),
-            ], // green → light green
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Center(
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Image.asset('assets/logo.png', width: 150, height: 150),
-          ),
+          child: showLogo
+              ? FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Image.asset(appLogo, width: 150, height: 150),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ),
       ),
     );
-  }
-}
-
-// Dummy HomeScreen to demonstrate navigation
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Home Screen')));
   }
 }
