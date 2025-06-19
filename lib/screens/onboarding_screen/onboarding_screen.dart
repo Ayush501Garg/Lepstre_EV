@@ -1,6 +1,7 @@
 // lib/screens/onboarding_screen.dart
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:lepster/screens/splash_screen/splash_screen.dart';
 import 'widgets/onboarding_page.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -9,6 +10,14 @@ class OnboardingScreen extends StatelessWidget {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+    );
+
+
+
     // Navigate to main screen
     ScaffoldMessenger.of(
       context,
