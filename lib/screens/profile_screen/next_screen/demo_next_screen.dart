@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
+
+import '../../../core/constants/app_color.dart';
 
 class NextScreen extends StatefulWidget {
   const NextScreen({super.key});
@@ -12,15 +15,17 @@ class _NextScreenState extends State<NextScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.primaryColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: const Text(
           'Profile',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
       ),
@@ -37,21 +42,21 @@ class _NextScreenState extends State<NextScreen> {
               child: Stack(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey.shade300, width: 3),
                     ),
                     child: const CircleAvatar(
-                      radius: 40,
+                      radius: 60,
                       backgroundImage: NetworkImage(
                         'https://tse2.mm.bing.net/th?id=OIP.Yh9XtpzimCmRolZuj98tKAHaHa&pid=Api&P=0&h=180',
                       ),
                     ),
                   ),
                   Positioned(
-                    bottom: 0,
-                    right: 0,
+                    bottom: 10,
+                    right: 10,
                     child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -61,7 +66,7 @@ class _NextScreenState extends State<NextScreen> {
                       child: const Icon(
                         Icons.camera_alt,
                         color: Colors.white,
-                        size: 16,
+                        size: 20,
                       ),
                     ),
                   ),
@@ -79,12 +84,22 @@ class _NextScreenState extends State<NextScreen> {
             const SizedBox(height: 8),
             TextField(
               decoration: InputDecoration(
-                hintText: 'Samantha Smith',
+                hintText: 'Update name',
                 filled: true,
                 fillColor: Colors.grey.shade100,
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // border color
+                    width: 1,           // 1-2 px ka border
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // focused pe blue border
+                    width: 1,
+                  ),
                 ),
               ),
             ),
@@ -100,12 +115,22 @@ class _NextScreenState extends State<NextScreen> {
             TextField(
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                hintText: '9876543210',
+                hintText: 'Update number',
                 filled: true,
                 fillColor: Colors.grey.shade100,
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // border color
+                    width: 1,           // 1-2 px ka border
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // focused pe blue border
+                    width: 1,
+                  ),
                 ),
               ),
             ),
@@ -121,12 +146,22 @@ class _NextScreenState extends State<NextScreen> {
             TextField(
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                hintText: 'samanthasmith@email.com',
+                hintText: 'username/g-email',
                 filled: true,
                 fillColor: Colors.grey.shade100,
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // border color
+                    width: 1,           // 1-2 px ka border
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor, // focused pe blue border
+                    width: 1,
+                  ),
                 ),
               ),
             ),
@@ -144,6 +179,10 @@ class _NextScreenState extends State<NextScreen> {
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppColors.primaryColor, // border color
+                  width: 1,                      // border width 1 px
+                ),
               ),
               child: DropdownButtonFormField<String>(
                 value: 'Tesla Model X',
@@ -160,34 +199,44 @@ class _NextScreenState extends State<NextScreen> {
                     value: 'Audi e-tron',
                     child: Text('Audi e-tron'),
                   ),
+                  DropdownMenuItem(
+                    value: 'Mercedes EQC',
+                    child: Text('Mercedes EQC'),
+                  ),
                 ],
                 onChanged: (value) {},
                 decoration: const InputDecoration(
-                  border: InputBorder.none,
+                  border: InputBorder.none, // andar se koi border nahi, outer Container pe hai
                 ),
               ),
             ),
 
+
             const SizedBox(height: 30),
 
             // Update Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4CAF50), // Green color
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+            Container(
+              padding:  EdgeInsets.symmetric(horizontal: 2),
+              child: Bounceable(
+                onTap: () {
+                  // your action here
+                  print('Upgrade to Pro Clicked!');
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor, // yellow button
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                ),
-                child: const Text(
-                  'Update',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'submit Details',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
