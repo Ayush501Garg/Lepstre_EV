@@ -1,6 +1,7 @@
 const appLogo = "assets/images/logo.png";
 const ev1 = "assets/images/ev1.png";
 const ev2 = "assets/images/ev2.png";
+const splaceVector = "assets/images/vector.png";
 
 //  Icons
 const leftArrowIcon = "assets/icons/left.png";

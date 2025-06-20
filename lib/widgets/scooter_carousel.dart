@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/widgets/custom_image_icon.dart';
 

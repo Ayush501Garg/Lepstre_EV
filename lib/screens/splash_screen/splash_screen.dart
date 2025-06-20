@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lepster/core/constants/app_color.dart';
+import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/screens/onboarding_screen/onboarding_screen.dart';
-import '../../core/constants/image_path.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,84 +11,124 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<double> _scaleAnimation;
+class _SplashScreenState extends State<SplashScreen> {
+  int _currentIndex = 0;
 
-  bool showLogo = false;
+  final List<int> screenDurations = [
+    100, // index 0
+    100, // index 1
+    1500, // index 2
+    750, // index 3
+    750, // index 4
+    500, // index 5
+  ];
+
+  final List<Widget> logos = [
+    const SizedBox(key: ValueKey(0)),
+    const SizedBox(key: ValueKey(1)),
+    Stack(
+      key: const ValueKey(2),
+      alignment: Alignment.center,
+      children: [
+        Image.asset(
+          splaceVector,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        ),
+        Image.asset(appLogo),
+      ],
+    ),
+    const CircleAvatar(
+      key: ValueKey(3),
+      radius: 5,
+      backgroundColor: Colors.greenAccent,
+    ),
+    Row(
+      key: const ValueKey(4),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Text(
+          'LEPSTER',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(width: 5),
+        CircleAvatar(radius: 4, backgroundColor: Colors.greenAccent),
+      ],
+    ),
+    const SizedBox(key: ValueKey(5)),
+  ];
+
+  final List<Gradient> gradients = [
+    const LinearGradient(colors: [Colors.black, Colors.black]),
+    const LinearGradient(colors: [Colors.black, Colors.black]),
+    const LinearGradient(colors: [Colors.black, Colors.black]),
+    const LinearGradient(colors: [Colors.black, Colors.black]),
+    const LinearGradient(colors: [Colors.black, Colors.black]),
+    const LinearGradient(
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      colors: [
+        AppColors.darkGreenColor,
+        AppColors.greenColor,
+        AppColors.lightGreenColor,
+      ],
+      stops: [0.0, 0.5, 1.0],
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
-
-    // Delay 1s before starting logo animation
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        showLogo = true;
-      });
-
-      _controller.forward();
-    });
-
-    // Initialize animation controller
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-
-    // Fade animation from 0 to 1
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
-
-    // Scale animation from 0.8 to 1.0
-    _scaleAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
-
-    // Navigate after delay (set short time for demo)
-    Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => OnboardingScreen()),
-      );
-    });
+    _startTimedSplashSequence();
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void _startTimedSplashSequence() {
+    int accumulatedTime = 0;
+
+    for (int i = 0; i < screenDurations.length; i++) {
+      accumulatedTime += screenDurations[i];
+
+      Future.delayed(Duration(milliseconds: accumulatedTime), () {
+        if (!mounted) return;
+
+        setState(() {
+          _currentIndex = i;
+        });
+
+        if (i == screenDurations.length - 1) {
+          Future.delayed(Duration(milliseconds: screenDurations[i]), () {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => OnboardingScreen()),
+              );
+            }
+          });
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 2, 242, 10),
-              Color.fromARGB(255, 123, 245, 129),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        decoration: BoxDecoration(gradient: gradients[_currentIndex]),
         child: Center(
-          child: showLogo
-              ? FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: Image.asset(appLogo, width: 150, height: 150),
-                  ),
-                )
-              : const SizedBox.shrink(),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) =>
+                FadeTransition(opacity: animation, child: child),
+            child: logos[_currentIndex],
+          ),
         ),
       ),
     );
