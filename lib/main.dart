@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lepster/screens/auth_screen/signup_screen.dart';
-
+import 'package:lepster/screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,6 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SignupScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
   }
 }
