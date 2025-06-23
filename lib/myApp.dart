@@ -8,11 +8,13 @@ import 'package:lepster/screens/splash_screen/splash_screen.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false,
-        // home: BottomNavigationBarScreen());
+        home: SignupScreen());
         // home: SignupScreen());
-        home: SplashScreen());
+        // home: SplashScreen());
   }
 }

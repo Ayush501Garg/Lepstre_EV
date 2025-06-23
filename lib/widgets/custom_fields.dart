@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../core/constants/app_color.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../core/constants/app_color.dart';  // apne color file ka path
+
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hint;
@@ -10,10 +14,12 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final String? errorText;
   final VoidCallback? onChangedClearError;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final bool isPassword;
   final bool obscureText;
   final VoidCallback? togglePasswordVisibility;
-  final bool isPhone; // <<== new parameter
+  final bool isPhone;
 
   const CustomTextField({
     super.key,
@@ -24,10 +30,12 @@ class CustomTextField extends StatelessWidget {
     this.maxLength,
     this.errorText,
     this.onChangedClearError,
+    this.onChanged,
+    this.onSubmitted,
     this.isPassword = false,
     this.obscureText = false,
     this.togglePasswordVisibility,
-    this.isPhone = false, // default false
+    this.isPhone = false,
   });
 
   @override
@@ -40,18 +48,20 @@ class CustomTextField extends StatelessWidget {
           obscureText: isPassword ? obscureText : false,
           cursorColor: AppColors.primaryColor,
           keyboardType: isPhone ? TextInputType.phone : keyboardType,
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.done,
           inputFormatters: [
-            if (isPhone)
-              FilteringTextInputFormatter.digitsOnly,
-            if (maxLength != null || isPhone)
-              LengthLimitingTextInputFormatter(isPhone ? 10 : maxLength),
+            if (isPhone) FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(isPhone ? 10 : maxLength),
           ],
           onChanged: (value) {
             if (errorText != null && onChangedClearError != null) {
               onChangedClearError!();
             }
+            if (onChanged != null) {
+              onChanged!(value);
+            }
           },
+          onSubmitted: onSubmitted,
           decoration: InputDecoration(
             labelText: label,
             hintText: hint,
@@ -61,7 +71,7 @@ class CustomTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
                 color: AppColors.primaryColor,
-                width: 1,
+                width: 1.5,
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -71,12 +81,24 @@ class CustomTextField extends StatelessWidget {
                 width: 2,
               ),
             ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: AppColors.primaryColor,
+                width: 1.5,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: AppColors.primaryColor,
+                width: 2,
+              ),
+            ),
             suffixIcon: isPassword
                 ? IconButton(
               icon: Icon(
-                obscureText
-                    ? Icons.visibility_off
-                    : Icons.visibility,
+                obscureText ? Icons.visibility_off : Icons.visibility,
                 color: AppColors.primaryColor,
               ),
               onPressed: togglePasswordVisibility,
@@ -91,21 +113,10 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
         ),
-
-        Visibility(
-          visible: errorText != null,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 1, left: 8),
-            child: Text(
-              errorText ?? '',
-              style: const TextStyle(
-                color: Colors.red,
-                fontSize: 10,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
 }
+
+
+

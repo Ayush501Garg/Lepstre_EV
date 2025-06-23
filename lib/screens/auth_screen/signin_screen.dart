@@ -52,44 +52,7 @@ class _SigninScreenState extends State<SigninScreen> {
     }
   }
 
-  Widget _buildPhoneField() {
-    return TextField(
-      controller: _phoneController,
-      focusNode: _phoneFocus,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.done,
-      cursorColor: AppColors.primaryColor,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(10),
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      onSubmitted: (value) => _onPhoneSubmitted(),
-      onChanged: (value) => _validatePhone(value),
-      decoration: InputDecoration(
-        labelText: 'Phone Number',
-        hintText: 'Enter Phone Number',
-        labelStyle: TextStyle(color: AppColors.primaryColor),
-        errorText: _phoneError,
-        prefixIcon: Icon(Icons.phone, color: AppColors.primaryColor.withOpacity(1)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.primaryColor.withOpacity(1)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.primaryColor.withOpacity(1)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.primaryColor.withOpacity(1), width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Colors.red, width: 1),
-        ),
-      ),
-    );
-  }
+
 
 
 
@@ -165,7 +128,29 @@ class _SigninScreenState extends State<SigninScreen> {
                     _phoneError = null;
                   });
                 },
+                onChanged: (value) {
+                  if (value.length == 10) {
+                    FocusScope.of(context).unfocus();  // Hide keyboard
+                    setState(() {
+                      _showLoginButton = true;
+                    });
+                  } else {
+                    setState(() {
+                      _showLoginButton = false;
+                    });
+                  }
+                },
+                onSubmitted: (_) {
+                  if (_phoneController.text.length == 10) {
+                    FocusScope.of(context).unfocus();
+                    setState(() {
+                      _showLoginButton = true;
+                    });
+                  }
+                },
               ),
+
+
 
 
               SizedBox(height: 32),
@@ -175,28 +160,18 @@ class _SigninScreenState extends State<SigninScreen> {
                 opacity: _showLoginButton ? 1.0 : 0.5,
                 duration: const Duration(milliseconds: 300),
                 child: GestureDetector(
-                  onTap: _showLoginButton ? () {
+                  onTap: _showLoginButton
+                      ? () {
                     Navigator.push(context, MaterialPageRoute(builder: (_) => OTPVerificationScreen()));
-                    // Handle login logic here
                     print('Login with phone: ${_phoneController.text}');
-
-                    // Show loading or navigate to OTP screen
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Sending OTP to ${_phoneController.text}'),
                         backgroundColor: AppColors.primaryColor,
                       ),
                     );
-                    // Navigate to OTP verification screen
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => OtpVerificationScreen(
-                    //       phoneNumber: _phoneController.text,
-                    //     ),
-                    //   ),
-                    // );
-                  } : null,
+                  }
+                      : null,
                   child: Container(
                     width: double.infinity,
                     height: 50,
@@ -219,6 +194,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                 ),
               ),
+
 
               const SizedBox(height: 24),
 
