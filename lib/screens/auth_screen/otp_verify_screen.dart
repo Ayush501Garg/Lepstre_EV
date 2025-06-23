@@ -64,7 +64,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       //       fontWeight: FontWeight.w600,
       //     ),
       //   ),
-      //   backgroundColor: AppColors.primaryColor,
+      //   backgroundColor: AppColors.  btnColor,
       //   elevation: 0,
       //   leading: IconButton(
       //     icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -86,7 +86,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primaryColor.withOpacity(0.1),
+                        color: AppColors.  btnColor.withOpacity(0.1),
                         blurRadius: 20,
                         offset: Offset(0, 10),
                       ),
@@ -102,7 +102,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+                  color: AppColors.  btnColor,
                 ),
               ),
               const SizedBox(height: 16),
@@ -134,7 +134,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 textStyle: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
+                  color: AppColors.  btnColor,
                 ),
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
@@ -145,8 +145,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   activeFillColor: Colors.white,
                   selectedFillColor: Colors.white,
                   inactiveFillColor: Colors.white,
-                  activeColor: AppColors.primaryColor,
-                  selectedColor: AppColors.primaryColor,
+                  activeColor: AppColors.  btnColor,
+                  selectedColor: AppColors.  btnColor,
                   inactiveColor: Colors.grey.shade300,
                   disabledColor: Colors.grey.shade200,
                   errorBorderColor: Colors.red,
@@ -165,7 +165,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('OTP resent successfully'),
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: AppColors.  btnColor,
                     ),
                   );
                 },
@@ -174,7 +174,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor,
+                    color: AppColors.  btnColor,
                   ),
                 ),
               )
@@ -218,7 +218,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     print("Verifying OTP: $currentText");
                   } : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
+                    backgroundColor: AppColors.  btnColor,
                     foregroundColor: Colors.white,
                     elevation: 2,
                     shape: RoundedRectangleBorder(

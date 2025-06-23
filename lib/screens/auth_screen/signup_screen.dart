@@ -82,7 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
   //           borderRadius: BorderRadius.circular(8.0), // left/right corner radius
   //           border: Border(
   //             bottom: BorderSide(
-  //               color: AppColors.primaryColor,
+  //               color: AppColors.  btnColor,
   //               width: 2, // only bottom border
   //             ),
   //           ),
@@ -90,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
   //         margin: const EdgeInsets.only(bottom: 2), // space between fields
   //         child: TextField(
   //           controller: controller,
-  //           cursorColor: AppColors.primaryColor,
+  //           cursorColor: AppColors.  btnColor,
   //           keyboardType: keyboardType,
   //           textInputAction: TextInputAction.next,
   //           inputFormatters: maxLength != null
@@ -104,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
   //           decoration: InputDecoration(
   //             labelText: label,
   //             hintText: hint,
-  //             labelStyle: TextStyle(color: AppColors.primaryColor),
+  //             labelStyle: TextStyle(color: AppColors.  btnColor),
   //             border: InputBorder.none, // no default border
   //             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
   //           ),
@@ -197,7 +197,7 @@ bool _validateEmail(String email) {
                           ),
                           TextSpan(
                             text: 'up',
-                            style: TextStyle(color: AppColors.primaryColor),
+                            style: TextStyle(color: AppColors.  btnColor),
                           ),
                         ],
                       ),
@@ -284,7 +284,7 @@ bool _validateEmail(String email) {
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: AppColors.  btnColor,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: const Center(

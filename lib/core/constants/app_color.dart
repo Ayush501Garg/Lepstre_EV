@@ -39,6 +39,7 @@ class AppColors {
   static const greyColor = Color(0xFF737373);
   static const lightCreame = Color(0xFFEFEFEF);
   static const primaryColor = lightGreenColor1;
+  static const btnColor = darkGreenColor;
   static const primaryLightColor = curvedColor;
   static const transparentColor = Colors.transparent;
 // >>>>>>> ayush_lepstre

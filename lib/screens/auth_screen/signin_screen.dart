@@ -167,7 +167,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Sending OTP to ${_phoneController.text}'),
-                        backgroundColor: AppColors.primaryColor,
+                        backgroundColor: AppColors.btnColor,
                       ),
                     );
                   }
@@ -177,7 +177,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     height: 50,
                     decoration: BoxDecoration(
                       color: _showLoginButton
-                          ? AppColors.primaryColor
+                          ? AppColors.btnColor
                           : Colors.grey.shade400,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -309,7 +309,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primaryColor,
+                        color: AppColors.btnColor,
                       ),
                     ),
                   ),

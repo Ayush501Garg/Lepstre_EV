@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'myApp.dart';
-// <<<<<<< HEAD
-// import 'package:flutter/services.dart';
-// import 'package:lepster/screens/splash_screen/splash_screen.dart';
 
-// import 'myApp.dart';
-// =======
-// import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
-// >>>>>>> ayush_garg
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.blue, // Jo bhi color chahiye de do yaha
+    statusBarIconBrightness: Brightness.dark, // white icons (for dark background)
+    // Brightness.dark agar light background ho
+  ));
   runApp(MyApp());
 }
 
-
-// <<<<<<< HEAD
-// =======
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: BottomNavigationBarScreen(),
-//     );
-//   }
-// }
-// >>>>>>> ayush_garg
