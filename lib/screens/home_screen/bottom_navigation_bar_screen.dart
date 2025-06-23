@@ -6,6 +6,7 @@ import 'package:lepster/screens/home_screen/home_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
 import '../scan_screen/scan_screen.dart';
+import 'history_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -22,7 +23,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     HomeScreen(),
     BikesScreen(),
     ScanScreen(),
-    DemoHomeScreen(title: "History"),
+    HistoryScreen(),
     DemoHomeScreen(title: "Profile"),
   ];
 

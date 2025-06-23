@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/screens/auth_screen/seond_signup_screen.dart';
 import 'package:lepster/screens/auth_screen/signin_screen.dart';
 
 import '../../widgets/custom_fields.dart';
