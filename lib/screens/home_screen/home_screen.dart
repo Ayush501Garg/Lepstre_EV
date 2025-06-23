@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lepster/screens/notification_screen/notification_screen.dart';
+import 'package:lepster/widgets/custom_page_route.dart';
 
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
@@ -44,20 +46,30 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primaryLightColor,
-                          blurRadius: 2,
-                        ),
-                      ],
-                      color: AppColors.backgroundColor,
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.notifications_none),
-                      onPressed: () {},
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CustomPageRoute(child: NotificationScreen()),
+                      );
+                    },
+                    child: Container(
+                      padding: symmetricPadding(
+                        context: context,
+                        horizontalPercent: 10,
+                        verticalPercent: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primaryLightColor,
+                            blurRadius: 2,
+                          ),
+                        ],
+                        color: AppColors.backgroundColor,
+                      ),
+                      child: Icon(Icons.notifications_none),
                     ),
                   ),
                 ],
@@ -263,45 +275,6 @@ class HomeScreen extends StatelessWidget {
       ),
 
       // Bottom Nav Bar
-      bottomNavigationBar: Container(
-        margin: symmetricPadding(
-          context: context,
-          horizontalPercent: 10,
-          verticalPercent: 15,
-        ),
-        padding: symmetricPadding(
-          context: context,
-          horizontalPercent: 10,
-          verticalPercent: 5,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(color: AppColors.primaryLightColor, blurRadius: 2),
-          ],
-          color: AppColors.backgroundColor,
-        ),
-
-        child: BottomNavigationBar(
-          backgroundColor: AppColors.backgroundColor,
-          currentIndex: 0,
-          elevation: 0,
-
-          selectedItemColor: AppColors.primaryLightColor,
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.location_on_outlined),
-              label: 'Locate',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz),
-              label: 'More',
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -328,7 +301,7 @@ class _ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: getScreenHeight(context) * 0.12,
+        height: screenHeight(context) * 0.12,
         decoration: BoxDecoration(
           color: color,
           boxShadow: !isShadowRequired

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lepster/core/constants/app_color.dart';
+import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/image_path.dart';
+import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/screens/home_screen/home_screen.dart';
+import 'package:lepster/widgets/custom_page_route.dart';
+
+import '../../core/constants/text_style.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -78,39 +83,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         onDone: () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => HomeScreen()),
+            CustomPageRoute(child: BottomNavigationBarScreen()),
           );
         },
 
         showNextButton: true,
         showSkipButton: false,
-        done: Align(
-          alignment: Alignment.bottomRight,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.lightGreenColor1,
-            ),
-            child: const Text(
-              "Next",
-              style: TextStyle(color: AppColors.whiteColor),
-            ),
+        done: Container(
+          width: screenWidth(context),
+          padding: verticalPadding(context: context, padding: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.lightGreenColor1,
           ),
+          child: Center(child: Text("Next", style: whiteText16600)),
         ),
-        next: Align(
-          alignment: Alignment.bottomRight,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.lightGreenColor1,
-            ),
-            child: const Text(
-              "Next",
-              style: TextStyle(color: AppColors.whiteColor),
-            ),
+        next: Container(
+          width: screenWidth(context),
+          padding: verticalPadding(context: context, padding: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.lightGreenColor1,
           ),
+          child: Center(child: Text("Next", style: whiteText16600)),
         ),
 
         dotsDecorator: const DotsDecorator(
@@ -127,20 +122,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-// 🟢 This is the key part: Left-heavy curved shape
 class CleanTopCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
 
-    path.lineTo(0, size.height * 0.55); // start at left mid
+    // Start from top-left
+    path.lineTo(0, size.height * 0.45);
+
     path.quadraticBezierTo(
-      size.width * 0.5,
-      size.height * 0.30, // center dip
+      size.width * 0.6,
+      size.height * 0.55, // control point
       size.width,
-      size.height * 0.45, // right mid
+      size.height * 0.55, // end point
     );
-    path.lineTo(size.width, 0); // top right
+
+    // Finish the path at the top-right
+    path.lineTo(size.width, 0);
     path.close();
 
     return path;
@@ -197,8 +195,12 @@ class CustomOnboardingPage extends StatelessWidget {
         Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.only(top: 80),
-            child: Image.asset(imageAsset),
+            padding: EdgeInsets.only(top: 100),
+            child: Image.asset(
+              imageAsset,
+              height: screenHeight(context) * 0.5,
+              fit: BoxFit.fitHeight,
+            ),
           ),
         ),
 
@@ -206,39 +208,37 @@ class CustomOnboardingPage extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: symmetricPadding(
+              context: context,
+              horizontalPercent: 20,
+              verticalPercent: 30,
+            ),
             decoration: const BoxDecoration(
-              // color: Color(0xFFF8F8F8),
               color: AppColors.lightCreame,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-
-                  style: const TextStyle(
-                    fontSize: 36,
-
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.blackColor,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  subtitle,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    color: AppColors.greyColor,
-                    fontSize: 16,
+                Text(title, style: blackText36Bold, textAlign: TextAlign.start),
+                verticalSpacing(25),
+                SizedBox(
+                  width: screenWidth(context) * 0.75,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      subtitle,
+                      textAlign: TextAlign.start,
+                      style: greyText16400,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                verticalSpacing(80),
               ],
             ),
           ),

@@ -285,7 +285,7 @@ bool _validateEmail(String email) {
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: const Center(
@@ -313,6 +313,7 @@ bool _validateEmail(String email) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+
                       Expanded(
                         child: GestureDetector(
                           onTap: () {

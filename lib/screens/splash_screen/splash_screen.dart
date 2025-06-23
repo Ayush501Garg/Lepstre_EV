@@ -6,6 +6,9 @@ import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/screens/auth_screen/signup_screen.dart';
 import 'package:lepster/screens/onboarding_screen/onboarding_screen.dart';
 
+import '../../core/constants/text_style.dart';
+import '../../widgets/custom_page_route.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -45,15 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Row(
       key: const ValueKey(4),
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text(
-          'LEPSTER',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      children: [
+        Text('LEPSTER', style: whiteText30Bold),
         SizedBox(width: 4),
         CircleAvatar(radius: 4, backgroundColor: Colors.greenAccent),
       ],
@@ -80,17 +76,32 @@ class _SplashScreenState extends State<SplashScreen> {
           _currentIndex = i;
         });
 
+// <<<<<<< HEAD
         if (i == screenDurations.length - 1) {
           Future.delayed(Duration(milliseconds: screenDurations[i]), () {
             if (mounted) {
               Navigator.pushReplacement(
                 context,
-                // MaterialPageRoute(builder: (_) => SignupScreen()),
                 MaterialPageRoute(builder: (_) => OnboardingScreen()),
               );
             }
           });
         }
+// =======
+        // if (i == screenDurations.length - 1) {
+        //   Future.delayed(Duration(milliseconds: screenDurations[i]), () {
+        //     if (mounted) {
+        //       Navigator.pushReplacement(
+        //         context,
+        //         CustomPageRoute(
+        //           child: OnboardingScreen(),
+        //           transitionType: TransitionType.fade,
+        //         ),
+        //       );
+        //     }
+        //   });
+        // }
+// >>>>>>> ayush_garg
       });
     }
   }
@@ -221,7 +232,7 @@ class _GradientCircleRevealState extends State<GradientCircleReveal>
       if (status == AnimationStatus.completed) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+          CustomPageRoute(child: OnboardingScreen()),
         );
       }
     });
