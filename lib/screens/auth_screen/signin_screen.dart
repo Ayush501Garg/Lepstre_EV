@@ -5,6 +5,7 @@ import 'package:lepster/screens/auth_screen/signup_screen.dart';
 
 import '../../core/constants/app_color.dart';
 import '../../core/constants/image_path.dart';
+import '../../widgets/custom_fields.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -153,58 +154,18 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
               ),
                SizedBox(height: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0), // left-right corner radius
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppColors.primaryColor.withOpacity(1),
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    margin: const EdgeInsets.only(bottom: 2), // spacing from error text
-                    child: TextField(
-                      controller: _phoneController,
-                      focusNode: _phoneFocus,
-                      keyboardType: TextInputType.phone,
-                      textInputAction: TextInputAction.done,
-                      cursorColor: AppColors.primaryColor,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(10),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      onSubmitted: (value) => _onPhoneSubmitted(),
-                      onChanged: (value) => _validatePhone(value),
-                      decoration: InputDecoration(
-                        labelText: 'Phone Number',
-                        hintText: 'Number',
-                        labelStyle: TextStyle(color: AppColors.primaryColor),
-                        border: InputBorder.none, // no default border
-                        prefixIcon: Icon(Icons.phone, color: AppColors.primaryColor.withOpacity(1)),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: _phoneError != null,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 8, bottom: 12),
-                      child: Text(
-                        _phoneError ?? '',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              CustomTextField(
+                label: 'Phone Number',
+                hint: 'Enter phone number',
+                controller: _phoneController,
+                errorText: _phoneError,
+                isPhone: true,
+                onChangedClearError: () {
+                  setState(() {
+                    _phoneError = null;
+                  });
+                },
               ),
-
 
 
               SizedBox(height: 32),

@@ -6,6 +6,8 @@ import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/screens/auth_screen/seond_signup_screen.dart';
 import 'package:lepster/screens/auth_screen/signin_screen.dart';
 
+import '../../widgets/custom_fields.dart';
+
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -64,67 +66,67 @@ class _SignupScreenState extends State<SignupScreen> {
 
 
   // Function to build text field
-  Widget _buildTextField({
-    required String label,
-    required String hint,
-    required TextEditingController controller,
-    TextInputType keyboardType = TextInputType.text,
-    int? maxLength,
-    String? errorText,
-    VoidCallback? onChangedClearError,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0), // left/right corner radius
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.primaryColor,
-                width: 2, // only bottom border
-              ),
-            ),
-          ),
-          margin: const EdgeInsets.only(bottom: 2), // space between fields
-          child: TextField(
-            controller: controller,
-            cursorColor: AppColors.primaryColor,
-            keyboardType: keyboardType,
-            textInputAction: TextInputAction.next,
-            inputFormatters: maxLength != null
-                ? [LengthLimitingTextInputFormatter(maxLength)]
-                : [],
-            onChanged: (value) {
-              if (errorText != null && onChangedClearError != null) {
-                onChangedClearError();
-              }
-            },
-            decoration: InputDecoration(
-              labelText: label,
-              hintText: hint,
-              labelStyle: TextStyle(color: AppColors.primaryColor),
-              border: InputBorder.none, // no default border
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-            ),
-          ),
-        ),
-        Visibility(
-          visible: errorText != null,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 4, left: 8),
-            child: Text(
-              errorText ?? '',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildTextField({
+  //   required String label,
+  //   required String hint,
+  //   required TextEditingController controller,
+  //   TextInputType keyboardType = TextInputType.text,
+  //   int? maxLength,
+  //   String? errorText,
+  //   VoidCallback? onChangedClearError,
+  // }) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Container(
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(8.0), // left/right corner radius
+  //           border: Border(
+  //             bottom: BorderSide(
+  //               color: AppColors.primaryColor,
+  //               width: 2, // only bottom border
+  //             ),
+  //           ),
+  //         ),
+  //         margin: const EdgeInsets.only(bottom: 2), // space between fields
+  //         child: TextField(
+  //           controller: controller,
+  //           cursorColor: AppColors.primaryColor,
+  //           keyboardType: keyboardType,
+  //           textInputAction: TextInputAction.next,
+  //           inputFormatters: maxLength != null
+  //               ? [LengthLimitingTextInputFormatter(maxLength)]
+  //               : [],
+  //           onChanged: (value) {
+  //             if (errorText != null && onChangedClearError != null) {
+  //               onChangedClearError();
+  //             }
+  //           },
+  //           decoration: InputDecoration(
+  //             labelText: label,
+  //             hintText: hint,
+  //             labelStyle: TextStyle(color: AppColors.primaryColor),
+  //             border: InputBorder.none, // no default border
+  //             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+  //           ),
+  //         ),
+  //       ),
+  //       Visibility(
+  //         visible: errorText != null,
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(top: 4, left: 8),
+  //           child: Text(
+  //             errorText ?? '',
+  //             style: TextStyle(
+  //               color: Colors.red,
+  //               fontSize: 12,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
 
 
@@ -205,7 +207,7 @@ bool _validateEmail(String email) {
                   const SizedBox(height: 20),
 
                   // NAME
-                  _buildTextField(
+                  CustomTextField(
                     label: 'Enter Name',
                     hint: 'Name',
                     controller: _nameController,
@@ -220,7 +222,7 @@ bool _validateEmail(String email) {
                   const SizedBox(height: 20),
 
                   // EMAIL
-                  _buildTextField(
+                  CustomTextField(
                     label: 'Enter Email',
                     hint: 'Email',
                     controller: _emailController,
@@ -235,7 +237,7 @@ bool _validateEmail(String email) {
                   const SizedBox(height: 20),
 
                   // ADDRESS
-                  _buildTextField(
+                  CustomTextField(
                     label: 'Enter Address',
                     hint: 'Address',
                     controller: _addressController,
@@ -249,62 +251,25 @@ bool _validateEmail(String email) {
                   const SizedBox(height: 20),
 
                   // PASSWORD
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border(
-                            bottom: BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: TextField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
-                          cursorColor: AppColors.primaryColor,
-                          onChanged: (value) {
-                            if (_passwordError != null) {
-                              setState(() {
-                                _passwordError = null;
-                              });
-                            }
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'Enter Password',
-                            hintText: 'Password',
-                            labelStyle: TextStyle(color: AppColors.primaryColor),
-                            border: InputBorder.none,
-                            suffixIcon: IconButton(
-                              icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
-                            ),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: _passwordError != null,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4, left: 8),
-                          child: Text(
-                            _passwordError ?? '',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  CustomTextField(
+                    label: 'Enter Password',
+                    hint: 'Password',
+                    controller: _passwordController,
+                    errorText: _passwordError,
+                    isPassword: true,
+                    obscureText: _obscurePassword,
+                    togglePasswordVisibility: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    onChangedClearError: () {
+                      setState(() {
+                        _passwordError = null;
+                      });
+                    },
                   ),
+
 
 
 

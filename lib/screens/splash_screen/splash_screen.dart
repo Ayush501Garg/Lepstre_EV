@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/image_path.dart';
+import 'package:lepster/screens/auth_screen/signup_screen.dart';
 import 'package:lepster/screens/onboarding_screen/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
     500, // index 5
     750, // index 5
   ];
-
   final List<Widget> logos = [
     const SizedBox(key: ValueKey(0)),
     const SizedBox(key: ValueKey(1)),
@@ -85,6 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
             if (mounted) {
               Navigator.pushReplacement(
                 context,
+                // MaterialPageRoute(builder: (_) => SignupScreen()),
                 MaterialPageRoute(builder: (_) => OnboardingScreen()),
               );
             }
