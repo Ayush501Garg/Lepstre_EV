@@ -4,6 +4,7 @@ import 'package:lepster/screens/auth_screen/otp_verify_screen.dart';
 import 'package:lepster/screens/auth_screen/signup_screen.dart';
 
 import '../../core/constants/app_color.dart';
+import '../../core/constants/image_path.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -95,20 +96,7 @@ class _SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        centerTitle: true,
-        title: Text(
-          'Lepster ⚡ EV',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2,
-            color: Colors.white,
-          ),
-        ),
-        elevation: 0,
-      ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
@@ -120,7 +108,7 @@ class _SigninScreenState extends State<SigninScreen> {
               // Car Image
               Center(
                 child: Image.asset(
-                  'assets/images/car_singup.png',
+                  '$ev1',
                   height: 180,
                 ),
               ),
@@ -164,10 +152,62 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
-              _buildPhoneField(),
+               SizedBox(height: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0), // left-right corner radius
+                      border: Border(
+                        bottom: BorderSide(
+                          color: AppColors.primaryColor.withOpacity(1),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 2), // spacing from error text
+                    child: TextField(
+                      controller: _phoneController,
+                      focusNode: _phoneFocus,
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.done,
+                      cursorColor: AppColors.primaryColor,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(10),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      onSubmitted: (value) => _onPhoneSubmitted(),
+                      onChanged: (value) => _validatePhone(value),
+                      decoration: InputDecoration(
+                        labelText: 'Phone Number',
+                        hintText: 'Number',
+                        labelStyle: TextStyle(color: AppColors.primaryColor),
+                        border: InputBorder.none, // no default border
+                        prefixIcon: Icon(Icons.phone, color: AppColors.primaryColor.withOpacity(1)),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _phoneError != null,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4, left: 8, bottom: 12),
+                      child: Text(
+                        _phoneError ?? '',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
-              const SizedBox(height: 32),
+
+
+              SizedBox(height: 32),
 
               // Login Button
               AnimatedOpacity(

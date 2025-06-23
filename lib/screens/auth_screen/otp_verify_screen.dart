@@ -13,6 +13,7 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   bool _isResendVisible = false;
+  bool _isVerifyButtonClicked = false;
   int _start = 30;
   Timer? _timer;
   TextEditingController _otpController = TextEditingController();
@@ -55,21 +56,21 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        title: Text(
-          'Verify OTP',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: AppColors.primaryColor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Verify OTP',
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontWeight: FontWeight.w600,
+      //     ),
+      //   ),
+      //   backgroundColor: AppColors.primaryColor,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: Colors.white),
+      //     onPressed: () => Navigator.pop(context),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
@@ -91,7 +92,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       ),
                     ],
                   ),
-                  child: Image.network('$fakeimg',height: 80,
+                  child: Image.asset('$ev1',height: 120,
                   ),
                 ),
               ),
@@ -155,7 +156,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 enablePinAutofill: true,
               ),
               const SizedBox(height: 40),
-              _isResendVisible
+              _isVerifyButtonClicked
+                  ? (_isResendVisible
                   ? GestureDetector(
                 onTap: () {
                   startTimer();
@@ -167,20 +169,12 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     ),
                   );
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.primaryColor),
-                  ),
-                  child: Text(
-                    'Resend OTP',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor,
-                    ),
+                child: Text(
+                  'Resend OTP',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryColor,
                   ),
                 ),
               )
@@ -208,13 +202,18 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     ),
                   ],
                 ),
-              ),
+              ))
+                  : SizedBox.shrink(),
               const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   onPressed: currentText.length == 6 ? () {
+                    setState(() {
+                      _isVerifyButtonClicked = true;
+                    });
+                    startTimer();
                     // Handle OTP verification
                     print("Verifying OTP: $currentText");
                   } : null,
