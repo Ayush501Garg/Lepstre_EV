@@ -12,6 +12,11 @@ final greyText12400 = GoogleFonts.poppins(
   fontSize: 12,
   fontWeight: FontWeight.w400,
 );
+final greyText13600 = GoogleFonts.poppins(
+  color: AppColors.greyColor,
+  fontSize: 13,
+  fontWeight: FontWeight.w600,
+);
 final greyText14600 = GoogleFonts.poppins(
   color: AppColors.greyColor,
   fontSize: 14,
@@ -40,6 +45,11 @@ final blackText20600 = GoogleFonts.poppins(
 );
 final blackText16600 = GoogleFonts.poppins(
   fontSize: 16,
+  fontWeight: FontWeight.w600,
+  color: AppColors.blackColor,
+);
+final blackText14600 = GoogleFonts.poppins(
+  fontSize: 14,
   fontWeight: FontWeight.w600,
   color: AppColors.blackColor,
 );

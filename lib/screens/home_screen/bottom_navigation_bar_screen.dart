@@ -5,6 +5,8 @@ import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/screens/home_screen/home_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
+import '../history_screen/history_screen.dart';
+import '../profile_screen/profile_screen.dart';
 import '../scan_screen/scan_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
@@ -22,8 +24,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     HomeScreen(),
     BikesScreen(),
     ScanScreen(),
-    DemoHomeScreen(title: "History"),
-    DemoHomeScreen(title: "Profile"),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   final List<TabItem> items = [

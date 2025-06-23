@@ -5,6 +5,7 @@ const ev2 = "assets/images/ev2.png";
 const ev3 = "assets/images/ev3.png";
 const ev4 = "assets/images/ev4.png";
 const h1 = "assets/images/h1.png";
+const user = "assets/images/user.png";
 const splaceVector = "assets/images/vector.png";
 const onboarding1 = "assets/images/onboarding1.png";
 const onboarding2 = "assets/images/onboarding2.png";
