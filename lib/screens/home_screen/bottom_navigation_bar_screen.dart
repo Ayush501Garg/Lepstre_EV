@@ -3,6 +3,7 @@ import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/screens/home_screen/home_screen.dart';
+import 'package:lepster/screens/home_screen/profile_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
 import '../scan_screen/scan_screen.dart';
@@ -24,7 +25,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     BikesScreen(),
     ScanScreen(),
     HistoryScreen(),
-    DemoHomeScreen(title: "Profile"),
+    ElectricScooterScreen(),
+    // DemoHomeScreen(title: "Profile"),
   ];
 
   final List<TabItem> items = [
@@ -38,6 +40,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: _screens[currentIndex],
       bottomNavigationBar: BottomBarInspiredOutside(
         height: 60,
