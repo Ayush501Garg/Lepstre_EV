@@ -4,14 +4,14 @@ import 'package:lepster/core/constants/app_color.dart';
 
 import '../../widgets/custom_list_function.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class History_Screen extends StatefulWidget {
+  const History_Screen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
+  State<History_Screen> createState() => _History_ScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _History_ScreenState extends State<History_Screen> {
 
   List<int> expandedIndexes = [];
 
@@ -79,7 +79,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             TextSpan(
                               text: lastWord,
                               style: const TextStyle(
-                                color:AppColors.btnColor,
+                                color:AppColors.primaryColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -153,7 +153,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             child: Text(
                               isExpanded ? 'Less Detail' : 'More Detail',
                               style: TextStyle(
-                                color: isExpanded ? AppColors.btnColor : Colors.white,
+                                color: isExpanded ? AppColors.primaryColor : Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

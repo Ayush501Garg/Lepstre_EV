@@ -2,18 +2,28 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_color.dart';
 
-Widget customBackButton({icon = Icons.arrow_back_ios_new, required onTap}) {
+Widget customBackButton({
+  icon = Icons.arrow_back_ios_new,
+  required onTap,
+  bgColor,
+  isShadow = true,
+  iconColor,
+  padding = 10,
+}) {
   return InkWell(
     onTap: onTap,
+
     borderRadius: BorderRadius.circular(30),
     child: Container(
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(padding * 1.0),
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.whiteColor,
-        boxShadow: [BoxShadow(color: AppColors.curvedColor, blurRadius: 2)],
+        color: bgColor ?? AppColors.whiteColor,
+        boxShadow: !isShadow
+            ? null
+            : [BoxShadow(color: AppColors.curvedColor, blurRadius: 2)],
       ),
-      child: Icon(icon, color: AppColors.darkGreenColor, size: 20),
+      child: Icon(icon, color: iconColor ?? AppColors.darkGreenColor, size: 20),
     ),
   );
 }

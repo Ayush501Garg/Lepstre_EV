@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
+import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/widgets/custom_back_buttom.dart';
 
@@ -58,12 +59,8 @@ class NotificationScreen extends StatelessWidget {
               bottom: 20,
             ),
             width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primaryLightColor, AppColors.primaryColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+            decoration: BoxDecoration(
+              gradient: appGradient,
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             ),
             child: Row(

@@ -14,6 +14,7 @@ const ev2 = "assets/images/ev2.png";
 const ev3 = "assets/images/ev3.png";
 const ev4 = "assets/images/ev4.png";
 const h1 = "assets/images/h1.png";
+const user = "assets/images/user.png";
 const splaceVector = "assets/images/vector.png";
 const onboarding1 = "assets/images/onboarding1.png";
 const onboarding2 = "assets/images/onboarding2.png";
@@ -65,6 +66,7 @@ const benlg_catelog_white = "assets/images/benlg_catelog_white.png";
 const benlg_catelog_blue = "assets/images/benlg_catelog_blue.png";
 const benlg_catelog_07 = "assets/images/benlg_catelog_07.png";
 const a9 = "assets/images/a9.png";
+
 
 //  Animations
 const successAnimation = "assets/animation/success.json";

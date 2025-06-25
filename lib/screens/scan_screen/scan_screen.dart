@@ -12,13 +12,17 @@ class ScanScreen extends StatefulWidget {
   State<ScanScreen> createState() => _ScanScreenState();
 }
 
-class _ScanScreenState extends State<ScanScreen>
-    with SingleTickerProviderStateMixin {
+class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
   bool isScanning = false;
   bool flashOn = false;
   String scannedCode = '';
   late final AnimationController _lineController;
-  final MobileScannerController _scannerController = MobileScannerController();
+
+  final MobileScannerController _scannerController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.normal,
+    facing: CameraFacing.back,
+    torchEnabled: false,
+  );
 
   @override
   void initState() {
@@ -36,33 +40,24 @@ class _ScanScreenState extends State<ScanScreen>
     super.dispose();
   }
 
-  void _onDetect(BarcodeCapture capture) async {
-    final value = capture.barcodes.first.rawValue;
+  void _onDetect(BarcodeCapture capture) {
+    final barcode = capture.barcodes.firstOrNull;
+    if (barcode == null) return;
+
+    final value = barcode.rawValue;
     if (value != null && scannedCode != value) {
       setState(() {
         scannedCode = value;
         isScanning = false;
       });
-
-      // Stop the scanner after scan
-      await _scannerController.stop();
     }
   }
 
-  void _toggleScan() async {
-    if (isScanning) {
-      await _scannerController.stop();
-      setState(() {
-        isScanning = false;
-        scannedCode = '';
-      });
-    } else {
-      await _scannerController.start();
-      setState(() {
-        isScanning = true;
-        scannedCode = '';
-      });
-    }
+  void _toggleScan() {
+    setState(() {
+      isScanning = !isScanning;
+      scannedCode = '';
+    });
   }
 
   void _toggleFlash() async {
@@ -80,7 +75,6 @@ class _ScanScreenState extends State<ScanScreen>
       backgroundColor: AppColors.backgroundColor,
       body: Column(
         children: [
-          // SCAN VIEW
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             height: screenHeight(context) * 0.5,
@@ -97,7 +91,7 @@ class _ScanScreenState extends State<ScanScreen>
                         height: scanBoxSize,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: AppColors.lightGreenColor,
+                            color: AppColors.primaryLightColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -124,19 +118,9 @@ class _ScanScreenState extends State<ScanScreen>
                           );
                         },
                       ),
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            children: [
-                              customBackButton(
-                                onTap: () => Navigator.pop(context),
-                              ),
-                              const SizedBox(width: 12),
-                              Text("Scanning...", style: whiteText16600),
-                            ],
-                          ),
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text("Scanning...", style: whiteText16600),
                       ),
                     ],
                   )
@@ -150,13 +134,13 @@ class _ScanScreenState extends State<ScanScreen>
                           color: AppColors.primaryColor,
                         ),
                         const SizedBox(height: 16),
-                        Text("Tap to start scanning", style: blackText18600),
+                        Text("Start scanning", style: blackText18600),
                       ],
                     ),
                   ),
           ),
 
-          // BOTTOM INFO + BUTTON
+          // Bottom half
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(24),
@@ -176,7 +160,6 @@ class _ScanScreenState extends State<ScanScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // SCAN / STOP + FLASH BUTTON
                   Row(
                     children: [
                       Expanded(
@@ -191,7 +174,7 @@ class _ScanScreenState extends State<ScanScreen>
                             style: whiteText14600,
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.darkGreenColor,
+                            backgroundColor: AppColors.primaryColor,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -200,19 +183,18 @@ class _ScanScreenState extends State<ScanScreen>
                         ),
                       ),
                       const SizedBox(width: 12),
-                      IconButton(
-                        icon: Icon(
-                          flashOn ? Icons.flash_on : Icons.flash_off,
-                          color: AppColors.primaryColor,
-                        ),
-                        onPressed: _toggleFlash,
+                      customBackButton(
+                        onTap: () {
+                          _toggleFlash();
+                        },
+                        bgColor: AppColors.primaryColor,
+                        iconColor: AppColors.whiteColor,
+                        isShadow: false,
+                        icon: flashOn ? Icons.flash_on : Icons.flash_off,
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
-                  // SCANNED INFO
                   if (scannedCode.isNotEmpty) ...[
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -240,7 +222,7 @@ class _ScanScreenState extends State<ScanScreen>
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

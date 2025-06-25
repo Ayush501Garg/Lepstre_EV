@@ -4,7 +4,6 @@ import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
-import 'package:lepster/screens/home_screen/home_screen.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
 import '../../core/constants/text_style.dart';

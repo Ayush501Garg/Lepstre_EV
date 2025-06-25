@@ -6,8 +6,10 @@ import 'package:lepster/screens/home_screen/home_screen.dart';
 import 'package:lepster/screens/home_screen/profile_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
+import '../history_screen/history_screen.dart';
+import '../profile_screen/profile_screen.dart';
 import '../scan_screen/scan_screen.dart';
-import 'history_screen.dart';
+import 'history_screen.dart' hide HistoryScreen;
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -24,9 +26,13 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     HomeScreen(),
     BikesScreen(),
     ScanScreen(),
-    HistoryScreen(),
+    History_Screen(),
+// <<<<<<< HEAD
     ElectricScooterScreen(),
     // DemoHomeScreen(title: "Profile"),
+// =======
+    ProfileScreen(),
+// >>>>>>> ayush_garg
   ];
 
   final List<TabItem> items = [
@@ -54,7 +60,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         iconSize: 25,
         sizeInside: 45,
         chipStyle: const ChipStyle(
-          background: AppColors.dotColor,
+          background: AppColors.primaryColor,
           size: 10.0,
           notchSmoothness: NotchSmoothness.softEdge,
         ),
