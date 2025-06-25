@@ -2,6 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lepster/core/constants/app_color.dart';
 
+final primaryText12600 = GoogleFonts.poppins(
+  color: AppColors.primaryColor,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+final primaryText14600 = GoogleFonts.poppins(
+  color: AppColors.primaryColor,
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+);
+final primaryText16600 = GoogleFonts.poppins(
+  color: AppColors.primaryColor,
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+final primaryText18600 = GoogleFonts.poppins(
+  color: AppColors.primaryColor,
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+);
+final primaryText20600 = GoogleFonts.poppins(
+  color: AppColors.primaryColor,
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);
+
+const greyText12600 = TextStyle(
+  color: AppColors.greyColor,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+
 final greyText16400 = GoogleFonts.poppins(
   color: AppColors.greyColor,
   fontSize: 16,
@@ -25,6 +57,11 @@ final greyText14600 = GoogleFonts.poppins(
 final greenText14600 = GoogleFonts.poppins(
   color: AppColors.greenColor,
   fontSize: 14,
+  fontWeight: FontWeight.w600,
+);
+final greenText12600 = GoogleFonts.poppins(
+  color: AppColors.greenColor,
+  fontSize: 10,
   fontWeight: FontWeight.w600,
 );
 
@@ -53,6 +90,11 @@ final blackText14600 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
   color: AppColors.blackColor,
 );
+final blackText12600 = GoogleFonts.poppins(
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+  color: AppColors.blackColor,
+);
 final whiteText16600 = GoogleFonts.poppins(
   fontSize: 16,
   fontWeight: FontWeight.w600,
@@ -60,6 +102,11 @@ final whiteText16600 = GoogleFonts.poppins(
 );
 final whiteText14600 = GoogleFonts.poppins(
   fontSize: 14,
+  fontWeight: FontWeight.w600,
+  color: AppColors.whiteColor,
+);
+final whiteText12600 = GoogleFonts.poppins(
+  fontSize: 12,
   fontWeight: FontWeight.w600,
   color: AppColors.whiteColor,
 );

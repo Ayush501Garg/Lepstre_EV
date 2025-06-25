@@ -91,7 +91,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                         height: scanBoxSize,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: AppColors.lightGreenColor,
+                            color: AppColors.primaryLightColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -174,7 +174,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                             style: whiteText14600,
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.darkGreenColor,
+                            backgroundColor: AppColors.primaryColor,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -187,7 +187,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                         onTap: () {
                           _toggleFlash();
                         },
-                        bgColor: AppColors.darkGreenColor,
+                        bgColor: AppColors.primaryColor,
                         iconColor: AppColors.whiteColor,
                         isShadow: false,
                         icon: flashOn ? Icons.flash_on : Icons.flash_off,

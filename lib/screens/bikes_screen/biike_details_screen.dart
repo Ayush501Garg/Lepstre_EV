@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/text_style.dart';
+import 'package:lepster/core/utils/helper_function.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
 import '../../widgets/custom_back_buttom.dart';
@@ -151,7 +152,9 @@ class BiikeDetailsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      makePhoneCall();
+                    },
                     child: const Text("Buy it now"),
                   ),
                 ),

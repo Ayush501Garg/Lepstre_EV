@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
-import 'package:lepster/widgets/custom_back_buttom.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -81,7 +80,7 @@ class HistoryScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0, top: 12.0),
       child: Text(
         title,
-        style: blackText16600.copyWith(color: AppColors.darkGreenColor),
+        style: blackText16600.copyWith(color: AppColors.blackColor),
       ),
     );
   }
@@ -109,14 +108,14 @@ class HistoryScreen extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.lightGreenColor.withOpacity(0.15),
+            color: AppColors.primaryLightColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(icon, color: AppColors.darkGreenColor, size: 26),
+          child: Icon(icon, color: AppColors.primaryColor, size: 26),
         ),
-        title: Text(title, style: blackText16600),
-        subtitle: Text(subtitle, style: greyText14600),
-        trailing: Text(timestamp, style: greenText14600),
+        title: Text(title, style: blackText12600),
+        subtitle: Text(subtitle, style: greyText12400),
+        trailing: Text(timestamp, style: primaryText12600),
       ),
     );
   }

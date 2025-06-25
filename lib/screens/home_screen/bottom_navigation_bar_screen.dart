@@ -52,7 +52,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         iconSize: 25,
         sizeInside: 45,
         chipStyle: const ChipStyle(
-          background: AppColors.dotColor,
+          background: AppColors.primaryColor,
           size: 10.0,
           notchSmoothness: NotchSmoothness.softEdge,
         ),

@@ -8,13 +8,14 @@ Widget customBackButton({
   bgColor,
   isShadow = true,
   iconColor,
+  padding = 10,
 }) {
   return InkWell(
     onTap: onTap,
 
     borderRadius: BorderRadius.circular(30),
     child: Container(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(padding * 1.0),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: bgColor ?? AppColors.whiteColor,

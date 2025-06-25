@@ -11,6 +11,55 @@ const onboarding1 = "assets/images/onboarding1.png";
 const onboarding2 = "assets/images/onboarding2.png";
 const onboarding3 = "assets/images/onboarding3.png";
 
+
+// our products images
+const z18 = "assets/images/z18.png";
+const youpao_2_blue = "assets/images/youpao_2_blue.png";
+const wind_harvest_blue = "assets/images/wind_harvest_blue.png";
+const voltiger_white = "assets/images/voltiger_white.png";
+const tvs = "assets/images/tvs.png";
+const tiger = "assets/images/tiger.png";
+const tianhu = "assets/images/tianhu.png";
+const tank_darkgreen = "assets/images/tank_darkgreen.png";
+const tank_2_grey = "assets/images/tank_2_grey.png";
+const T155__2_grey = "assets/images/T155__2_grey.png";
+const summer_light_blue = "assets/images/summer_light_blue.png";
+const single_row_auto_yellow = "assets/images/single_row_auto_yellow.png";
+const silo_red = "assets/images/silo_red.png";
+const S92PRO_white = "assets/images/S92PRO_white.png";
+const s19pro_2_white = "assets/images/s19pro_2_white.png";
+const roo_red_black = "assets/images/roo_red_black.png";
+const robin_red = "assets/images/robin_red.png";
+const robin_d_darkblue = "assets/images/robin_d_darkblue.png";
+const phenix_lightblue = "assets/images/phenix_lightblue.png";
+const panther_black = "assets/images/panther_black.png";
+const outstanding = "assets/images/outstanding.png";
+const modern = "assets/images/modern.png";
+const mini_long = "assets/images/mini_long.png";
+const magic_white = "assets/images/magic_white.png";
+const magic_5_scooter = "assets/images/magic_5_scooter.png";
+const ling_harvest_red = "assets/images/ling_harvest_red.png";
+const kujun = "assets/images/kujun.png";
+const KB_grey = "assets/images/KB_grey.png";
+const images_vespa_yellow = "assets/images/images_vespa_yellow.png";
+const harvest = "assets/images/harvest.png";
+const green_scooter = "assets/images/green_scooter.png";
+const F85_white = "assets/images/F85_white.png";
+const dudu_tempo_yellow = "assets/images/dudu_tempo_yellow.png";
+const dudu_row_grenn_yellow = "assets/images/dudu_row_grenn_yellow.png";
+const dudu_auto_yellow = "assets/images/dudu_auto_yellow.png";
+const cpx_green_black = "assets/images/cpx_green_black.png";
+const cgw_red = "assets/images/cgw_red.png";
+const box06bg01_two_scooter = "assets/images/box06bg01_two_scooter.png";
+const box01img01_white = "assets/images/box01img01_white.png";
+const bl_mini_red = "assets/images/bl_mini_red.png";
+const bl_box_red = "assets/images/bl_box_red.png";
+const benlg_catelog_yellow = "assets/images/benlg_catelog_yellow.png";
+const benlg_catelog_white = "assets/images/benlg_catelog_white.png";
+const benlg_catelog_blue = "assets/images/benlg_catelog_blue.png";
+const benlg_catelog_07 = "assets/images/benlg_catelog_07.png";
+const a9 = "assets/images/a9.png";
+
 //  Animations
 const successAnimation = "assets/animation/success.json";
 

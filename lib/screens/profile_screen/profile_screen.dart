@@ -168,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title, style: greenText14600),
+          Text(title, style: primaryText14600),
           verticalSpacing(5),
           Text(value, style: blackText16600),
         ],

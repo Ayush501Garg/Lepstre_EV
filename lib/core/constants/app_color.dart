@@ -15,7 +15,9 @@ class AppColors {
   static const lightGrey = Color(0xFFA4A4A5);
   static const greyColor = Color(0xFF737373);
   static const lightCreame = Color(0xFFEFEFEF);
-  static const primaryColor = lightGreenColor1;
-  static const primaryLightColor = curvedColor;
+  // static const primaryColor = Colors.blueAccent;
+  // static final primaryLightColor = primaryColor.withOpacity(0.5);
+  static const primaryColor = Color(0xff356ab1);
+  static final primaryLightColor = primaryColor.withOpacity(0.5);
   static const transparentColor = Colors.transparent;
 }
