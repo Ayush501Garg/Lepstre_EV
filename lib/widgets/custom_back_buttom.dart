@@ -4,14 +4,21 @@ import '../core/constants/app_color.dart';
 
 Widget customBackButton({
   icon = Icons.arrow_back_ios_new,
-  required onTap,
+  onTap,
   bgColor,
   isShadow = true,
   iconColor,
   padding = 10,
+  context,
 }) {
   return InkWell(
-    onTap: onTap,
+    onTap: () {
+      if (onTap != null) {
+        onTap();
+      } else {
+        Navigator.pop(context);
+      }
+    },
 
     borderRadius: BorderRadius.circular(30),
     child: Container(

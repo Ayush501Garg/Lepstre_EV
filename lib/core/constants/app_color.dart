@@ -17,7 +17,15 @@ class AppColors {
   static const lightCreame = Color(0xFFEFEFEF);
   // static const primaryColor = Colors.blueAccent;
   // static final primaryLightColor = primaryColor.withOpacity(0.5);
-  static const primaryColor = Color(0xff356ab1);
-  static final primaryLightColor = primaryColor.withOpacity(0.5);
+  static const primaryLightColor = Color(0xFF7BBB8F);
+  // static const primaryColor = Color(0xFF1F7B4B);
+  // static const primaryColor = Color(0xFF55EE55);
+  static const primaryColor = Color(0xFF00C047);
+  // static const primaryColor = Color(0xff356ab1);
+  // static final primaryLightColor = primaryColor.withOpacity(0.5);
   static const transparentColor = Colors.transparent;
+  static const btnColor = primaryColor;
 }
+// a6f1a6
+// 2ff72e
+// 00C047

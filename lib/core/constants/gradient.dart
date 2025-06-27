@@ -11,6 +11,11 @@ import 'package:lepster/core/constants/app_color.dart';
 //   end: Alignment.bottomRight,
 // );
 // const appGradient = const LinearGradient(
+//   colors: [Color(0XFF4BFF8E), Color(0XFF00E554), Color(0XFF048433)],
+//   begin: Alignment.topLeft,
+//   end: Alignment.bottomRight,
+// );
+// const appGradient = const LinearGradient(
 //   colors: [AppColors.curvedColor, AppColors.greenColor, AppColors.whiteColor],
 //   begin: Alignment.topLeft,
 //   end: Alignment.bottomRight,
@@ -23,7 +28,16 @@ import 'package:lepster/core/constants/app_color.dart';
 //   end: Alignment.topLeft,
 // );
 const appGradient = LinearGradient(
-  colors: [Color.fromARGB(255, 108, 248, 199), Color(0xff4180d2)],
+  colors: [Colors.tealAccent, AppColors.primaryLightColor],
+  stops: [0, 1],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+final appLightGradient = LinearGradient(
+  colors: [
+    Colors.tealAccent.withOpacity(0.5),
+    AppColors.primaryLightColor.withOpacity(0.5),
+  ],
   stops: [0, 1],
   begin: Alignment.bottomRight,
   end: Alignment.topLeft,

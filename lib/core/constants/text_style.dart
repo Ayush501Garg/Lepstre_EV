@@ -59,15 +59,35 @@ final greenText14600 = GoogleFonts.poppins(
   fontSize: 14,
   fontWeight: FontWeight.w600,
 );
-final greenText12600 = GoogleFonts.poppins(
+final greenText10600 = GoogleFonts.poppins(
   color: AppColors.greenColor,
   fontSize: 10,
   fontWeight: FontWeight.w600,
 );
+final greenText12600 = GoogleFonts.poppins(
+  color: AppColors.greenColor,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+final greenText14400 = GoogleFonts.poppins(
+  color: AppColors.greenColor,
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+);
 
-final blackText36Bold = GoogleFonts.poppins(
+final blackText36600 = GoogleFonts.poppins(
   fontSize: 36,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w600,
+  color: AppColors.blackColor,
+);
+final blackText60600 = GoogleFonts.poppins(
+  fontSize: 60,
+  fontWeight: FontWeight.w600,
+  color: AppColors.blackColor,
+);
+final blackText30600 = GoogleFonts.poppins(
+  fontSize: 30,
+  fontWeight: FontWeight.w600,
   color: AppColors.blackColor,
 );
 final blackText18600 = GoogleFonts.poppins(

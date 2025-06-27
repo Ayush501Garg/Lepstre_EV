@@ -10,7 +10,12 @@ const splaceVector = "assets/images/vector.png";
 const onboarding1 = "assets/images/onboarding1.png";
 const onboarding2 = "assets/images/onboarding2.png";
 const onboarding3 = "assets/images/onboarding3.png";
-
+const map = "assets/images/map.jpg";
+const map1 = "assets/images/map1.jpeg";
+const banner1 = "assets/images/banner1.jpg";
+const banner2 = "assets/images/banner2.jpg";
+const f = "assets/images/f.jpeg";
+const w = "assets/images/g.jpeg";
 
 // our products images
 const z18 = "assets/images/z18.png";

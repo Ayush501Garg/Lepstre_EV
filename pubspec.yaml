@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   introduction_screen: ^3.1.17
+  pin_code_fields: ^8.0.1
   carousel_slider: ^5.1.1
   google_fonts: ^6.2.1
   awesome_bottom_bar: ^1.2.2
@@ -43,7 +44,11 @@ dependencies:
   lottie: ^3.3.1
   mobile_scanner: ^7.0.1
   image_picker: ^1.1.2
+  flutter_switch: ^0.3.2
   url_launcher: ^6.2.5
+  sleek_circular_slider: ^2.1.0
+  modal_bottom_sheet: ^3.0.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

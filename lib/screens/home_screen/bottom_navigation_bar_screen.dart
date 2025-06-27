@@ -74,15 +74,3 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 }
 
 // Placeholder screen
-class DemoHomeScreen extends StatelessWidget {
-  final String title;
-
-  const DemoHomeScreen({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('$title Screen', style: const TextStyle(fontSize: 24)),
-    );
-  }
-}

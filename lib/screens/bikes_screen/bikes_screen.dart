@@ -7,12 +7,13 @@ import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/screens/bikes_screen/biike_details_screen.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
+import '../../widgets/custom_btn.dart';
+import '../../widgets/custom_slider.dart';
 import '../data/data.dart';
 
 class BikesScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _BikesScreenState extends State<BikesScreen> {
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: ListView(
-          padding: horizontalPadding(context: context, padding: 16),
+          padding: horizontalPadding(context: context, padding: 15),
           children: [
             verticalSpacing(10),
             Row(
@@ -83,65 +84,24 @@ class _BikesScreenState extends State<BikesScreen> {
             ),
 
             verticalSpacing(25),
-
-            CarouselSlider(
-              options: CarouselOptions(
-                height: screenHeight(context) * 0.2,
-                autoPlay: true,
-                enlargeCenterPage: true,
-                viewportFraction: 1,
-              ),
-              items: sliderData.map((data) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.black87,
-                    gradient: appGradient,
-                    boxShadow: const [
-                      BoxShadow(color: AppColors.lightCreame, blurRadius: 2),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(data['title']!, style: whiteText20600),
-                            verticalSpacing(4),
-                            Text(data['subtitle']!, style: whiteText16600),
-                          ],
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          data['image']!,
-                          fit: BoxFit.cover,
-                          width: 100,
-                          height: 100,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+            CustomImageSlider(
+              imagePaths: [banner2, banner1],
+              height: screenHeight(context) * 0.22,
             ),
 
             verticalSpacing(15),
-            // sectionHeader(context, title: "Lepster Pro Detail"),
+            buildVehicleListSection(context),
+            verticalSpacing(15),
+            sectionHeader(context, title: "Lepster Pro Detail"),
             buildProductDetailsCard(context),
             verticalSpacing(15),
-            buildVehicleListSection(context),
+
+            verticalSpacing(15),
+            FilteredCategoriesScreen(),
+            verticalSpacing(15),
 
             buildNewReleasesSection(context),
-            verticalSpacing(20),
-            FilteredCategoriesScreen(),
-
-            buildCategoryGrid(context),
-
+            // buildCategoryGrid(context),
             verticalSpacing(30),
           ],
         ),
@@ -168,88 +128,103 @@ class _BikesScreenState extends State<BikesScreen> {
                 curve: Curves.easeOutBack,
                 builder: (_, scale, child) =>
                     Transform.scale(scale: scale, child: child),
-                child: Container(
-                  width: screenWidth(context) * 0.55,
-                  margin: const EdgeInsets.only(right: 16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    gradient: appGradient,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        offset: Offset(2, 4),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Image.asset(
-                          item['image']!,
-                          height: screenHeight(context) * 0.3,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CustomPageRoute(
+                        child: BiikeDetailsScreen(
+                          image: item['image']!,
+                          title: item['name']!,
+                          price:
+                              item['Range']!, // Or item['price'] if you have that
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
+                    );
+                  },
+                  child: Container(
+                    width: screenWidth(context) * 0.55,
+                    margin: const EdgeInsets.only(right: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      gradient: appGradient,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 6,
+                          offset: Offset(2, 4),
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(18),
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black.withOpacity(0.5),
-                              Colors.transparent,
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
+                          child: Image.asset(
+                            item['image']!,
+                            height: screenHeight(context) * 0.3,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      Positioned(
-                        left: 12,
-                        bottom: 16,
-                        right: 12,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['name']!,
-                              style: whiteText20600.copyWith(
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black.withOpacity(0.5),
+                                Colors.transparent,
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 12,
+                          bottom: 16,
+                          right: 12,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['name']!,
+                                style: whiteText20600.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              verticalSpacing(4),
+                              Text(
+                                item['Range']!,
+                                style: whiteText14600.copyWith(
+                                  color: AppColors.lightCreame,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white24,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              "New",
+                              style: whiteText12600.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            verticalSpacing(4),
-                            Text(
-                              item['Range']!,
-                              style: whiteText14600.copyWith(
-                                color: AppColors.lightCreame,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        top: 12,
-                        left: 12,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white24,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "New",
-                            style: whiteText12600.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -262,7 +237,7 @@ class _BikesScreenState extends State<BikesScreen> {
 
   Widget buildProductDetailsCard(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.black87,
@@ -287,20 +262,20 @@ class _BikesScreenState extends State<BikesScreen> {
           Text('• Charging: 8 hours', style: whiteText16600),
           Text('• Foldable: Yes', style: whiteText16600),
           verticalSpacing(16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.whiteColor,
-                foregroundColor: AppColors.primaryColor,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          CustomButton(
+            title: 'Buy Now',
+            onPressed: () {
+              Navigator.push(
+                context,
+                CustomPageRoute(
+                  child: BiikeDetailsScreen(
+                    image: youpao_2_blue,
+                    title: "Youpao2 blue ",
+                    price: "150", // Or item['price'] if you have that
+                  ),
                 ),
-              ),
-              onPressed: () {},
-              child: const Text('Buy Now'),
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -311,7 +286,7 @@ class _BikesScreenState extends State<BikesScreen> {
 
   Widget buildVehicleListSection(BuildContext context) {
     return SizedBox(
-      height: screenHeight(context) * 0.5,
+      height: screenHeight(context) * 0.46,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: vehicleList.length,
@@ -321,12 +296,12 @@ class _BikesScreenState extends State<BikesScreen> {
           final isFavorite = favoriteVehicles.contains(vehicle['name']);
 
           return Container(
-            width: screenWidth(context) * 0.62,
-            // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            width: screenWidth(context) * 0.65,
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(20),
-              // border: Border.all(color: AppColors.primaryLightColor),
+              border: Border.all(color: AppColors.primaryLightColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,13 +309,13 @@ class _BikesScreenState extends State<BikesScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
-                    decoration: BoxDecoration(gradient: appGradient),
+                    // decoration: BoxDecoration(gradient: appGradient),
                     child: Stack(
                       children: [
                         Image.asset(
                           vehicle['image'],
                           width: screenWidth(context),
-                          height: screenHeight(context) * 0.27,
+                          height: screenHeight(context) * 0.25,
                           fit: BoxFit.fitWidth,
                         ),
                         Positioned(
@@ -387,29 +362,16 @@ class _BikesScreenState extends State<BikesScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
-                    horizontal: 2,
+                    horizontal: 6,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: screenWidth(context),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: appGradient,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            vehicle['name'],
-                            style: whiteText14600,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                      Text(
+                        vehicle['name'],
+                        style: blackText16600,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -456,7 +418,19 @@ class _BikesScreenState extends State<BikesScreen> {
                       SizedBox(
                         width: screenWidth(context),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                child: BiikeDetailsScreen(
+                                  image: vehicle['image']!,
+                                  title: vehicle['name']!,
+                                  price:
+                                      vehicle['Range']!, // Or item['price'] if you have that
+                                ),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
@@ -478,86 +452,6 @@ class _BikesScreenState extends State<BikesScreen> {
       ),
     );
   }
-}
-// full updated file below
-
-// Add this new section to display all vehicles in a grid format as categories
-Widget buildCategoryGrid(BuildContext context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Text("Explore All", style: blackText18600),
-      ),
-      MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        itemCount: vehicleList.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final vehicle = vehicleList[index];
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                CustomPageRoute(
-                  child: BiikeDetailsScreen(
-                    image: vehicle['image'],
-                    title: vehicle['name'],
-                    price: vehicle['Range'],
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                gradient: appGradient,
-                boxShadow: const [
-                  BoxShadow(color: AppColors.lightCreame, blurRadius: 4),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    child: Image.asset(
-                      vehicle['image'],
-                      height: screenHeight(context) * 0.2,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(vehicle['name'], style: whiteText14600),
-                        verticalSpacing(2),
-                        Text(
-                          vehicle['Battery Type'],
-                          style: whiteText12600,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    ],
-  );
 }
 
 class FilteredCategoriesScreen extends StatefulWidget {
@@ -704,7 +598,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
         .toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -727,7 +621,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
             selectedRange = val;
             filterVehiclesAdvanced();
           }),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
 
           filteredVehicles.isEmpty
               ? Center(
@@ -743,13 +637,16 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
                     ),
                   ),
                 )
-              : MasonryGridView.count(
-                  crossAxisCount: 2,
+              : GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
                   itemCount: filteredVehicles.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 8,
+                    childAspectRatio: 0.70,
+                  ),
                   itemBuilder: (context, index) {
                     final item = filteredVehicles[index];
                     return _buildGlassCard(context, item);
@@ -768,7 +665,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
-          color: AppColors.primaryColor,
+          color: AppColors.blackColor,
         ),
       ),
     );
@@ -826,7 +723,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
                     fontWeight: FontWeight.w600,
                     color: isSelected
                         ? AppColors.whiteColor
-                        : AppColors.primaryColor,
+                        : AppColors.blackColor,
                   ),
                 ),
               ),
@@ -838,86 +735,114 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
   }
 
   Widget _buildGlassCard(BuildContext context, Map<String, String> item) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.whiteColor.withOpacity(0.25),
-                AppColors.whiteColor.withOpacity(0.05),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          CustomPageRoute(
+            child: BiikeDetailsScreen(
+              image: item['image']!,
+              title: item['name']!,
+              price: item['Range']!, // Or item['price'] if you have that
             ),
-            border: Border.all(
-              color: AppColors.whiteColor.withOpacity(0.15),
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryColor.withOpacity(0.07),
-                blurRadius: 6,
-                offset: const Offset(2, 4),
-              ),
-            ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-                child: Image.asset(
-                  item['image']!,
-                  height: 140,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.whiteColor.withOpacity(0.25),
+                  AppColors.whiteColor.withOpacity(0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item['name']!,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "${item['Battery Type']!}",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    Text(
-                      "${item['Emission']!}",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    Text(
-                      "${item['Range']!}",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
+              border: Border.all(
+                color: AppColors.whiteColor.withOpacity(0.15),
+                width: 1,
               ),
-            ],
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryColor.withOpacity(0.07),
+                  blurRadius: 6,
+                  offset: const Offset(2, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Image.asset(
+                    item['image']!,
+                    height: 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item['name']!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        item['Battery Type']!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(
+                        item['Emission']!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(
+                        item['Range']!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -931,3 +856,87 @@ Widget sectionHeader(BuildContext context, {required String title}) {
     child: Text(title, style: blackText18600),
   );
 }
+
+
+
+
+// full updated file below
+
+// Add this new section to display all vehicles in a grid format as categories
+// Widget buildCategoryGrid(BuildContext context) {
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     children: [
+//       Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 10),
+//         child: Text("Explore All", style: blackText18600),
+//       ),
+//       MasonryGridView.count(
+//         crossAxisCount: 2,
+//         mainAxisSpacing: 12,
+//         crossAxisSpacing: 12,
+//         itemCount: vehicleList.length,
+//         shrinkWrap: true,
+//         physics: const NeverScrollableScrollPhysics(),
+//         itemBuilder: (context, index) {
+//           final vehicle = vehicleList[index];
+//           return InkWell(
+//             onTap: () {
+//               Navigator.push(
+//                 context,
+//                 CustomPageRoute(
+//                   child: BiikeDetailsScreen(
+//                     image: vehicle['image'],
+//                     title: vehicle['name'],
+//                     price: vehicle['Range'],
+//                   ),
+//                 ),
+//               );
+//             },
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(16),
+//                 gradient: appGradient,
+//                 boxShadow: const [
+//                   BoxShadow(color: AppColors.lightCreame, blurRadius: 4),
+//                 ],
+//               ),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   ClipRRect(
+//                     borderRadius: const BorderRadius.vertical(
+//                       top: Radius.circular(16),
+//                     ),
+//                     child: Image.asset(
+//                       vehicle['image'],
+//                       height: screenHeight(context) * 0.2,
+//                       width: double.infinity,
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                   Padding(
+//                     padding: const EdgeInsets.all(8.0),
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Text(vehicle['name'], style: whiteText14600),
+//                         verticalSpacing(2),
+//                         Text(
+//                           vehicle['Battery Type'],
+//                           style: whiteText12600,
+//                           maxLines: 2,
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     ],
+//   );
+// }
