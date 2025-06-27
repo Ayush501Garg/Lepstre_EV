@@ -28,7 +28,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     ScanScreen(),
     History_Screen(),
 // <<<<<<< HEAD
-    ElectricScooterScreen(),
+//     ElectricScooterScreen(),
     // DemoHomeScreen(title: "Profile"),
 // =======
     ProfileScreen(),

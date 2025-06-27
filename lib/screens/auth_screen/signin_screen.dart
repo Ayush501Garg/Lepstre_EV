@@ -28,29 +28,9 @@ class _SigninScreenState extends State<SigninScreen> {
     super.dispose();
   }
 
-  void _validatePhone(String value) {
-    setState(() {
-      if (value.isEmpty) {
-        _phoneError = 'Phone number is required';
-        _showLoginButton = false;
-      } else if (value.length != 10) {
-        _phoneError = 'Enter a valid 10-digit phone number';
-        _showLoginButton = false;
-      } else {
-        _phoneError = null;
-        _showLoginButton = true;
-      }
-    });
-  }
 
-  void _onPhoneSubmitted() {
-    if (_phoneController.text.length == 10) {
-      setState(() {
-        _showLoginButton = true;
-      });
-      _phoneFocus.unfocus();
-    }
-  }
+
+
 
 
 
@@ -228,8 +208,8 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.network(
-                              'https://tse3.mm.bing.net/th?id=OIP.aubU2lXxC1ZmPDdf-koomwHaH_&pid=Api&P=0&h=180',
+                            Image.asset(
+                              '$facebook_pick',
                               height: 24,
                             ),
                             const SizedBox(width: 10),
@@ -262,8 +242,8 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.network(
-                              'https://tse3.mm.bing.net/th?id=OIP.aPyHWMu3KHjwJUWdGrEkZQHaHa&pid=Api&P=0&h=180',
+                            Image.asset(
+                              '$google_pick',
                               height: 24,
                             ),
                             const SizedBox(width: 10),

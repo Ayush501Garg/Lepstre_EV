@@ -4,6 +4,14 @@ const headerImg = "assets/images/header.png";
 const m300Img = "assets/images/m300.png";
 const car_signup = "assets/images/car_singup.png";
 const fakeimg = "https://tse2.mm.bing.net/th?id=OIP.Yh9XtpzimCmRolZuj98tKAHaHa&pid=Api&P=0&h=180";
+const map_PhotoGrid = "assets/images/map_PhotoGrid.png";
+const error_icon = "assets/images/error_icon.jpg";
+const facebook_pick = "assets/images/facebook_pick.jpg";
+const google_pick = "assets/images/google_pick.jpg";
+
+
+
+
 // =======
 // =======
 // Images
@@ -81,4 +89,6 @@ const powerIcon = "assets/icons/power.png";
 const sendIcon = "assets/icons/send.png";
 const sosIcon = "assets/icons/sos.png";
 const tripIcon = "assets/icons/trip.png";
+
+
 // >>>>>>> ayush_lepstre

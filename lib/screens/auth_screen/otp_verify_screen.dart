@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../core/constants/app_color.dart';
+import '../../widgets/custom_switch.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   @override
@@ -18,6 +20,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   Timer? _timer;
   TextEditingController _otpController = TextEditingController();
   String currentText = "";
+
+  bool isSavingMode = false;
 
   @override
   void initState() {
@@ -56,21 +60,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Verify OTP',
-      //     style: TextStyle(
-      //       color: Colors.white,
-      //       fontWeight: FontWeight.w600,
-      //     ),
-      //   ),
-      //   backgroundColor: AppColors.  btnColor,
-      //   elevation: 0,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back, color: Colors.white),
-      //     onPressed: () => Navigator.pop(context),
-      //   ),
-      // ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
@@ -120,16 +110,23 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 length: 6,
                 appContext: context,
                 controller: _otpController,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                ],
                 onChanged: (value) {
                   setState(() {
                     currentText = value;
+                    if (value.contains('.') || value.contains(',')) {
+                      _otpController.clear(); // poora field clear ho jayega
+                      HapticFeedback.vibrate();
+                    }
                   });
                 },
                 onCompleted: (value) {
                   // Handle OTP completion
                   print("Completed OTP: $value");
                 },
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 enableActiveFill: true,
                 textStyle: TextStyle(
                   fontSize: 20,
@@ -234,6 +231,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 20,),
+
             ],
           ),
         ),
@@ -241,3 +240,4 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     );
   }
 }
+
