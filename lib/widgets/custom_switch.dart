@@ -13,7 +13,7 @@ class CustomSwitchButton extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
-    this.activeThumbColor = AppColors.greenColor,
+    this.activeThumbColor = AppColors.primaryColor,
     this.activeTrackColor = AppColors.lightCreame,
     this.inactiveThumbColor = Colors.grey,
     this.inactiveTrackColor = AppColors.lightCreame,
@@ -26,7 +26,6 @@ class CustomSwitchButton extends StatelessWidget {
       width: 52,  // Approx width of switch
       decoration: BoxDecoration(
         border: Border.all(
-          color: AppColors.greenColor, // Border color to look native
           width: 1.8,
         ),
         borderRadius: BorderRadius.circular(20), // Match switch shape

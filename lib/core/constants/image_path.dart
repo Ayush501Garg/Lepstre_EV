@@ -1,21 +1,4 @@
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-const headerImg = "assets/images/header.png";
-const m300Img = "assets/images/m300.png";
-const car_signup = "assets/images/car_singup.png";
-const fakeimg = "https://tse2.mm.bing.net/th?id=OIP.Yh9XtpzimCmRolZuj98tKAHaHa&pid=Api&P=0&h=180";
-const map_PhotoGrid = "assets/images/map_PhotoGrid.png";
-const error_icon = "assets/images/error_icon.jpg";
-const facebook_pick = "assets/images/facebook_pick.jpg";
-const google_pick = "assets/images/google_pick.jpg";
-
-
-
-
-// =======
-// =======
 // Images
-// >>>>>>> ayush_garg
 const appLogo = "assets/images/logo.png";
 const ev1 = "assets/images/ev1.png";
 const ev2 = "assets/images/ev2.png";
@@ -27,7 +10,14 @@ const splaceVector = "assets/images/vector.png";
 const onboarding1 = "assets/images/onboarding1.png";
 const onboarding2 = "assets/images/onboarding2.png";
 const onboarding3 = "assets/images/onboarding3.png";
-// our products list images
+const map = "assets/images/map.jpg";
+const map1 = "assets/images/map1.jpeg";
+const banner1 = "assets/images/banner1.jpg";
+const banner2 = "assets/images/banner2.jpg";
+const facebook = "assets/images/f.jpeg";
+const google = "assets/images/g.jpeg";
+
+// our products images
 const z18 = "assets/images/z18.png";
 const youpao_2_blue = "assets/images/youpao_2_blue.png";
 const wind_harvest_blue = "assets/images/wind_harvest_blue.png";
@@ -75,7 +65,6 @@ const benlg_catelog_blue = "assets/images/benlg_catelog_blue.png";
 const benlg_catelog_07 = "assets/images/benlg_catelog_07.png";
 const a9 = "assets/images/a9.png";
 
-
 //  Animations
 const successAnimation = "assets/animation/success.json";
 
@@ -89,6 +78,3 @@ const powerIcon = "assets/icons/power.png";
 const sendIcon = "assets/icons/send.png";
 const sosIcon = "assets/icons/sos.png";
 const tripIcon = "assets/icons/trip.png";
-
-
-// >>>>>>> ayush_lepstre

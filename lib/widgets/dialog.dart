@@ -33,11 +33,7 @@ Future<void> showCheckoutSuccessDialog(BuildContext context) {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Lottie.asset(
-                    successAnimation,
-                    height: 140,
-                    repeat: false,
-                  ),
+                  Lottie.asset(successAnimation, height: 140, repeat: false),
                   const SizedBox(height: 12),
                   Text(
                     "Payment Successful!",
@@ -54,10 +50,8 @@ Future<void> showCheckoutSuccessDialog(BuildContext context) {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context); // Close the dialog
-                      Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
-                      ); // Back to Home
+                      Navigator.pop(context); // Close the dialog
+                      Navigator.pop(context); // Close the dialog
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.darkGreenColor,

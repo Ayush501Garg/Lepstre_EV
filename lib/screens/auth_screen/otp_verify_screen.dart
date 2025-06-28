@@ -76,7 +76,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.  btnColor.withOpacity(0.1),
+                        color: AppColors.btnColor.withOpacity(0.1),
                         blurRadius: 20,
                         offset: Offset(0, 10),
                       ),

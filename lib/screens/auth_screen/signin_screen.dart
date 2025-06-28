@@ -209,7 +209,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              '$facebook_pick',
+                              '$facebook',
                               height: 24,
                             ),
                             const SizedBox(width: 10),
@@ -243,7 +243,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              '$google_pick',
+                              google,
                               height: 24,
                             ),
                             const SizedBox(width: 10),

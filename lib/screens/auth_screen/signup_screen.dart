@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/screens/auth_screen/signin_screen.dart';
@@ -197,7 +197,7 @@ bool _validateEmail(String email) {
                           ),
                           TextSpan(
                             text: 'up',
-                            style: TextStyle(color: AppColors.  btnColor),
+                            style: TextStyle(color: AppColors.btnColor),
                           ),
                         ],
                       ),
@@ -284,7 +284,7 @@ bool _validateEmail(String email) {
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.  btnColor,
+                        color: AppColors.btnColor,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: const Center(

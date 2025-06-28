@@ -10,11 +10,17 @@ import '../../core/constants/image_path.dart';
 import '../../core/routes/routes.dart';
 import '../bikes_screen/bikes_screen.dart';
 import '../data/data.dart';
+import 'lock_ev_screen.dart';
 import 'map_screen/station_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,7 +264,7 @@ class HomeScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/charging_detail'),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => StationScreen())),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -290,51 +296,46 @@ class HomeScreen extends StatelessWidget {
                   itemCount: 3,
                   separatorBuilder: (_, __) => const SizedBox(width: 12),
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, CustomPageRoute(child: StationScreen()));
-                      },
-                      child: Container(
-                        width: 220,
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.primaryLightColor),
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                ev1,
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
+                    return Container(
+                      width: 220,
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteColor,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.primaryLightColor),
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              ev1,
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "GreenCharge Station",
-                                    style: blackText14600,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text("Sector 62, Noida", style: greyText12600),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Available: 4 slots",
-                                    style: greenText12600,
-                                  ),
-                                ],
-                              ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "GreenCharge Station",
+                                  style: blackText14600,
+                                ),
+                                const SizedBox(height: 4),
+                                Text("Sector 62, Noida", style: greyText12600),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "Available: 4 slots",
+                                  style: greenText12600,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },

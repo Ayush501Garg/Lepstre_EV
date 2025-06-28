@@ -3,10 +3,10 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
 import '../../core/constants/text_style.dart';
+import '../auth_screen/signin_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -82,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         onDone: () {
           Navigator.pushReplacement(
             context,
-            CustomPageRoute(child: BottomNavigationBarScreen()),
+            CustomPageRoute(child: SigninScreen()),
           );
         },
 
@@ -224,7 +224,7 @@ class CustomOnboardingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: blackText36Bold, textAlign: TextAlign.start),
+                Text(title, style: blackText30600, textAlign: TextAlign.start),
                 verticalSpacing(25),
                 SizedBox(
                   width: screenWidth(context) * 0.75,
