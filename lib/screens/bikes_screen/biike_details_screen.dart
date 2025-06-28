@@ -26,94 +26,99 @@ class BiikeDetailsScreen extends StatelessWidget {
       backgroundColor: AppColors.backgroundColor,
       body: Column(
         children: [
-          Stack(
-            children: [
-              Hero(
-                tag: image,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
-                  child: Image.asset(
-                    image,
-                    width: double.infinity,
-                    height: screenHeight(context) * 0.4,
-                    fit: BoxFit.cover,
+          Container(
+            color: AppColors.lightCreame,
+            child: Stack(
+              children: [
+                Hero(
+                  tag: image,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(30),
+                    ),
+                    child: Image.asset(
+                      image,
+                      width: double.infinity,
+                      height: screenHeight(context) * 0.4,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        customBackButton(
+                          icon: Icons.arrow_back_ios_new,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        customBackButton(
+                          icon: Icons.favorite_border,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+              ],
+            ),
+          ),
+          verticalSpacing(16),
+          ClipRRect(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: blackText18600),
+                  verticalSpacing(6),
+                  Row(
                     children: [
-                      customBackButton(
-                        icon: Icons.arrow_back_ios_new,
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      customBackButton(
-                        icon: Icons.favorite_border,
-                        onTap: () {},
+                      const Icon(Icons.star, color: Colors.amber, size: 18),
+                      horizontalSpacing(4),
+                      Text("4.8", style: greyText14600),
+                      horizontalSpacing(10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.lightCreame,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text("360° View", style: greenText14600),
                       ),
                     ],
                   ),
-                ),
+                  verticalSpacing(16),
+                  Text("MRP:", style: greyText14600),
+                  Text(price, style: blackText20600),
+                  verticalSpacing(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _specTile("Top Speed", "25km/h", Icons.speed),
+                      _specTile("Charge", "5 hrs", Icons.battery_charging_full),
+                    ],
+                  ),
+                  verticalSpacing(12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _specTile("Power", "2kw", Icons.bolt),
+                      _specTile("Max Load", "120kg", Icons.monitor_weight),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-          verticalSpacing(16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: blackText18600),
-                verticalSpacing(6),
-                Row(
-                  children: [
-                    const Icon(Icons.star, color: Colors.amber, size: 18),
-                    horizontalSpacing(4),
-                    Text("4.8", style: greyText14600),
-                    horizontalSpacing(10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.lightCreame,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text("360° View", style: greenText14600),
-                    ),
-                  ],
-                ),
-                verticalSpacing(16),
-                Text("MRP:", style: greyText14600),
-                Text(price, style: blackText20600),
-                verticalSpacing(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _specTile("Top Speed", "25km/h", Icons.speed),
-                    _specTile("Charge", "5 hrs", Icons.battery_charging_full),
-                  ],
-                ),
-                verticalSpacing(12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _specTile("Power", "2kw", Icons.bolt),
-                    _specTile("Max Load", "120kg", Icons.monitor_weight),
-                  ],
-                ),
-              ],
             ),
           ),
           const Spacer(),

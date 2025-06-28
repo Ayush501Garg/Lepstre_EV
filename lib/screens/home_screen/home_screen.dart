@@ -12,8 +12,10 @@ import '../../widgets/custom_slider.dart';
 import '../../widgets/custom_switch.dart';
 import '../bikes_screen/biike_details_screen.dart';
 import '../bikes_screen/bikes_screen.dart';
+import '../connectivity/connect_devices_screen.dart';
+import '../connectivity/device_connect_card.dart';
 import '../data/data.dart';
-import '../map_screen/station_screen.dart';
+import '../map_screen/map_screen/station_screen.dart';
 import 'lock_ev_screen.dart';
 import 'speed_lock_screen.dart';
 
@@ -39,12 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
               verticalSpacing(20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: CustomImageSlider(
-                  imagePaths: sliderImages,
-                  height: screenHeight(context) * 0.22,
-                ),
+                child: CustomImageSlider(imagePaths: sliderImages),
               ),
               // _buildFullWidthBuyEVSection(),
+              verticalSpacing(10),
+              DeviceConnectivityCard(
+                icon: Icons.bluetooth_connected,
+                title: "Device Connection",
+                subtitle: "Tap to scan & connect nearby devices",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ConnectDevicesScreen()),
+                  );
+                },
+              ),
               verticalSpacing(10),
               StartStopEVCard(
                 onTap: () {
@@ -163,7 +174,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAdvancedSection(context) {
+  Widget _buildAdvancedSection(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double tileWidth =
+        (screenWidth - 45) / 2; // 15 (left) + 15 (spacing) + 15 (right)
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Wrap(
@@ -174,8 +189,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Icons.battery_charging_full,
             "Battery",
             "80%",
-            subtitle: "Last charged 1w ago",
+            subtitle: "Last charged",
             context: context,
+            width: tileWidth,
           ),
           _advancedTile(
             Icons.map,
@@ -183,13 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
             "2.5 km",
             subtitle: "10 mins away",
             context: context,
+            width: tileWidth,
           ),
           _advancedTile(
             Icons.device_thermostat,
             "Climate",
             "20° C",
-            context: context,
             subtitle: "Interior 24°",
+            context: context,
+            width: tileWidth,
           ),
           _advancedTile(
             Icons.speed,
@@ -197,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "32 PSI",
             subtitle: "Tyre 3 Optimal",
             context: context,
+            width: tileWidth,
           ),
         ],
       ),
@@ -209,9 +228,10 @@ class _HomeScreenState extends State<HomeScreen> {
     String value, {
     String? subtitle,
     required context,
+    width,
   }) {
     return Container(
-      width: screenWidth(context),
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: AppColors.whiteColor,

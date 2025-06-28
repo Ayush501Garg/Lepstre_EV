@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/rendering.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/image_path.dart';
@@ -84,11 +82,8 @@ class _BikesScreenState extends State<BikesScreen> {
             ),
 
             verticalSpacing(25),
-            CustomImageSlider(
-              imagePaths: [banner2, banner1],
-              height: screenHeight(context) * 0.22,
-            ),
 
+            CustomImageSlider(imagePaths: sliderImages),
             verticalSpacing(15),
             buildVehicleListSection(context),
             verticalSpacing(15),
@@ -286,7 +281,7 @@ class _BikesScreenState extends State<BikesScreen> {
 
   Widget buildVehicleListSection(BuildContext context) {
     return SizedBox(
-      height: screenHeight(context) * 0.46,
+      height: screenHeight(context) * 0.47,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: vehicleList.length,
@@ -645,7 +640,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 8,
-                    childAspectRatio: 0.70,
+                    childAspectRatio: 0.65,
                   ),
                   itemBuilder: (context, index) {
                     final item = filteredVehicles[index];
