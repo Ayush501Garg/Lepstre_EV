@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:lepster/screens/starting_screen/onboarding_screen.dart';
 
 import '../../core/constants/text_style.dart';
 import '../../widgets/custom_page_route.dart';

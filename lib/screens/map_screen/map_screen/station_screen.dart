@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
-import 'package:lepster/screens/data/data.dart';
+import 'package:lepster/data/data.dart';
 import '../../../core/constants/image_path.dart';
 import 'station_detail_screen.dart';
 

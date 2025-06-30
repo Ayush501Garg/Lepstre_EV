@@ -52,7 +52,7 @@ class DeviceConnectivityCard extends StatelessWidget {
                   ],
                 ),
               ),
-              child: Icon(icon, size: 32, color: glowColor),
+              child: Icon(icon, size: 30, color: glowColor),
             ),
             const SizedBox(width: 18),
 

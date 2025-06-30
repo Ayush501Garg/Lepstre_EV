@@ -4,7 +4,7 @@ import 'package:lepster/core/constants/image_path.dart';
 import '../../../core/constants/app_color.dart';
 import '../../../core/constants/app_sizing.dart';
 import '../../../core/constants/text_style.dart';
-import '../../../widgets/custom_snackbar.dart';
+import '../../../widgets/custom_toast.dart';
 import '../../../widgets/custom_text_field.dart';
 import 'otp_verify_screen.dart';
 import 'signup_screen.dart';
@@ -153,9 +153,10 @@ class _SignInScreenState extends State<SignInScreen> {
                               builder: (_) => OTPVerificationScreen(),
                             ),
                           );
-                          showCustomSnackbar(
-                            message: 'Sending OTP to ${_phoneController.text}',
+                          showCustomToast(
                             context: context,
+                            message: 'Sending OTP to ${_phoneController.text}',
+                            type: ToastType.success,
                           );
                         }
                       : null,
@@ -202,7 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(f, height: 24),
+                            Image.asset(facebook, height: 24),
                             const SizedBox(width: 10),
                             const Text(
                               'Facebook',
@@ -230,7 +231,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(w, height: 24),
+                            Image.asset(google, height: 24),
                             const SizedBox(width: 10),
                             const Text(
                               'Google',

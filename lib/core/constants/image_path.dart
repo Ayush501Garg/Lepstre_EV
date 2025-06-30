@@ -14,8 +14,8 @@ const map = "assets/images/map.jpg";
 const map1 = "assets/images/map1.jpeg";
 const banner1 = "assets/images/banner1.jpg";
 const banner2 = "assets/images/banner2.jpg";
-const f = "assets/images/f.jpeg";
-const w = "assets/images/g.jpeg";
+const facebook = "assets/images/f.jpeg";
+const  google = "assets/images/g.jpeg";
 
 // our products images
 const z18 = "assets/images/z18.png";

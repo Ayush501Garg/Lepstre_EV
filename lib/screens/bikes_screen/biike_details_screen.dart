@@ -4,11 +4,13 @@ import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/core/utils/helper_function.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
+import 'package:lepster/widgets/custom_toast.dart';
 
 import '../../widgets/custom_back_buttom.dart';
+import '../../data/data.dart';
 import 'cart_screen.dart';
 
-class BiikeDetailsScreen extends StatelessWidget {
+class BiikeDetailsScreen extends StatefulWidget {
   final String image;
   final String title;
   final String price;
@@ -21,6 +23,42 @@ class BiikeDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<BiikeDetailsScreen> createState() => _BiikeDetailsScreenState();
+}
+
+class _BiikeDetailsScreenState extends State<BiikeDetailsScreen> {
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = globalFavoriteVehicleNames.contains(widget.title);
+  }
+
+  void toggleFavorite() {
+    setState(() {
+      if (isFavorite) {
+        globalFavoriteVehicleNames.remove(widget.title);
+        showCustomToast(
+          context: context,
+          message: "${widget.title} removed from favorites",
+          type: ToastType.warning,
+        );
+      } else {
+        if (!globalFavoriteVehicleNames.contains(widget.title)) {
+          globalFavoriteVehicleNames.add(widget.title);
+          showCustomToast(
+            context: context,
+            message: "${widget.title} added to favorites",
+            type: ToastType.success,
+          );
+        }
+      }
+      isFavorite = !isFavorite;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -31,13 +69,13 @@ class BiikeDetailsScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Hero(
-                  tag: image,
+                  tag: widget.image,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(30),
                     ),
                     child: Image.asset(
-                      image,
+                      widget.image,
                       width: double.infinity,
                       height: screenHeight(context) * 0.4,
                       fit: BoxFit.cover,
@@ -55,13 +93,14 @@ class BiikeDetailsScreen extends StatelessWidget {
                       children: [
                         customBackButton(
                           icon: Icons.arrow_back_ios_new,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                          onTap: () => Navigator.pop(context),
                         ),
                         customBackButton(
-                          icon: Icons.favorite_border,
-                          onTap: () {},
+                          icon: isFavorite
+                              ? Icons.bookmark
+                              : Icons.bookmark_outline,
+                          iconColor: AppColors.lightGreenColor,
+                          onTap: toggleFavorite,
                         ),
                       ],
                     ),
@@ -77,7 +116,7 @@ class BiikeDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: blackText18600),
+                  Text(widget.title, style: blackText18600),
                   verticalSpacing(6),
                   Row(
                     children: [
@@ -100,7 +139,7 @@ class BiikeDetailsScreen extends StatelessWidget {
                   ),
                   verticalSpacing(16),
                   Text("MRP:", style: greyText14600),
-                  Text(price, style: blackText20600),
+                  Text(widget.price, style: blackText20600),
                   verticalSpacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

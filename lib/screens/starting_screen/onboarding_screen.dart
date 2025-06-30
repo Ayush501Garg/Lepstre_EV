@@ -3,7 +3,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/screens/auth_screen/auth_screen/signin_screen.dart';
+import 'package:lepster/screens/starting_screen/auth_screen/signin_screen.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
 import '../../core/constants/text_style.dart';
@@ -125,21 +125,17 @@ class CleanTopCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-
     // Start from top-left
     path.lineTo(0, size.height * 0.45);
-
     path.quadraticBezierTo(
       size.width * 0.6,
       size.height * 0.55, // control point
       size.width,
       size.height * 0.55, // end point
     );
-
     // Finish the path at the top-right
     path.lineTo(size.width, 0);
     path.close();
-
     return path;
   }
 

@@ -7,6 +7,7 @@ import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/core/utils/helper_function.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lepster/screens/favorites/favorite_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -85,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: "Contact Us",
                 items: [
                   _tileItem(
-                    icon: Icons.email,
+                    icon: Icons.email_outlined,
                     title: "Email",
                     subtitle: "support@lepster.com",
                     onTap: () {
@@ -94,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   _tileItem(
-                    icon: Icons.app_blocking,
+                    icon: Icons.app_blocking_outlined,
                     title: "WhatsApp",
                     subtitle: "+91 98765 43210",
                     onTap: () {
@@ -102,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   _tileItem(
-                    icon: Icons.phone,
+                    icon: Icons.phone_outlined,
                     title: "Phone",
                     subtitle: "+91 12345 67890",
                     onTap: () {
@@ -118,10 +119,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: "Settings",
                 items: [
                   _tileItem(
-                    icon: Icons.notifications_active,
+                    icon: Icons.notifications_active_outlined,
                     title: "Notifications",
                   ),
-                  _tileItem(icon: Icons.settings, title: "App Settings"),
+                  _tileItem(
+                    icon: Icons.settings_outlined,
+                    title: "App Settings",
+                  ),
+                  _tileItem(
+                    icon: Icons.bookmark_outline,
+                    title: "Favorites",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => FavoriteScreen()),
+                      );
+                    },
+                  ),
                   _tileItem(icon: Icons.logout, title: "Logout"),
                 ],
               ),

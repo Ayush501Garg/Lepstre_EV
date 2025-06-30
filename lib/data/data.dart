@@ -1,6 +1,6 @@
-import '../../core/constants/image_path.dart';
+import '../core/constants/image_path.dart';
 
-final List<Map<String, dynamic>> vehicleList = [
+final List vehicleList = [
   {
     "name": "TANK",
     "Battery Type": "48V20AH/72V40AH Lithium",
@@ -156,3 +156,5 @@ List<Map<String, dynamic>> stations = [
   },
 ];
 final List<String> sliderImages = [banner1, banner2];
+
+List globalFavoriteVehicleNames = [];

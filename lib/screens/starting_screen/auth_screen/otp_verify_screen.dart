@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/widgets/custom_btn.dart';
-import 'package:lepster/widgets/custom_snackbar.dart';
+import 'package:lepster/widgets/custom_toast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:lepster/core/constants/text_style.dart';
 
@@ -160,9 +160,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 title: "Verify OTP",
                 onPressed: () {
                   setState(() => _isVerifyClicked = true);
-                  showCustomSnackbar(
-                    message: "OTP Verified Successfully",
+                  showCustomToast(
                     context: context,
+                    message: 'OTP Verified Successfully',
+                    type: ToastType.success,
                   );
                   Navigator.pushReplacement(
                     context,
