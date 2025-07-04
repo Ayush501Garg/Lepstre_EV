@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/text_style.dart';
+import 'package:lepster/core/utils/helper_function.dart';
 import 'package:lepster/screens/notification_screen/notification_screen.dart';
+import 'package:lepster/screens/plans/plan_screen.dart';
 import 'package:lepster/widgets/custom_back_buttom.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
@@ -15,6 +17,7 @@ import '../../bikes_screen/biike_details_screen.dart';
 import '../../bikes_screen/bikes_screen.dart';
 import '../../map_screen/map_screen/station_screen.dart';
 import '../lock_ev_screen.dart';
+import '../refer_screen.dart';
 import '../speed_lock_screen.dart';
 
 class StartStopEVCard extends StatelessWidget {
@@ -604,10 +607,43 @@ Widget buildHeader(BuildContext context) {
 
 Widget buildFeatureIcons(BuildContext context) {
   final features = [
-    {'icon': Icons.pedal_bike, 'label': 'EV Test Ride'},
-    {'icon': Icons.share, 'label': 'Refer & Earn'},
-    {'icon': Icons.bolt, 'label': 'Charging Plans'},
-    {'icon': Icons.phone, 'label': 'Contact'},
+    {
+      'icon': Icons.pedal_bike,
+      'label': 'EV Plans',
+      'onTap': () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PlanScreen()),
+        );
+      },
+    },
+    {
+      'icon': Icons.share,
+      'label': 'Refer & Earn',
+      'onTap': () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ReferScreen()),
+        );
+      },
+    },
+    {
+      'icon': Icons.bolt,
+      'label': 'Charging Plans',
+      'onTap': () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StationScreen()),
+        );
+      },
+    },
+    {
+      'icon': Icons.phone,
+      'label': 'Contact',
+      'onTap': () {
+        makePhoneCall();
+      },
+    },
   ];
 
   return Padding(
@@ -615,33 +651,36 @@ Widget buildFeatureIcons(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: features.map((feature) {
-        return Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: AppColors.whiteColor,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6,
-                    offset: Offset(0, 4),
-                  ),
-                ],
+        return GestureDetector(
+          onTap: feature['onTap'] as VoidCallback,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.whiteColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 6,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(15),
+                child: Icon(
+                  feature['icon'] as IconData,
+                  color: AppColors.primaryColor,
+                ),
               ),
-              padding: const EdgeInsets.all(15),
-              child: Icon(
-                feature['icon'] as IconData,
-                color: AppColors.primaryColor,
+              const SizedBox(height: 6),
+              Text(
+                feature['label'] as String,
+                textAlign: TextAlign.center,
+                style: blackText12600,
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              feature['label'] as String,
-              textAlign: TextAlign.center,
-              style: blackText12600,
-            ),
-          ],
+            ],
+          ),
         );
       }).toList(),
     ),

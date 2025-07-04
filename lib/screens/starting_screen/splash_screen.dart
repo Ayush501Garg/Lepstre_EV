@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:lepster/core/constants/app_color.dart';
-import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/screens/starting_screen/onboarding_screen.dart';
 
+import 'package:flutter/material.dart';
+
+import '../../core/constants/app_color.dart';
+import '../../core/constants/image_path.dart';
 import '../../core/constants/text_style.dart';
 import '../../widgets/custom_page_route.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const gitSplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -18,14 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   int _currentIndex = 0;
 
-  final List<int> screenDurations = [
-    100, // index 0
-    100, // index 1
-    1500, // index 2
-    500, // index 4
-    500, // index 5
-    750, // index 5
-  ];
+  final List<int> screenDurations = [100, 100, 1500, 500, 500, 750];
 
   final List<Widget> logos = [
     const SizedBox(key: ValueKey(0)),

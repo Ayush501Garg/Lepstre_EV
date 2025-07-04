@@ -1,17 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/image_path.dart';
-import 'package:lepster/core/constants/app_sizing.dart';
 
-import 'package:lepster/core/constants/text_style.dart';
 import 'package:lepster/screens/bikes_screen/biike_details_screen.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
 
-import '../../../widgets/custom_btn.dart';
 
 class FilteredCategoriesScreen extends StatefulWidget {
   const FilteredCategoriesScreen({super.key});

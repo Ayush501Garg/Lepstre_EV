@@ -9,6 +9,9 @@ import 'package:lepster/core/utils/helper_function.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lepster/screens/favorites/favorite_screen.dart';
 
+import '../feedback_screen.dart';
+import 'setting_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -72,14 +75,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 20),
 
               // Info Cards
-              _glassInfoRow([
-                _infoTile("Gender", "Male"),
-                _infoTile("Age", "20 Years"),
-              ]),
-              _glassInfoRow([
-                _infoTile("Height", "176 cm"),
-                _infoTile("Weight", "76 kg"),
-              ]),
+              // _glassInfoRow([
+              //   _infoTile("Gender", "Male"),
+              //   _infoTile("Age", "20 Years"),
+              // ]),
+              // _glassInfoRow([
+              //   _infoTile("Height", "176 cm"),
+              //   _infoTile("Weight", "76 kg"),
+              // ]),
               const SizedBox(height: 20),
 
               _sectionCard(
@@ -125,6 +128,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _tileItem(
                     icon: Icons.settings_outlined,
                     title: "App Settings",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => SettingsScreen()),
+                      );
+                    },
+                  ),
+                  _tileItem(
+                    icon: Icons.bookmark_outline,
+                    title: "Feedback",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => AddCheckinScreen()),
+                      );
+                    },
                   ),
                   _tileItem(
                     icon: Icons.bookmark_outline,
