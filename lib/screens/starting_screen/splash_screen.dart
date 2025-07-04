@@ -9,8 +9,9 @@ import '../../core/constants/text_style.dart';
 import '../../widgets/custom_page_route.dart';
 import 'onboarding_screen.dart';
 
+//  splash screen
 class SplashScreen extends StatefulWidget {
-  const gitSplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
