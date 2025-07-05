@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lepster/screens/favorites/favorite_screen.dart';
 
 import '../feedback_screen.dart';
+import 'seacurite_features_screen.dart';
 import 'setting_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -132,6 +133,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => SettingsScreen()),
+                      );
+                    },
+                  ),
+                  _tileItem(
+                    icon: Icons.settings_outlined,
+                    title: "Securite Features",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => AppSecurityScreen()),
                       );
                     },
                   ),
