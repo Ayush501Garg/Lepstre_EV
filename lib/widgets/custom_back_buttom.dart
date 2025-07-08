@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../core/constants/app_color.dart';
+import '../core/constants/app_sizing.dart';
+import '../core/constants/text_style.dart';
 
 Widget customBackButton({
   icon = Icons.arrow_back_ios_new,
@@ -32,5 +34,15 @@ Widget customBackButton({
       ),
       child: Icon(icon, color: iconColor ?? AppColors.darkGreenColor, size: 20),
     ),
+  );
+}
+
+Widget BackBtnWithText({required context, required text}) {
+  return Row(
+    children: [
+      customBackButton(context: context),
+      horizontalSpacing(20),
+      Text(text, style: blackText20600),
+    ],
   );
 }

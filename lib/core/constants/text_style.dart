@@ -28,6 +28,10 @@ final primaryText20600 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+
+//  end of primary text function
+
+
 const greyText12600 = TextStyle(
   color: AppColors.greyColor,
   fontSize: 12,
@@ -44,6 +48,11 @@ final greyText12400 = GoogleFonts.poppins(
   fontSize: 12,
   fontWeight: FontWeight.w400,
 );
+final greyText10400 = GoogleFonts.poppins(
+  color: AppColors.greyColor,
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+);
 final greyText13600 = GoogleFonts.poppins(
   color: AppColors.greyColor,
   fontSize: 13,
@@ -54,6 +63,9 @@ final greyText14600 = GoogleFonts.poppins(
   fontSize: 14,
   fontWeight: FontWeight.w600,
 );
+
+//  end or grey text function
+
 final greenText14600 = GoogleFonts.poppins(
   color: AppColors.greenColor,
   fontSize: 14,
@@ -64,6 +76,18 @@ final greenText10600 = GoogleFonts.poppins(
   fontSize: 10,
   fontWeight: FontWeight.w600,
 );
+final greenText25600 = GoogleFonts.poppins(
+  color: AppColors.greenColor,
+  fontSize: 25,
+  fontWeight: FontWeight.w600
+);
+
+final greenText20600 = GoogleFonts.poppins(
+  color: AppColors.greenColor,
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);
+
 final greenText12600 = GoogleFonts.poppins(
   color: AppColors.greenColor,
   fontSize: 12,
@@ -74,6 +98,9 @@ final greenText14400 = GoogleFonts.poppins(
   fontSize: 14,
   fontWeight: FontWeight.w400,
 );
+
+//  end or green text function
+
 
 final blackText36600 = GoogleFonts.poppins(
   fontSize: 36,
@@ -115,6 +142,9 @@ final blackText12600 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
   color: AppColors.blackColor,
 );
+
+// end or black text function
+
 final whiteText16600 = GoogleFonts.poppins(
   fontSize: 16,
   fontWeight: FontWeight.w600,
@@ -140,3 +170,5 @@ final whiteText30Bold = GoogleFonts.poppins(
   fontWeight: FontWeight.bold,
   color: AppColors.whiteColor,
 );
+
+// end or white text function

@@ -3,7 +3,6 @@ import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/screens/home_screen/home_screen.dart';
-import 'package:lepster/screens/home_screen/profile_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
 import '../history_screen/history_screen.dart';
@@ -32,6 +31,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     // DemoHomeScreen(title: "Profile"),
 // =======
     ProfileScreen(),
+
 // >>>>>>> ayush_garg
   ];
 

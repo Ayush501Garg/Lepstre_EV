@@ -7,7 +7,6 @@ import 'package:lepster/widgets/custom_back_buttom.dart';
 import 'package:lepster/widgets/custom_btn.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
-
 class SpeedLockDetailScreen extends StatefulWidget {
   const SpeedLockDetailScreen({super.key});
 

@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/rendering.dart';
 import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/gradient.dart';
 import 'package:lepster/core/constants/image_path.dart';
@@ -84,12 +82,16 @@ class _BikesScreenState extends State<BikesScreen> {
             ),
 
             verticalSpacing(25),
+
+            CustomImageSlider(imagePaths: sliderImages),
+            verticalSpacing(15),
+            buildVehicleListSection(context),
             CustomImageSlider(
               imagePaths: [banner2, banner1],
-              height: screenHeight(context) * 0.22,
             ),
 
             verticalSpacing(15),
+            sectionHeader(context, title: "Lepster Pro Detail"),
             buildVehicleListSection(context),
             verticalSpacing(15),
             sectionHeader(context, title: "Lepster Pro Detail"),
@@ -100,6 +102,12 @@ class _BikesScreenState extends State<BikesScreen> {
             FilteredCategoriesScreen(),
             verticalSpacing(15),
 
+            verticalSpacing(15),
+            FilteredCategoriesScreen(),
+            verticalSpacing(15),
+
+            buildNewReleasesSection(context),
+            // buildCategoryGrid(context),
             buildNewReleasesSection(context),
             // buildCategoryGrid(context),
             verticalSpacing(30),
@@ -286,18 +294,18 @@ class _BikesScreenState extends State<BikesScreen> {
 
   Widget buildVehicleListSection(BuildContext context) {
     return SizedBox(
-      height: 330, // approx 0.46 * 690 (design height)
+      height: screenHeight(context) * 0.47,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: vehicleList.length,
-        separatorBuilder: (_, __) => SizedBox(width: 15),
+        separatorBuilder: (_, __) => const SizedBox(width: 15),
         itemBuilder: (context, index) {
           final vehicle = vehicleList[index];
           final isFavorite = favoriteVehicles.contains(vehicle['name']);
 
           return Container(
-            width: 240, // 0.65 * 360 (design width)
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            width: screenWidth(context) * 0.65,
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(20),
@@ -308,55 +316,59 @@ class _BikesScreenState extends State<BikesScreen> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        vehicle['image'],
-                        width: double.infinity,
-                        height: 172, // approx 0.25 * 690
-                        fit: BoxFit.fitWidth,
-                      ),
-                      Positioned(
-                        top: 5,
-                        right: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isFavorite) {
-                                favoriteVehicles.remove(vehicle['name']);
-                              } else {
-                                favoriteVehicles.add(vehicle['name']);
-                              }
-                            });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                            child: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color:
-                              isFavorite ? Colors.red : Colors.grey[700],
-                              size: 25,
+                  child: Container(
+                    // decoration: BoxDecoration(gradient: appGradient),
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          vehicle['image'],
+                          width: screenWidth(context),
+                          height: screenHeight(context) * 0.25,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        Positioned(
+                          top: 5,
+                          right: 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (isFavorite) {
+                                  favoriteVehicles.remove(vehicle['name']);
+                                } else {
+                                  favoriteVehicles.add(vehicle['name']);
+                                }
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: isFavorite
+                                    ? Colors.red
+                                    : Colors.grey[700],
+                                size: 25,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 6,
                   ),
@@ -365,20 +377,23 @@ class _BikesScreenState extends State<BikesScreen> {
                     children: [
                       Text(
                         vehicle['name'],
-                        style: blackText16600.copyWith(fontSize: 16),
+                        style: blackText16600,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Row(
                         children: [
-                          Icon(Icons.battery_charging_full,
-                              size: 16, color: Colors.teal),
-                          SizedBox(width: 6),
+                          const Icon(
+                            Icons.battery_charging_full,
+                            size: 16,
+                            color: Colors.teal,
+                          ),
+                          const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               "${vehicle['Battery Type']}",
-                              style: greyText12600.copyWith(fontSize: 12),
+                              style: greyText12600,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -386,53 +401,41 @@ class _BikesScreenState extends State<BikesScreen> {
                       ),
                       Row(
                         children: [
-                          Icon(Icons.route,
-                              size: 16, color: Colors.indigo),
-                          SizedBox(width: 6),
+                          const Icon(
+                            Icons.route,
+                            size: 16,
+                            color: Colors.indigo,
+                          ),
+                          const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               "${vehicle['Range']}",
-                              style: greyText12600.copyWith(fontSize: 12),
+                              style: greyText12600,
                             ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(Icons.eco, size: 16, color: Colors.green),
-                          SizedBox(width: 6),
-                          Text("${vehicle['Emission']}",
-                              style:
-                              greyText12600.copyWith(fontSize: 12)),
+                          const Icon(Icons.eco, size: 16, color: Colors.green),
+                          const SizedBox(width: 6),
+                          Text("${vehicle['Emission']}", style: greyText12600),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
-                        width: double.infinity,
+                        width: screenWidth(context),
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                child: BiikeDetailsScreen(
-                                  image: vehicle['image']!,
-                                  title: vehicle['name']!,
-                                  price: vehicle['Range']!,
-                                ),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             elevation: 2,
                           ),
-                          child: Text("View Details",
-                              style:
-                              whiteText12600.copyWith(fontSize: 12)),
+                          child: Text("View Details", style: whiteText12600),
                         ),
                       ),
                     ],
@@ -591,7 +594,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
         .toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -614,7 +617,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
             selectedRange = val;
             filterVehiclesAdvanced();
           }),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
 
           filteredVehicles.isEmpty
               ? Center(
@@ -638,7 +641,7 @@ class _FilteredCategoriesScreenState extends State<FilteredCategoriesScreen> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 8,
-                    childAspectRatio: 0.70,
+                    childAspectRatio: 0.65,
                   ),
                   itemBuilder: (context, index) {
                     final item = filteredVehicles[index];
@@ -849,87 +852,3 @@ Widget sectionHeader(BuildContext context, {required String title}) {
     child: Text(title, style: blackText18600),
   );
 }
-
-
-
-
-// full updated file below
-
-// Add this new section to display all vehicles in a grid format as categories
-// Widget buildCategoryGrid(BuildContext context) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Padding(
-//         padding: const EdgeInsets.symmetric(vertical: 10),
-//         child: Text("Explore All", style: blackText18600),
-//       ),
-//       MasonryGridView.count(
-//         crossAxisCount: 2,
-//         mainAxisSpacing: 12,
-//         crossAxisSpacing: 12,
-//         itemCount: vehicleList.length,
-//         shrinkWrap: true,
-//         physics: const NeverScrollableScrollPhysics(),
-//         itemBuilder: (context, index) {
-//           final vehicle = vehicleList[index];
-//           return InkWell(
-//             onTap: () {
-//               Navigator.push(
-//                 context,
-//                 CustomPageRoute(
-//                   child: BiikeDetailsScreen(
-//                     image: vehicle['image'],
-//                     title: vehicle['name'],
-//                     price: vehicle['Range'],
-//                   ),
-//                 ),
-//               );
-//             },
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.circular(16),
-//                 gradient: appGradient,
-//                 boxShadow: const [
-//                   BoxShadow(color: AppColors.lightCreame, blurRadius: 4),
-//                 ],
-//               ),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   ClipRRect(
-//                     borderRadius: const BorderRadius.vertical(
-//                       top: Radius.circular(16),
-//                     ),
-//                     child: Image.asset(
-//                       vehicle['image'],
-//                       height: screenHeight(context) * 0.2,
-//                       width: double.infinity,
-//                       fit: BoxFit.cover,
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.all(8.0),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(vehicle['name'], style: whiteText14600),
-//                         verticalSpacing(2),
-//                         Text(
-//                           vehicle['Battery Type'],
-//                           style: whiteText12600,
-//                           maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         },
-//       ),
-//     ],
-//   );
-// }

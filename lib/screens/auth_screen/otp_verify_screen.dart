@@ -1,56 +1,55 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lepster/core/constants/image_path.dart';
+import 'package:lepster/core/constants/app_color.dart';
+import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
+import 'package:lepster/widgets/custom_btn.dart';
+import 'package:lepster/widgets/custom_snackbar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
-import '../../core/constants/app_color.dart';
-import '../../widgets/custom_switch.dart';
+import 'package:lepster/core/constants/text_style.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
+  const OTPVerificationScreen({super.key});
+
   @override
-  _OTPVerificationScreenState createState() => _OTPVerificationScreenState();
+  State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
 }
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
+  late final TextEditingController _otpController;
+  String currentText = "";
   bool _isResendVisible = false;
-  bool _isVerifyButtonClicked = false;
+  bool _isVerifyClicked = false;
   int _start = 30;
   Timer? _timer;
-  TextEditingController _otpController = TextEditingController();
-  String currentText = "";
 
-  bool isSavingMode = false;
+  bool _isMounted = true;
 
   @override
   void initState() {
     super.initState();
+    _otpController = TextEditingController();
     startTimer();
   }
 
   void startTimer() {
-    setState(() {
-      _isResendVisible = false;
-      _start = 30;
-    });
+    _isResendVisible = false;
+    _start = 30;
 
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!_isMounted) return; // prevent memory leak
       if (_start == 0) {
-        setState(() {
-          _isResendVisible = true;
-        });
+        setState(() => _isResendVisible = true);
         timer.cancel();
       } else {
-        setState(() {
-          _start--;
-        });
+        setState(() => _start--);
       }
     });
   }
 
   @override
   void dispose() {
+    _isMounted = false;
     _timer?.cancel();
     _otpController.dispose();
     super.dispose();
@@ -58,181 +57,148 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const Color primaryColor = Color(0xFF006A5F);
+    const Color accentColor = Color(0xFF00BFA6);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.btnColor.withOpacity(0.1),
-                        blurRadius: 20,
-                        offset: Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: Image.asset('$ev1',height: 120,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
+              Text("OTP Verification", style: primaryText20600),
+              const SizedBox(height: 10),
               Text(
-                'OTP Verification',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.  btnColor,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Please enter the 6-digit code sent to your phone number.',
+                "Enter the 6-digit code sent to your registered number.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade600,
-                  height: 1.4,
-                ),
+                style: greyText13600,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               PinCodeTextField(
-                length: 6,
                 appContext: context,
                 controller: _otpController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    currentText = value;
-                    if (value.contains('.') || value.contains(',')) {
-                      _otpController.clear(); // poora field clear ho jayega
-                      HapticFeedback.vibrate();
-                    }
-                  });
-                },
-                onCompleted: (value) {
-                  // Handle OTP completion
-                  print("Completed OTP: $value");
-                },
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                length: 6,
                 enableActiveFill: true,
-                textStyle: TextStyle(
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  if (!_isMounted) return;
+                  setState(() => currentText = value);
+                },
+                onCompleted: (val) {
+                  debugPrint("Completed: $val");
+                },
+                animationType: AnimationType.fade,
+                textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.  btnColor,
+                  color: primaryColor,
                 ),
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
+                  fieldHeight: 58,
+                  fieldWidth: 48,
                   borderRadius: BorderRadius.circular(12),
-                  fieldHeight: 60,
-                  fieldWidth: 50,
-                  borderWidth: 2,
-                  activeFillColor: Colors.white,
+                  activeColor: AppColors.primaryColor,
+                  selectedColor: accentColor,
+                  inactiveColor: AppColors.primaryLightColor,
                   selectedFillColor: Colors.white,
                   inactiveFillColor: Colors.white,
-                  activeColor: AppColors.  btnColor,
-                  selectedColor: AppColors.  btnColor,
-                  inactiveColor: Colors.grey.shade300,
-                  disabledColor: Colors.grey.shade200,
-                  errorBorderColor: Colors.red,
+                  activeFillColor: Colors.white,
                 ),
-                animationDuration: Duration(milliseconds: 300),
-                backgroundColor: Colors.transparent,
-                enablePinAutofill: true,
+              ),
+              const SizedBox(height: 16),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _isVerifyClicked
+                    ? (_isResendVisible
+                          ? GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                "Resend OTP",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.timer_outlined,
+                                    color: Colors.grey.shade600,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Resend OTP in $_start sec',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                    : const SizedBox(),
               ),
               const SizedBox(height: 40),
-              _isVerifyButtonClicked
-                  ? (_isResendVisible
-                  ? GestureDetector(
-                onTap: () {
-                  startTimer();
-                  // Add resend OTP logic here
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('OTP resent successfully'),
-                      backgroundColor: AppColors.  btnColor,
+              CustomButton(
+                title: "Verify OTP",
+                onPressed: () {
+                  setState(() => _isVerifyClicked = true);
+                  showCustomSnackbar(
+                    message: "OTP Verified Successfully",
+                    context: context,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BottomNavigationBarScreen(),
                     ),
                   );
                 },
-                child: Text(
-                  'Resend OTP',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.  btnColor,
-                  ),
-                ),
-              )
-                  : Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.timer_outlined,
-                      size: 18,
-                      color: Colors.grey.shade600,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Resend OTP in $_start seconds',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-              ))
-                  : SizedBox.shrink(),
-              const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: currentText.length == 6 ? () {
-                    setState(() {
-                      _isVerifyButtonClicked = true;
-                    });
-                    startTimer();
-                    // Handle OTP verification
-                    print("Verifying OTP: $currentText");
-                  } : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.  btnColor,
-                    foregroundColor: Colors.white,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Verify OTP',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
               ),
-              SizedBox(height: 20,),
-
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 50,
+              //   child: ElevatedButton(
+              //     onPressed: currentText.length == 6
+              //         ? () {
+              //             setState(() => _isVerifyClicked = true);
+              //             _showCustomSnackbar(
+              //               "OTP Verified Successfully",
+              //               accentColor,
+              //             );
+              //           }
+              //         : null,
+              //     style: ElevatedButton.styleFrom(
+              //       backgroundColor: AppColors.primaryColor,
+              //       foregroundColor: Colors.white,
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(14),
+              //       ),
+              //       elevation: 3,
+              //     ),
+              //     child: const Text(
+              //       "Verify OTP",
+              //       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -240,4 +206,3 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     );
   }
 }
-

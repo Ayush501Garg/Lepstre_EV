@@ -25,15 +25,15 @@ import 'package:lepster/core/constants/app_color.dart';
 //   colors: [Color(0xff091e3a), Color(0xff356ab1), Color(0xff6aacd2)],
 //   stops: [0, 0.5, 1],
 //   begin: Alignment.bottomRight,
-//   0end: Alignment.topLeft,
+//   end: Alignment.topLeft,
 // );
- var appGradient = LinearGradient(
+const appGradient = LinearGradient(
   colors: [Colors.tealAccent, AppColors.primaryLightColor],
   stops: [0, 1],
   begin: Alignment.bottomRight,
   end: Alignment.topLeft,
 );
- var  appLightGradient = LinearGradient(
+final appLightGradient = LinearGradient(
   colors: [
     Colors.tealAccent.withOpacity(0.5),
     AppColors.primaryLightColor.withOpacity(0.5),

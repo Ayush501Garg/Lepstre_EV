@@ -40,7 +40,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _onDetect(BarcodeCapture capture) {
+  void _onDetect(BarcodeCapture capture){
     final barcode = capture.barcodes.firstOrNull;
     if (barcode == null) return;
 
@@ -118,10 +118,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                           );
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Text("Scanning...", style: whiteText16600),
-                      ),
+
                     ],
                   )
                 : Center(

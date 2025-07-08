@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lepster/screens/auth_screen/otp_verify_screen.dart';
-import 'package:lepster/screens/auth_screen/signup_screen.dart';
+import 'package:lepster/core/constants/image_path.dart';
 
-import '../../core/constants/app_color.dart';
-import '../../core/constants/image_path.dart';
-import '../../widgets/custom_fields.dart';
+import '../../../core/constants/app_color.dart';
+import '../../../core/constants/app_sizing.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../widgets/custom_snackbar.dart';
+import '../../../widgets/custom_text_field.dart';
+import 'otp_verify_screen.dart';
+import 'signup_screen.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SigninScreen> createState() => _SigninScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final FocusNode _phoneFocus = FocusNode();
   bool _showLoginButton = false;
   String? _phoneError;
-
 
   @override
   void dispose() {
@@ -28,13 +29,29 @@ class _SigninScreenState extends State<SigninScreen> {
     super.dispose();
   }
 
+  void _validatePhone(String value) {
+    setState(() {
+      if (value.isEmpty) {
+        _phoneError = 'Phone number is required';
+        _showLoginButton = false;
+      } else if (value.length != 10) {
+        _phoneError = 'Enter a valid 10-digit phone number';
+        _showLoginButton = false;
+      } else {
+        _phoneError = null;
+        _showLoginButton = true;
+      }
+    });
+  }
 
-
-
-
-
-
-
+  void _onPhoneSubmitted() {
+    if (_phoneController.text.length == 10) {
+      setState(() {
+        _showLoginButton = true;
+      });
+      _phoneFocus.unfocus();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,51 +69,42 @@ class _SigninScreenState extends State<SigninScreen> {
               // Car Image
               Center(
                 child: Image.asset(
-                  '$ev1',
-                  height: 180,
+                  onboarding3,
+                  height: screenHeight(context) * 0.3,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
 
               // Welcome Text
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Welcome Back!',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black87,
-                  ),
-                ),
+              Align(
+                alignment: Alignment.center,
+                child: Text('Welcome Back!', style: blackText30600),
               ),
               const SizedBox(height: 8),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Login to Continue',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+              Align(
+                alignment: Alignment.center,
+                child: RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'Login',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      WidgetSpan(child: horizontalSpacing(5)),
+                      TextSpan(
+                        text: 'Now',
+                        style: TextStyle(color: AppColors.btnColor),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 32),
 
-              // Phone Number Field
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Enter Your Phone Number',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
-                  ),
-                ),
-              ),
-               SizedBox(height: 12),
+              SizedBox(height: 40),
               CustomTextField(
                 label: 'Phone Number',
                 hint: 'Enter phone number',
@@ -110,7 +118,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 },
                 onChanged: (value) {
                   if (value.length == 10) {
-                    FocusScope.of(context).unfocus();  // Hide keyboard
+                    FocusScope.of(context).unfocus(); // Hide keyboard
                     setState(() {
                       _showLoginButton = true;
                     });
@@ -130,10 +138,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 },
               ),
 
-
-
-
-              SizedBox(height: 32),
+              SizedBox(height: 20),
 
               // Login Button
               AnimatedOpacity(
@@ -142,23 +147,23 @@ class _SigninScreenState extends State<SigninScreen> {
                 child: GestureDetector(
                   onTap: _showLoginButton
                       ? () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => OTPVerificationScreen()));
-                    print('Login with phone: ${_phoneController.text}');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Sending OTP to ${_phoneController.text}'),
-                        backgroundColor: AppColors.btnColor,
-                      ),
-                    );
-                  }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => OTPVerificationScreen(),
+                            ),
+                          );
+                          showCustomSnackbar(
+                            message: 'Sending OTP to ${_phoneController.text}',
+                            context: context,
+                          );
+                        }
                       : null,
                   child: Container(
                     width: double.infinity,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: _showLoginButton
-                          ? AppColors.btnColor
-                          : Colors.grey.shade400,
+                      color: AppColors.btnColor,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Center(
@@ -175,18 +180,10 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
               ),
 
-
               const SizedBox(height: 24),
 
               // Divider Text
-              const Text(
-                'Or Continue with',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black54,
-                ),
-              ),
+              Text('Or Continue with', style: greyText12600),
               const SizedBox(height: 20),
 
               // Social Login Buttons
@@ -195,10 +192,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        // Handle Facebook login
-                        print('Login with Facebook');
-                      },
+                      onTap: () {},
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -208,10 +202,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              '$facebook',
-                              height: 24,
-                            ),
+                            Image.asset(facebook, height: 24),
                             const SizedBox(width: 10),
                             const Text(
                               'Facebook',
@@ -229,10 +220,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        // Handle Google login
-                        print('Login with Google');
-                      },
+                      onTap: () {},
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -242,10 +230,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              google,
-                              height: 24,
-                            ),
+                            Image.asset(google, height: 24),
                             const SizedBox(width: 10),
                             const Text(
                               'Google',
@@ -263,19 +248,13 @@ class _SigninScreenState extends State<SigninScreen> {
                 ],
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
 
               // Sign Up Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  Text("Don't have an account? ", style: greyText14600),
                   GestureDetector(
                     onTap: () {
                       // Navigate to signup screen
@@ -287,7 +266,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     child: Text(
                       'Sign Up',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.btnColor,
                       ),
@@ -299,7 +278,6 @@ class _SigninScreenState extends State<SigninScreen> {
           ),
         ),
       ),
-
     );
   }
 }

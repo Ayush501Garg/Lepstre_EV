@@ -308,9 +308,6 @@ import '../../../widgets/custom_back_buttom.dart';
 //   }
 // }
 
-
-
-
 class StationDetailScreen extends StatefulWidget {
   const StationDetailScreen({super.key});
 
@@ -322,10 +319,11 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -334,7 +332,7 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                 clipBehavior: Clip.none,
                 children: [
                   Container(
-                    height: 280,
+                    height: 200,
                     width: double.infinity,
                     child: Image.asset(
                       '$box01img01_white',
@@ -378,10 +376,6 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -389,15 +383,15 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Warzawa Battery Swap Station',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                        '     Warzawa Battery Swap Station',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: const [
                           Icon(Icons.flash_on, color: Colors.green, size: 18),
                           SizedBox(width: 4),
-                          Text('Open 24 hours  •  '),
+                          Text(' Open 24 hours  •  '),
                           Icon(Icons.update, color: Colors.grey, size: 18),
                           SizedBox(width: 4),
                           Text('Updated 2 min ago'),
@@ -452,7 +446,7 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                       ),
 
                       const SizedBox(height: 20),
-                      const Text('Charging Rate: ₹15/kWh', style: TextStyle(fontSize: 16)),
+                      const Text('      Charging Rate: ₹15/kWh', style: TextStyle(fontSize: 16)),
                       const SizedBox(height: 20),
 
                       // Battery Availability Card
@@ -472,7 +466,7 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Battery Availability',
+                            const Text('    Battery Availability',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -584,32 +578,33 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                                       ],
                                     ),
                                   ),
-
                                 ),
                               ],
                             ),
                             const SizedBox(height: 12),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.green),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Icon(Icons.info_outline, color: Colors.green, size: 18),
-                                  SizedBox(width: 6),
-                                  Text(
-                                    'Recommended battery >50%',
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 13,
+                            Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.green),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(Icons.info_outline, color: Colors.green, size: 18),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'Recommended battery >50%',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 13,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
 
@@ -627,7 +622,7 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.teal,
+                                color: AppColors.btnColor,
                               ),
                               alignment: Alignment.center,
                               child: const Text(
@@ -646,14 +641,13 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.teal),
-                                color: Colors.white,
+                                color: AppColors.btnColor, // same primary color
                               ),
                               alignment: Alignment.center,
                               child: const Text(
                                 'Get Directions',
                                 style: TextStyle(
-                                  color: Colors.teal,
+                                  color: Colors.white, // white text color for contrast
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -662,6 +656,8 @@ class _StationDetailScreenState extends State<StationDetailScreen> {
                           ),
                         ],
                       ),
+
+
 
                       const SizedBox(height: 24),
 

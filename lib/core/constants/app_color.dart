@@ -26,3 +26,6 @@ class AppColors {
   // static final primaryLightColor = primaryColor.withOpacity(0.5);
   static const transparentColor = Colors.transparent;
 }
+// a6f1a6
+// 2ff72e
+// 00C047

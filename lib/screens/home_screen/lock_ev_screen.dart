@@ -4,7 +4,6 @@ import 'package:lepster/core/constants/app_color.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:lepster/core/constants/image_path.dart';
 import 'package:lepster/core/constants/text_style.dart';
-import 'package:lepster/widgets/custom_back_buttom.dart';
 
 import '../../widgets/custom_dialod.dart';
 
@@ -108,84 +107,159 @@ class LockEvDetailScreen extends StatelessWidget {
   }
 
   Widget _buildStatusSection(BuildContext context) {
-    return SizedBox(
-      height: screenHeight(context) * 0.4,
-      child: Stack(
-        children: [
-          // Radial background gradients (spread wider and softer)
-          Positioned(
-            right: -50,
-            top: 30,
-            child: Container(
-              height: 200,
-              width: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFB2FEFA).withOpacity(0.5),
-                    blurRadius: 10,
-                    spreadRadius: 40,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            right: -60,
-            top: 100,
-            child: Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double screenW = constraints.maxWidth;
+        double screenH = MediaQuery.of(context).size.height;
+        double imageHeight = screenH * 0.25; // Adjust based on available height
+        double containerHeight = screenH * 0.42;
 
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.lightGreenColor.withOpacity(0.1),
-                    blurRadius: 10,
-                    spreadRadius: 40,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Foreground: Text, progress, bike image
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // verticalSpacing(0),
-                      Text("124", style: blackText60600),
-                      Text("Km Range", style: greyText14600),
-                      const SizedBox(height: 18),
-                      // _buildBatteryCard(), // your D battery card
+        return SizedBox(
+          height: containerHeight,
+          child: Stack(
+            children: [
+              /// Radial background gradient circles
+              Positioned(
+                right: -screenW * 0.15,
+                top: screenH * 0.02,
+                child: Container(
+                  height: screenH * 0.28,
+                  width: screenW * 0.7,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFB2FEFA).withOpacity(0.4),
+                        blurRadius: 10,
+                        spreadRadius: 50,
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 10),
-                Image.asset(
-                  youpao_2_blue,
-                  fit: BoxFit.contain,
-                  height: screenHeight(context) * 0.28,
+              ),
+              Positioned(
+                right: -screenW * 0.15,
+                top: screenH * 0.10,
+                child: Container(
+                  height: screenH * 0.24,
+                  width: screenW * 0.5,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.lightGreenColor.withOpacity(0.12),
+                        blurRadius: 10,
+                        spreadRadius: 40,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+
+              /// Foreground bike image and battery info
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    /// Left Battery Info
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("124", style: blackText60600),
+                          const SizedBox(height: 4),
+                          Text("Km Range", style: greyText14600),
+                          const SizedBox(height: 18),
+                          _buildBatteryCard(context),
+                        ],
+                      ),
+                    ),
+
+                    /// Right Image
+                    SizedBox(
+                      height: imageHeight,
+                      child: Image.asset(youpao_2_blue, fit: BoxFit.contain),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
 
-Widget _buildBatteryCard() {
-  return const DBatteryProgress(percentage: 0.76);
+Widget _buildBatteryCard(BuildContext context) {
+  final screenW = MediaQuery.of(context).size.width;
+
+  double size = screenW * 0.23; // Responsive size for CustomPaint
+  double fontSize = screenW * 0.075;
+  double percentFont = screenW * 0.04;
+  double paddingTop = size * 0.25;
+  double paddingLeft = size * 0.45;
+
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      boxShadow: const [
+        BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+      ],
+    ),
+    padding: EdgeInsets.only(
+      right: screenW * 0.06,
+      top: screenW * 0.02,
+      bottom: screenW * 0.05,
+    ),
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        CustomPaint(
+          size: Size(size, size),
+          painter: DShapePainter(progress: 0.76),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: paddingTop, left: paddingLeft),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '76',
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: screenW * 0.01), // spacing between 76 and row
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '%',
+                    style: TextStyle(
+                      fontSize: percentFont,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: screenW * 0.015),
+                  Icon(
+                    Icons.battery_4_bar,
+                    size: percentFont + 4,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget _buildLocationCard() {
