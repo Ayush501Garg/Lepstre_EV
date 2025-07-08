@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/screens/profile_screen/setting_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+import 'core/constants/const.dart';
+import 'screens/starting_screen/splash_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(url: app_url, anonKey: app_key);
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => SettingsProvider())],
@@ -19,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const BottomNavigationBarScreen(),
+      home: const SplashScreen(),
     );
   }
 }
