@@ -26,11 +26,13 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   void initState() {
     super.initState();
     _checkPreviousAuthStatus(); // ✅ update
+
+    print("User Verifyd ==> $_alreadyVerified");
   }
 
   Future<void> _checkPreviousAuthStatus() async {
     bool isVerified = await SharedPrefManager.getFingerprintStatus();
-    print('📦 Previous fingerprint verified: $isVerified');
+    print('📦Fingerprint status  Previous fingerprint verified: $isVerified');
 
     setState(() {
       _status = isVerified ? '✅ You are a valid person' : '❌ Not Verified';
@@ -60,14 +62,14 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   }
 
   Future<void> _authenticate() async {
-    print('👉 Fingerprint scan button clicked');
+    print('👉Fingerprint status Fingerprint scan button clicked');
 
     setState(() {
       _isAuthenticating = true;
       _status = 'Touch the fingerprint sensor...';
     });
 
-    print('🔐 Starting fingerprint authentication...');
+    print('🔐Fingerprint status Starting fingerprint authentication...');
 
     try {
       bool authenticated = await auth.authenticate(
@@ -78,11 +80,11 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
         ),
       );
 
-      print('✅ Authentication result: $authenticated');
+      print('✅Fingerprint status Authentication result: $authenticated');
 
       // Save the result to SharedPreferences
       await SharedPrefManager.setFingerprintStatus(authenticated);
-      print("🔐 Fingerprint authenticated and saved to SharedPrefs");
+      print("🔐Fingerprint status Fingerprint authenticated and saved to SharedPrefs");
 
       setState(() {
         _isAuthenticating = false;
@@ -123,34 +125,44 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
 
               verticalSpacing(20),
 
-              Slidable(
-                key: const ValueKey('fingerprint_card'),
+              Stack(
+                children: [
+                  CustomInfoCard(
+                    icon: statusIcon,
+                    title: _alreadyVerified ? 'User Verified' : 'Verify yourself',
+                    subtitle: "Your identity is secured.",
+                    glowColor: Colors.green,
+                    onTap: _alreadyVerified ? null : _authenticate,
+                  ),
 
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  extentRatio: 0.3,
-                  children: [
-                    SlidableAction(
-                      onPressed: (_) async {
-                        await _clearFingerprintStatus(); // Will update icon too
-                      },
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Remove User',
-                      borderRadius: BorderRadius.circular(22),
+                  // ✅ Show close icon only if verified
+                  if (_alreadyVerified)
+                    Positioned(
+                      right: 12,
+                      top: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await _clearFingerprintStatus();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.red, width: 2),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.all(6),
+                          child: const Icon(
+                            Icons.close,
+                            size: 15,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                ],
+              )
 
-                child: CustomInfoCard(
-                  icon: statusIcon,
-                  title: _alreadyVerified ? 'User Verified' : 'Verify yourself',
-                  subtitle: "Your identity is secured.", // ✅ Dynamic icon
-                  glowColor: Colors.green,
-                  onTap: _alreadyVerified ? null : _authenticate,
-                ),
-              ),
             ],
           ),
         ),

@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../screens/profile_screen/setting_provider.dart';
+
 class SharedPrefManager {
+
+  bool isUserVerified = false;
   static const String _toggleKey = "toggle_states";
 
   static const String _fingerprintKey = "fingerprint_auth";
@@ -15,6 +21,8 @@ class SharedPrefManager {
   static Future<bool> getFingerprintStatus() async {
     return await getToggle(_fingerprintKey);
   }
+
+
 
   // Load all toggle states
   static Future<Map<String, bool>> loadToggleStates() async {

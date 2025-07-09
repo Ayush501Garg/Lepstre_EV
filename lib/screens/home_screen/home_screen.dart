@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lepster/screens/plans/plan_screen.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
+import '../../core/utils/shared_preference_service.dart';
 import '../../widgets/custom_slider.dart';
 import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
@@ -19,6 +20,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  bool isUserVerified = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVerificationStatus();
+  }
+
+  void _loadVerificationStatus() async {
+    final verified = await SharedPrefManager.getFingerprintStatus();
+    setState(() {
+      isUserVerified = verified;
+    });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final settings = Provider.of<SettingsProvider>(context);
@@ -39,8 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CustomImageSlider(imagePaths: sliderImages),
               ),
 
-              // ✅ Device Connectivity
-              if (settings.getSetting("deviceConnectivity")) ...[
+              if (settings.isCardVisible("deviceConnectivity", isUserVerified)) ...[
                 verticalSpacing(10),
                 DeviceConnectivityCard(
                   icon: Icons.bluetooth_connected,
@@ -57,8 +77,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
+
+              // if (settings.getSetting("deviceConnectivity")) ...[
+              //   verticalSpacing(10),
+              //   DeviceConnectivityCard(
+              //     icon: Icons.bluetooth_connected,
+              //     title: "Device Connection",
+              //     subtitle: "Tap to scan & connect nearby devices",
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (_) => const ConnectDevicesScreen(),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ],
+
               // ✅ View Our Plan
-              if (settings.getSetting("viewPlans")) ...[
+
+              // viewPlans
+              if (settings.isCardVisible("viewPlans", isUserVerified)) ...[
                 verticalSpacing(5),
                 DeviceConnectivityCard(
                   icon: Icons.auto_graph,
@@ -73,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
-              // ✅ Start / Stop EV
-              if (settings.getSetting("startStopEv")) ...[
+              // ✅ Start / Stop EV  startStopEv
+              if (settings.isCardVisible("startStopEv", isUserVerified)) ...[
                 verticalSpacing(5),
                 StartStopEVCard(
                   onTap: () {
@@ -87,33 +127,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ],
-              // ✅ Speed Lock
-              if (settings.getSetting("speedLock"))
+              // ✅ Speed Lock speedLock
+              if (settings.isCardVisible("speedLock", isUserVerified))
                 buildSpeedLockSection(context),
 
-              // ✅ Lock EV App
-              if (settings.getSetting("lockEvApp"))
+              // ✅ Lock EV App   lockEvApp
+              if (settings.isCardVisible("lockEvApp", isUserVerified))
                 buildLockEvFeatureSection(context),
 
-              // ✅ Battery Tracking
-              if (settings.getSetting("batteryTracking"))
+              // ✅ Battery Tracking   batteryTracking
+              if (settings.isCardVisible("batteryTracking", isUserVerified))
                 BatteryInfoCard(batteryPercentage: 0.2, rangeKm: 180),
 
               verticalSpacing(15),
 
-              buildFeatureIcons(context),
-              if (!settings.getSetting("chargingStation")) verticalSpacing(20),
+              buildFeatureIcons(context), // chargingStation
+              if (settings.isCardVisible("chargingStation", isUserVerified)) verticalSpacing(20),
               verticalSpacing(5),
 
-              // ✅ Charging Station
-              if (settings.getSetting("chargingStation"))
+              // ✅ Charging Station   chargingStation
+              if (settings.isCardVisible("chargingStation", isUserVerified))
                 buildChargingStationSection(context),
 
               // ✅ Advanced Settings
               buildAdvancedSection(context),
 
-              verticalSpacing(10),
-              if (settings.getSetting("newRelease"))
+              verticalSpacing(10), // newRelease
+              if (settings.isCardVisible("newRelease", isUserVerified))
                 buildNewReleasesSection(context),
               verticalSpacing(30),
             ],
