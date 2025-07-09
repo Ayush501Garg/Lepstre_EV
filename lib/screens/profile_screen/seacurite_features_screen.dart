@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lepster/widgets/custom_back_buttom.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
+import 'package:lepster/widgets/custom_back_buttom.dart';
 
 class AppSecurityScreen extends StatefulWidget {
   const AppSecurityScreen({super.key});
@@ -15,53 +18,40 @@ class AppSecurityScreen extends StatefulWidget {
 
 class _AppSecurityScreenState extends State<AppSecurityScreen> {
   final LocalAuthentication auth = LocalAuthentication();
-  String _status = 'Not Authenticated';
-  bool _isAuthenticating = false;
-
   bool _alreadyVerified = false;
-
   IconData statusIcon = Icons.lock_outline;
+
+  bool _theftModeEnabled = false;
+  final String _staticEmergencyNumber = "8587968190";
 
   @override
   void initState() {
     super.initState();
+<<<<<<< HEAD
     _checkPreviousAuthStatus(); // ✅ update
 
     print("User Verifyd ==> $_alreadyVerified");
+=======
+    _checkPreviousAuthStatus();
+    _loadTheftStatus();
+>>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
   }
 
   Future<void> _checkPreviousAuthStatus() async {
     bool isVerified = await SharedPrefManager.getFingerprintStatus();
+<<<<<<< HEAD
     print('📦Fingerprint status  Previous fingerprint verified: $isVerified');
 
+=======
+>>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     setState(() {
-      _status = isVerified ? '✅ You are a valid person' : '❌ Not Verified';
-      print("isVerified  _checkPreviousAuthStatus isVerified : $isVerified");
       _alreadyVerified = isVerified;
-      statusIcon = isVerified
-          ? Icons.verified
-          : Icons.person; // 👈 Update icon here
+      statusIcon = isVerified ? Icons.verified : Icons.person;
     });
-  }
-
-  // ✅ NEW: Method to clear saved fingerprint data
-  Future<void> _clearFingerprintStatus() async {
-    await SharedPrefManager.setFingerprintStatus(false);
-
-    setState(() {
-      _alreadyVerified = false;
-      _status = 'Not Authenticated';
-      statusIcon = Icons.person; // 👈 Reset icon to locked
-
-      print(
-        "isVerified  _clearFingerprintStatus _alreadyVerified : $_alreadyVerified",
-      );
-    });
-
-    print('🧹 Fingerprint status cleared');
   }
 
   Future<void> _authenticate() async {
+<<<<<<< HEAD
     print('👉Fingerprint status Fingerprint scan button clicked');
 
     setState(() {
@@ -71,45 +61,67 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
 
     print('🔐Fingerprint status Starting fingerprint authentication...');
 
+=======
+>>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     try {
       bool authenticated = await auth.authenticate(
-        localizedReason: 'Please authenticate to proceed',
-        options: const AuthenticationOptions(
-          biometricOnly: true,
-          stickyAuth: true,
-        ),
+        localizedReason: 'Please authenticate',
+        options: const AuthenticationOptions(biometricOnly: true),
       );
 
+<<<<<<< HEAD
       print('✅Fingerprint status Authentication result: $authenticated');
 
       // Save the result to SharedPreferences
       await SharedPrefManager.setFingerprintStatus(authenticated);
       print("🔐Fingerprint status Fingerprint authenticated and saved to SharedPrefs");
 
+=======
+      await SharedPrefManager.setFingerprintStatus(authenticated);
+>>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
       setState(() {
-        _isAuthenticating = false;
-        _status = authenticated
-            ? '✅ You are a valid person'
-            : '❌ Access Denied!';
         _alreadyVerified = authenticated;
-        statusIcon = authenticated
-            ? Icons.verified
-            : Icons.person; // 👈 Update icon
-        print("isVerified  _authenticate authenticated : $authenticated");
+        statusIcon = authenticated ? Icons.verified : Icons.person;
       });
-    } catch (e) {
-      print('❌ Error occurred during authentication: $e');
-      setState(() {
-        _isAuthenticating = false;
-        _status = 'Error: $e';
-      });
-    }
+    } catch (_) {}
+  }
+
+  Future<void> _clearFingerprintStatus() async {
+    await SharedPrefManager.setFingerprintStatus(false);
+    setState(() {
+      _alreadyVerified = false;
+      statusIcon = Icons.person;
+    });
+  }
+
+  Future<void> _loadTheftStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    _theftModeEnabled = prefs.getBool("theft_safety") ?? false;
+    setState(() {});
+  }
+
+  Future<void> _toggleTheftMode(bool value) async {
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.setBool("theft_safety", value);
+    // setState(() {
+    //   _theftModeEnabled = value;
+    // });
+
+    Future.delayed(const Duration(seconds: 10), () async {
+      final permission = await Permission.phone.request();
+      if (!permission.isGranted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Phone permission not granted")),
+        );
+        return;
+      }
+
+      await FlutterPhoneDirectCaller.callNumber(_staticEmergencyNumber);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // ✅ icon based on verification
-
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -118,13 +130,10 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
           child: Column(
             children: [
               verticalSpacing(20),
-              BackBtnWithText(
-                context: context,
-                text: "Application Securities ",
-              ),
-
+              BackBtnWithText(context: context, text: "Application Securities"),
               verticalSpacing(20),
 
+<<<<<<< HEAD
               Stack(
                 children: [
                   CustomInfoCard(
@@ -163,6 +172,47 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
                 ],
               )
 
+=======
+              // Fingerprint card
+              Slidable(
+                key: const ValueKey('fingerprint_card'),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  extentRatio: 0.3,
+                  children: [
+                    SlidableAction(
+                      onPressed: (_) async => await _clearFingerprintStatus(),
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Remove User',
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ],
+                ),
+                child: CustomInfoCard(
+                  icon: statusIcon,
+                  title: _alreadyVerified ? 'User Verified' : 'Verify Yourself',
+                  subtitle: "Your identity is secured.",
+                  glowColor: Colors.green,
+                  onTap: _alreadyVerified ? null : _authenticate,
+                ),
+              ),
+
+              verticalSpacing(20),
+
+              // Theft safety switch
+              CustomInfoCard(
+                icon: Icons.shield_moon_outlined,
+                title: "Theft Safety Mode",
+                subtitle: "Enable emergency call on unauthorized EV movement.",
+                glowColor: Colors.redAccent,
+                toggleValue: _theftModeEnabled,
+                onTap: () {
+                  _toggleTheftMode(true);
+                },
+              ),
+>>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
             ],
           ),
         ),
@@ -171,6 +221,7 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   }
 }
 
+// CustomInfoCard with toggle support
 class CustomInfoCard extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
@@ -178,6 +229,8 @@ class CustomInfoCard extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Color glowColor;
+  final bool? toggleValue;
+  final ValueChanged<bool>? onToggleChanged;
 
   const CustomInfoCard({
     super.key,
@@ -186,7 +239,9 @@ class CustomInfoCard extends StatelessWidget {
     this.lasticon,
     required this.title,
     this.subtitle,
-    this.glowColor = Colors.blue, // default color
+    this.glowColor = Colors.blue,
+    this.toggleValue,
+    this.onToggleChanged,
   });
 
   @override
@@ -210,7 +265,6 @@ class CustomInfoCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Glow Icon Circle (keep original static icon)
             Container(
               width: 60,
               height: 60,
@@ -226,27 +280,26 @@ class CustomInfoCard extends StatelessWidget {
               child: Icon(icon, size: 32, color: glowColor),
             ),
             const SizedBox(width: 18),
-
-            // Texts
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      if (lasticon != null)
-                        Icon(
-                          lasticon, // ✅ Yeh important line hai
-                          size: 24,
-                          color: Colors.black54,
+                      if (toggleValue != null && onToggleChanged != null)
+                        Switch(
+                          value: toggleValue!,
+                          onChanged: onToggleChanged,
+                          activeColor: glowColor,
                         ),
                     ],
                   ),

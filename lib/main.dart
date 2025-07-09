@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/screens/profile_screen/setting_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'core/constants/const.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(url: app_url, anonKey: app_key);
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => SettingsProvider())],
