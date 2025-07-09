@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lepster/a.dart';
 import 'package:lepster/screens/plans/plan_screen.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../widgets/custom_slider.dart';
-import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
 import '../../data/data.dart';
 import '../profile_screen/setting_provider.dart';
@@ -47,12 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "Device Connection",
                   subtitle: "Tap to scan & connect nearby devices",
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ConnectDevicesScreen(),
-                      ),
-                    );
+                    PaymentService(context: context).doPayment(200);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => const ConnectDevicesScreen(),
+                    //   ),
+                    // );
                   },
                 ),
               ],

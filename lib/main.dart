@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lepster/screens/home_screen/bottom_navigation_bar_screen.dart';
 import 'package:lepster/screens/profile_screen/setting_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'core/constants/const.dart';
-import 'screens/starting_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const BottomNavigationBarScreen(),
     );
   }
 }
