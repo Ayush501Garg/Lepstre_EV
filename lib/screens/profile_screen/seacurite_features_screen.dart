@@ -26,6 +26,9 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   bool _theftModeEnabled = false;
   final String _staticEmergencyNumber = "8587968190";
 
+  String _status = '';
+  bool _isAuthenticating = false;
+
   @override
   void initState() {
     super.initState();
