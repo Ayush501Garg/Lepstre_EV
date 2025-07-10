@@ -21,7 +21,7 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
   final List<ScanResult> _scannedDevices = [];
   bool _isScanning = false;
   BluetoothDevice? _connectedDevice;
-  ScanResult? _connectedScanResult; // ✅ to show RSSI
+  ScanResult? _connectedScanResult;
 
   @override
   void initState() {
@@ -34,35 +34,42 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
   }
 
   Future<void> _requestPermissionsAndScan() async {
-    debugPrint("Requesting permissions...");
-
+    // Request Bluetooth & Location permissions
     final bluetoothScan = await Permission.bluetoothScan.request();
     final bluetoothConnect = await Permission.bluetoothConnect.request();
     final location = await Permission.locationWhenInUse.request();
 
+    // Check if all required permissions are granted
     if (bluetoothScan.isGranted &&
         bluetoothConnect.isGranted &&
         location.isGranted) {
-      debugPrint("All permissions granted");
-      final isOn = await FlutterBluePlus.isOn;
-      if (!isOn) {
+      // Check if Bluetooth is turned on
+      final isBluetoothOn = await FlutterBluePlus.isOn;
+
+      // Check if Location Services (GPS) are enabled
+      final isLocationServiceOn =
+          await Permission.locationWhenInUse.serviceStatus.isEnabled;
+
+      if (!isBluetoothOn) {
         showCustomToast(
           context: context,
           message: "Please turn on Bluetooth to scan.",
           type: ToastType.error,
         );
+      } else if (!isLocationServiceOn) {
+        showCustomToast(
+          context: context,
+          message: "Please enable Location Services (GPS) from settings.",
+          type: ToastType.error,
+        );
       } else {
-        _startScan();
+        _startScan(); // ✅ All good: start scanning
       }
     } else {
       showCustomToast(
         context: context,
         message: "Bluetooth & Location permissions are required.",
         type: ToastType.error,
-      );
-
-      debugPrint(
-        "Permissions not granted: Scan: $bluetoothScan, Connect: $bluetoothConnect, Location: $location",
       );
     }
   }
@@ -88,8 +95,8 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
       );
     } finally {
       await Future.delayed(const Duration(seconds: 6));
-      print("Scanned devices 123: $_scannedDevices");
       setState(() => _isScanning = false);
+      if (mounted) _showDevicesBottomSheet(); // 🔥 Automatically show
     }
   }
 
@@ -111,8 +118,9 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
 
       setState(() {
         _connectedDevice = result.device;
-        _connectedScanResult = result; // ✅ Store RSSI too
+        _connectedScanResult = result;
       });
+
       showCustomToast(
         context: context,
         message:
@@ -130,18 +138,19 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
   }
 
   void _showDevicesBottomSheet() {
+    final filteredDevices = _scannedDevices
+        .where((device) => device.device.name.isNotEmpty)
+        .toList();
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) {
-        final filteredDevices = _scannedDevices
-            .where((device) => device.device.name.isNotEmpty)
-            .toList();
-
         return FractionallySizedBox(
           heightFactor: 0.6,
           child: Container(
+            padding: const EdgeInsets.all(12),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -154,43 +163,34 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
               ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Nearby Devices", style: blackText16600),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+                Container(
+                  width: 40,
+                  height: 5,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const Divider(height: 1),
+                Text("Nearby Devices", style: blackText16600),
+                const Divider(),
                 Expanded(
                   child: filteredDevices.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.bluetooth_disabled,
-                                size: 60,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(height: 10),
-                              Text("No devices found", style: greyText14600),
-                            ],
-                          ),
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.bluetooth_disabled,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(height: 10),
+                            Text("No devices found", style: greyText14600),
+                          ],
                         )
                       : ListView.separated(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(8),
                           itemCount: filteredDevices.length,
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 12),
@@ -198,17 +198,10 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                             final device = filteredDevices[index];
                             return Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
                                 color: AppColors.primaryLightColor.withOpacity(
                                   0.1,
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12.withOpacity(0.05),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
+                                borderRadius: BorderRadius.circular(14),
                               ),
                               child: ListTile(
                                 leading: const CircleAvatar(
@@ -227,9 +220,7 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                                   style: greyText12400,
                                 ),
                                 trailing: ElevatedButton(
-                                  onPressed: () {
-                                    _connectToDevice(device);
-                                  },
+                                  onPressed: () => _connectToDevice(device),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.primaryColor,
                                     padding: const EdgeInsets.symmetric(
@@ -348,7 +339,6 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -359,24 +349,39 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                 children: [
                   customBackButton(
                     context: context,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                    onTap: () => Navigator.pop(context),
                   ),
                   horizontalSpacing(15),
                   Text("Connect Device", style: blackText18600),
                 ],
               ),
-              verticalSpacing(100),
-              _buildConnectedDeviceCard(), // ✅ Show connected device info
+              Spacer(), verticalSpacing(40),
+
+              // 🟦 Big Bluetooth Icon
+              Icon(Icons.bluetooth, size: 150, color: AppColors.primaryColor),
+
+              verticalSpacing(16),
+              SizedBox(
+                width: screenWidth(context) * 0.7,
+                child: Text(
+                  "Connect to your nearby Bluetooth device easily",
+                  textAlign: TextAlign.center,
+                  style: greyText14600,
+                ),
+              ),
+              verticalSpacing(30),
+
+              // 🔘 Scan Button
               ElevatedButton.icon(
                 onPressed: _isScanning ? null : _requestPermissionsAndScan,
                 icon: Icon(
-                  _isScanning ? Icons.bluetooth_searching : Icons.bluetooth,
+                  _isScanning
+                      ? Icons.bluetooth_searching
+                      : Icons.bluetooth_audio,
                   color: Colors.white,
                 ),
                 label: Text(
-                  _isScanning ? "Scanning..." : "Scan Devices",
+                  _isScanning ? "Scanning..." : "Scan for Devices",
                   style: whiteText14600,
                 ),
                 style: ElevatedButton.styleFrom(
@@ -390,22 +395,9 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: _showDevicesBottomSheet,
-                icon: const Icon(Icons.devices, color: Colors.white),
-                label: Text("Show Nearby Devices", style: whiteText14600),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
+              verticalSpacing(40),
+              _buildConnectedDeviceCard(),
+              Spacer(),
             ],
           ),
         ),

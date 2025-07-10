@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lepster/a.dart';
 import 'package:lepster/screens/plans/plan_screen.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
 import '../../widgets/custom_slider.dart';
+import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
 import '../../data/data.dart';
 import '../profile_screen/setting_provider.dart';
@@ -20,9 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   bool isUserVerified = false;
-
 
   @override
   void initState() {
@@ -36,9 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
       isUserVerified = verified;
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,41 +55,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CustomImageSlider(imagePaths: sliderImages),
               ),
 
-              if (settings.isCardVisible("deviceConnectivity", isUserVerified)) ...[
+              if (settings.isCardVisible(
+                "deviceConnectivity",
+                isUserVerified,
+              )) ...[
                 verticalSpacing(10),
                 DeviceConnectivityCard(
                   icon: Icons.bluetooth_connected,
                   title: "Device Connection",
                   subtitle: "Tap to scan & connect nearby devices",
                   onTap: () {
-                    PaymentService(context: context).doPayment(200);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => const ConnectDevicesScreen(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ConnectDevicesScreen(),
+                      ),
+                    );
                   },
                 ),
               ],
-
-
-              // if (settings.getSetting("deviceConnectivity")) ...[
-              //   verticalSpacing(10),
-              //   DeviceConnectivityCard(
-              //     icon: Icons.bluetooth_connected,
-              //     title: "Device Connection",
-              //     subtitle: "Tap to scan & connect nearby devices",
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (_) => const ConnectDevicesScreen(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ],
 
               // ✅ View Our Plan
 
@@ -143,7 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
               verticalSpacing(15),
 
               buildFeatureIcons(context), // chargingStation
-              if (settings.isCardVisible("chargingStation", isUserVerified)) verticalSpacing(20),
+              if (settings.isCardVisible("chargingStation", isUserVerified))
+                verticalSpacing(20),
               verticalSpacing(5),
 
               // ✅ Charging Station   chargingStation

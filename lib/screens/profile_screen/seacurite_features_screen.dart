@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -8,6 +7,9 @@ import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
 import 'package:lepster/widgets/custom_back_buttom.dart';
+
+import '../../widgets/custom_switch.dart';
+import '../../widgets/custom_toast.dart';
 
 class AppSecurityScreen extends StatefulWidget {
   const AppSecurityScreen({super.key});
@@ -27,23 +29,12 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
-    _checkPreviousAuthStatus(); // ✅ update
-
-    print("User Verifyd ==> $_alreadyVerified");
-=======
     _checkPreviousAuthStatus();
     _loadTheftStatus();
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
   }
 
   Future<void> _checkPreviousAuthStatus() async {
     bool isVerified = await SharedPrefManager.getFingerprintStatus();
-<<<<<<< HEAD
-    print('📦Fingerprint status  Previous fingerprint verified: $isVerified');
-
-=======
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     setState(() {
       _alreadyVerified = isVerified;
       statusIcon = isVerified ? Icons.verified : Icons.person;
@@ -51,34 +42,13 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   }
 
   Future<void> _authenticate() async {
-<<<<<<< HEAD
-    print('👉Fingerprint status Fingerprint scan button clicked');
-
-    setState(() {
-      _isAuthenticating = true;
-      _status = 'Touch the fingerprint sensor...';
-    });
-
-    print('🔐Fingerprint status Starting fingerprint authentication...');
-
-=======
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     try {
       bool authenticated = await auth.authenticate(
         localizedReason: 'Please authenticate',
         options: const AuthenticationOptions(biometricOnly: true),
       );
 
-<<<<<<< HEAD
-      print('✅Fingerprint status Authentication result: $authenticated');
-
-      // Save the result to SharedPreferences
       await SharedPrefManager.setFingerprintStatus(authenticated);
-      print("🔐Fingerprint status Fingerprint authenticated and saved to SharedPrefs");
-
-=======
-      await SharedPrefManager.setFingerprintStatus(authenticated);
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
       setState(() {
         _alreadyVerified = authenticated;
         statusIcon = authenticated ? Icons.verified : Icons.person;
@@ -101,23 +71,32 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   }
 
   Future<void> _toggleTheftMode(bool value) async {
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setBool("theft_safety", value);
-    // setState(() {
-    //   _theftModeEnabled = value;
-    // });
+    setState(() => _theftModeEnabled = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("theft_safety", value);
 
-    Future.delayed(const Duration(seconds: 10), () async {
-      final permission = await Permission.phone.request();
-      if (!permission.isGranted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Phone permission not granted")),
-        );
-        return;
-      }
+    showCustomToast(
+      context: context,
+      message: value
+          ? "🚨 Safety mode activated"
+          : "⚠️ Safety mode deactivated",
+      type: value ? ToastType.success : ToastType.warning,
+    );
 
-      await FlutterPhoneDirectCaller.callNumber(_staticEmergencyNumber);
-    });
+    if (value) {
+      Future.delayed(const Duration(seconds: 10), () async {
+        final permission = await Permission.phone.request();
+        if (!permission.isGranted) {
+          showCustomToast(
+            context: context,
+            message: "📵 Phone permission not granted",
+            type: ToastType.error,
+          );
+          return;
+        }
+        await FlutterPhoneDirectCaller.callNumber(_staticEmergencyNumber);
+      });
+    }
   }
 
   @override
@@ -133,27 +112,25 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
               BackBtnWithText(context: context, text: "Application Securities"),
               verticalSpacing(20),
 
-<<<<<<< HEAD
+              // Biometric Card
               Stack(
                 children: [
                   CustomInfoCard(
                     icon: statusIcon,
-                    title: _alreadyVerified ? 'User Verified' : 'Verify yourself',
+                    title: _alreadyVerified
+                        ? 'User Verified'
+                        : 'Verify yourself',
                     subtitle: "Your identity is secured.",
                     glowColor: Colors.green,
                     onTap: _alreadyVerified ? null : _authenticate,
                   ),
-
-                  // ✅ Show close icon only if verified
                   if (_alreadyVerified)
                     Positioned(
                       right: 12,
                       top: 0,
                       bottom: 0,
                       child: GestureDetector(
-                        onTap: () async {
-                          await _clearFingerprintStatus();
-                        },
+                        onTap: _clearFingerprintStatus,
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -170,49 +147,18 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
                       ),
                     ),
                 ],
-              )
-
-=======
-              // Fingerprint card
-              Slidable(
-                key: const ValueKey('fingerprint_card'),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  extentRatio: 0.3,
-                  children: [
-                    SlidableAction(
-                      onPressed: (_) async => await _clearFingerprintStatus(),
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Remove User',
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                  ],
-                ),
-                child: CustomInfoCard(
-                  icon: statusIcon,
-                  title: _alreadyVerified ? 'User Verified' : 'Verify Yourself',
-                  subtitle: "Your identity is secured.",
-                  glowColor: Colors.green,
-                  onTap: _alreadyVerified ? null : _authenticate,
-                ),
               ),
+              verticalSpacing(10),
 
-              verticalSpacing(20),
-
-              // Theft safety switch
+              // Theft Safety Card with Custom Switch
               CustomInfoCard(
                 icon: Icons.shield_moon_outlined,
                 title: "Theft Safety Mode",
                 subtitle: "Enable emergency call on unauthorized EV movement.",
                 glowColor: Colors.redAccent,
                 toggleValue: _theftModeEnabled,
-                onTap: () {
-                  _toggleTheftMode(true);
-                },
+                onToggleChanged: _toggleTheftMode,
               ),
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
             ],
           ),
         ),
@@ -222,10 +168,10 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
 }
 
 // CustomInfoCard with toggle support
+
 class CustomInfoCard extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
-  final IconData? lasticon;
   final String title;
   final String? subtitle;
   final Color glowColor;
@@ -236,7 +182,6 @@ class CustomInfoCard extends StatelessWidget {
     super.key,
     this.onTap,
     required this.icon,
-    this.lasticon,
     required this.title,
     this.subtitle,
     this.glowColor = Colors.blue,
@@ -249,8 +194,8 @@ class CustomInfoCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
@@ -296,10 +241,9 @@ class CustomInfoCard extends StatelessWidget {
                         ),
                       ),
                       if (toggleValue != null && onToggleChanged != null)
-                        Switch(
+                        CustomSwitchButton(
                           value: toggleValue!,
                           onChanged: onToggleChanged,
-                          activeColor: glowColor,
                         ),
                     ],
                   ),

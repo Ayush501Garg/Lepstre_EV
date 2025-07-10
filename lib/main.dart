@@ -12,7 +12,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => SettingsProvider())],
-      child:  MyApp(),
+      child: MyApp(),
     ),
   );
 }
