@@ -24,26 +24,29 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   bool _theftModeEnabled = false;
   final String _staticEmergencyNumber = "8587968190";
 
+  String _status = '';
+  bool _isAuthenticating = false;
+
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
+// <<<<<<< HEAD
     _checkPreviousAuthStatus(); // ✅ update
 
     print("User Verifyd ==> $_alreadyVerified");
-=======
+// =======
     _checkPreviousAuthStatus();
     _loadTheftStatus();
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
+// >>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
   }
 
   Future<void> _checkPreviousAuthStatus() async {
     bool isVerified = await SharedPrefManager.getFingerprintStatus();
-<<<<<<< HEAD
+// <<<<<<< HEAD
     print('📦Fingerprint status  Previous fingerprint verified: $isVerified');
 
-=======
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
+// =======
+// >>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     setState(() {
       _alreadyVerified = isVerified;
       statusIcon = isVerified ? Icons.verified : Icons.person;
@@ -51,7 +54,7 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
   }
 
   Future<void> _authenticate() async {
-<<<<<<< HEAD
+// <<<<<<< HEAD
     print('👉Fingerprint status Fingerprint scan button clicked');
 
     setState(() {
@@ -61,24 +64,24 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
 
     print('🔐Fingerprint status Starting fingerprint authentication...');
 
-=======
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
+// =======
+// >>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
     try {
       bool authenticated = await auth.authenticate(
         localizedReason: 'Please authenticate',
         options: const AuthenticationOptions(biometricOnly: true),
       );
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
       print('✅Fingerprint status Authentication result: $authenticated');
 
       // Save the result to SharedPreferences
       await SharedPrefManager.setFingerprintStatus(authenticated);
       print("🔐Fingerprint status Fingerprint authenticated and saved to SharedPrefs");
 
-=======
+// =======
       await SharedPrefManager.setFingerprintStatus(authenticated);
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
+// >>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
       setState(() {
         _alreadyVerified = authenticated;
         statusIcon = authenticated ? Icons.verified : Icons.person;
@@ -133,7 +136,7 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
               BackBtnWithText(context: context, text: "Application Securities"),
               verticalSpacing(20),
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
               Stack(
                 children: [
                   CustomInfoCard(
@@ -170,9 +173,9 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
                       ),
                     ),
                 ],
-              )
+              ),
 
-=======
+// =======
               // Fingerprint card
               Slidable(
                 key: const ValueKey('fingerprint_card'),
@@ -212,7 +215,7 @@ class _AppSecurityScreenState extends State<AppSecurityScreen> {
                   _toggleTheftMode(true);
                 },
               ),
->>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
+// >>>>>>> 41c0719140c65fd09689ad66bdf5bfbfd8d551dc
             ],
           ),
         ),
