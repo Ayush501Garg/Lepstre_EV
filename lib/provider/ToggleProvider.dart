@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:motion_toast/motion_toast.dart';
-import 'package:motion_toast/resources/arrays.dart';
+// import 'package:motion_toast/motion_toast.dart';
+// import 'package:motion_toast/resources/arrays.dart';
 import '../core/utils/SharedPrefManager.dart';
 
 class ToggleProvider extends ChangeNotifier {
@@ -33,16 +33,16 @@ class ToggleProvider extends ChangeNotifier {
     if (!isVerified) {
       print("❌ Access Denied: You are not a verified user."); // Centralized check
 
-      MotionToast.error(
-        title: const Text(
-          "Verification Required",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        description: const Text("Please verify yourself. It’s app security policy."),
-        animationType: AnimationType.slideInFromTop,
-        dismissable: true,
-        barrierColor: Colors.black.withOpacity(0.1),
-      ).show(context);
+      // MotionToast.error(
+      //   title: const Text(
+      //     "Verification Required",
+      //     style: TextStyle(fontWeight: FontWeight.bold),
+      //   ),
+      //   description: const Text("Please verify yourself. It’s app security policy."),
+      //   animationType: AnimationType.slideInFromTop,
+      //   dismissable: true,
+      //   barrierColor: Colors.black.withOpacity(0.1),
+      // ).show(context);
 
       return;
     }

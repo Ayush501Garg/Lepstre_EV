@@ -2,9 +2,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
-import 'package:lepster/screens/data/data.dart';
 import 'package:lepster/screens/home_screen/map_screen/station_detail_screen.dart';
 import '../../../core/constants/image_path.dart';
+import '../../../data/data.dart';
 
 class StationScreen extends StatefulWidget {
   const StationScreen({super.key});

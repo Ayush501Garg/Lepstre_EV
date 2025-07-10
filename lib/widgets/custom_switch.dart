@@ -8,7 +8,6 @@ import 'package:lepster/core/constants/app_color.dart';
 //   final Color activeTrackColor;
 //   final Color inactiveThumbColor;
 //   final Color inactiveTrackColor;
-
 //   const CustomSwitchButton({
 //     super.key,
 //     required this.value,
@@ -18,17 +17,14 @@ import 'package:lepster/core/constants/app_color.dart';
 //     this.inactiveThumbColor = Colors.grey,
 //     this.inactiveTrackColor = AppColors.lightCreame,
 //   });
-
 //   @override
 //   Widget build(BuildContext context) {
-//     return Switch(
 //       value: value,
 //       onChanged: onChanged,
 //       activeColor: activeThumbColor,
 //       activeTrackColor: activeTrackColor.withOpacity(0.6),
 //       inactiveThumbColor: inactiveThumbColor,
 //       inactiveTrackColor: inactiveTrackColor,
-
 //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
 //     );
 //   }
@@ -36,7 +32,9 @@ import 'package:lepster/core/constants/app_color.dart';
 
 class CustomSwitchButton extends StatelessWidget {
   final bool value;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged; // Nullable
+  final bool isEnabled;
+
   final Color activeThumbColor;
   final Color activeTrackColor;
   final Color inactiveThumbColor;
@@ -46,6 +44,7 @@ class CustomSwitchButton extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
+    this.isEnabled = true,
     this.activeThumbColor = AppColors.primaryColor,
     this.activeTrackColor = AppColors.lightCreame,
     this.inactiveThumbColor = Colors.grey,
@@ -54,26 +53,26 @@ class CustomSwitchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 32, // Approx height of switch
-      width: 52, // Approx width of switch
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.greyColor, // Border color to look native
-          width: 1.8,
-        ),
-        borderRadius: BorderRadius.circular(20), // Match switch shape
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Switch(
-          value: value,
-          onChanged: onChanged,
-          activeColor: activeThumbColor,
-          activeTrackColor: activeTrackColor.withOpacity(0.6),
-          inactiveThumbColor: inactiveThumbColor,
-          inactiveTrackColor: inactiveTrackColor,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    return Opacity(
+      opacity: isEnabled ? 1.0 : 0.4,
+      child: IgnorePointer(
+        ignoring: !isEnabled,
+        child: Container(
+          height: 32,
+          width: 52,
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.greyColor, width: 1.8),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Switch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: activeThumbColor,
+            activeTrackColor: activeTrackColor.withOpacity(0.6),
+            inactiveThumbColor: inactiveThumbColor,
+            inactiveTrackColor: inactiveTrackColor,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
       ),
     );

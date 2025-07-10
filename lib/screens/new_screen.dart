@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:o3d/o3d.dart';
+
 class EV3DModelScreen extends StatefulWidget {
   const EV3DModelScreen({super.key});
 
@@ -8,7 +8,7 @@ class EV3DModelScreen extends StatefulWidget {
 }
 
 class _EV3DModelScreenState extends State<EV3DModelScreen> {
-  late O3DController _controller;
+  // late O3DController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +17,16 @@ class _EV3DModelScreenState extends State<EV3DModelScreen> {
         title: const Text('EV 3D Viewer'),
         backgroundColor: Colors.green,
       ),
-      body: const Center(
-        child: O3D(
-          src: 'assets/modul/titi_the_chill_frog.glb',
-          autoRotate: true,
-          cameraControls: true,
-          autoPlay: true,
-          ar: false,
-          backgroundColor: Colors.white,
-        ),
-      ),
+      // body: const Center(
+      //   child: O3D(
+      //     src: 'assets/modul/titi_the_chill_frog.glb',
+      //     autoRotate: true,
+      //     cameraControls: true,
+      //     autoPlay: true,
+      //     ar: false,
+      //     backgroundColor: Colors.white,
+      //   ),
+      // ),
     );
   }
 }

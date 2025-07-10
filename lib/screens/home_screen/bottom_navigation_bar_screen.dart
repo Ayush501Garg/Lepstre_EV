@@ -2,13 +2,13 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
+import 'package:lepster/screens/home_screen/history_screen.dart';
 import 'package:lepster/screens/home_screen/home_screen.dart';
 
 import '../bikes_screen/bikes_screen.dart';
-import '../history_screen/history_screen.dart';
+import '../history_screen.dart';
 import '../profile_screen/profile_screen.dart';
-import '../scan_screen/scan_screen.dart';
-import 'history_screen.dart' hide HistoryScreen;
+import '../connectivity/qr_bar_code/scan_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -26,13 +26,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     BikesScreen(),
     ScanScreen(),
     History_Screen(),
-// <<<<<<< HEAD
-//     ElectricScooterScreen(),
-    // DemoHomeScreen(title: "Profile"),
-// =======
     ProfileScreen(),
-
-// >>>>>>> ayush_garg
   ];
 
   final List<TabItem> items = [
@@ -46,7 +40,6 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: _screens[currentIndex],
       bottomNavigationBar: BottomBarInspiredOutside(
         height: 60,
@@ -82,3 +75,15 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 }
 
 // Placeholder screen
+class DemoHomeScreen extends StatelessWidget {
+  final String title;
+
+  const DemoHomeScreen({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('$title Screen', style: const TextStyle(fontSize: 24)),
+    );
+  }
+}

@@ -1,94 +1,138 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_sizing.dart';
 import 'package:provider/provider.dart';
+import 'package:lepster/core/constants/app_color.dart';
+import 'package:lepster/widgets/custom_back_buttom.dart';
+import 'package:lepster/widgets/custom_switch.dart';
 
-import '../../core/constants/app_color.dart';
-import '../../core/constants/app_setting.dart';
-import '../../core/utils/SharedPrefManager.dart';
-import '../../provider/ToggleProvider.dart';
-import '../../widgets/custom_back_buttom.dart';
-import '../../widgets/custom_switch.dart';
-import '../../widgets/custome_switch_button.dart';
+import '../../core/utils/shared_preference_service.dart';
+import 'setting_provider.dart';
 
-class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
 
-  bool isVerified = false;
+  bool isUserVerified = false;
 
   @override
   void initState() {
     super.initState();
-    _loadFingerprintStatus();
+    _checkUserVerification();
   }
 
-  void _loadFingerprintStatus() async {
-    bool status = await SharedPrefManager.getFingerprintStatus();
+  void _checkUserVerification() async {
+    final verified = await SharedPrefManager.getFingerprintStatus();
+
     setState(() {
-      isVerified = status;
+      isUserVerified = verified;
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    final settings = Provider.of<SettingsProvider>(context);
+
+    final List<Map<String, dynamic>> settingsList = [
+      {
+        "key": "deviceConnectivity",
+        "title": "Device Connectivity",
+        "icon": Icons.devices,
+      },
+      {"key": "viewPlans", "title": "View Our Plans", "icon": Icons.payment},
+      {
+        "key": "startStopEv",
+        "title": "Start / Stop EV",
+        "icon": Icons.power_settings_new,
+      },
+      {"key": "speedLock", "title": "Speed Lock", "icon": Icons.lock},
+      {"key": "lockEvApp", "title": "Lock EV App", "icon": Icons.security},
+      {
+        "key": "batteryTracking",
+        "title": "Battery Tracking",
+        "icon": Icons.battery_full,
+      },
+      {
+        "key": "chargingStation",
+        "title": "Charging Station",
+        "icon": Icons.ev_station,
+      },
+      {
+        "key": "newRelease",
+        "title": "New Release Setting",
+        "icon": Icons.new_releases,
+      },
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Column(
-          children: [
-            verticalSpacing(20),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              verticalSpacing(20),
+              BackBtnWithText(context: context, text: "App Settings"),
+              verticalSpacing(20),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: settingsList.length,
+                  itemBuilder: (context, index) {
+                    final item = settingsList[index];
 
-            Consumer<ToggleProvider>(
-              builder: (context, toggle, child) {
-                final isEnabled = toggle.getToggle("device_connection");
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      color: AppColors.whiteColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor:
+                            AppColors.primaryLightColor.withOpacity(0.2),
+                            child: Icon(
+                              item["icon"],
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          title: Text(
+                            item["title"],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                          trailing: Consumer<SettingsProvider>(
+                            builder: (context, settings, _) {
+                              final isToggleOn = settings.getSetting(item["key"]);
 
-                return CustomeSwitchButton(
-                  icon: Icons.card_travel_outlined,
-                  title: "Device Connection",
-                  switchValue: isVerified ? isEnabled : false,
-                  onToggle: (val) async{
-                    toggle.updateToggleWithVerification(context,"device_connection", val);
+                              return CustomSwitchButton(
+                                value: isUserVerified ? isToggleOn : false, // 👈 Force OFF if unverified
+                                isEnabled: isUserVerified,
+                                onChanged: isUserVerified
+                                    ? (val) => settings.toggleSetting(item["key"], val)
+                                    : null,
+                              );
+                            },
+                          ),
+
+                        ),
+                      ),
+                    );
                   },
-                );
-              },
-            ),
-
-            Consumer<ToggleProvider>(
-              builder: (context, toggle, child) {
-                final isEnabled = toggle.getToggle("plan_card");
-                return CustomeSwitchButton(
-                  icon: Icons.card_travel_outlined,
-                  title: "Plan Card",
-                  switchValue: isVerified ? isEnabled : false,
-                  onToggle: (val) {
-                    toggle.updateToggleWithVerification(context,"plan_card", val);
-                  },
-                );
-              },
-            ),
-
-
-
-
-            // CustomeSwitchButton(
-            //   icon: Icons.notifications_active,
-            //   title: "Bettery Saver Card",
-            //   subtitle: "Enable or disable Widget",
-            //   switchValue: AppSettings.showHiddenWidget.value,
-            //   onToggle: (val) {
-            //     setState(() {
-            //       AppSettings.showHiddenWidget.value = val;
-            //     });
-            //   },
-            // ),
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
