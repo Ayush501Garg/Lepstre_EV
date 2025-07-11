@@ -21,7 +21,7 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
   final List<ScanResult> _scannedDevices = [];
   bool _isScanning = false;
   BluetoothDevice? _connectedDevice;
-  ScanResult? _connectedScanResult; // ✅ to show RSSI
+  ScanResult? _connectedScanResult;
 
   @override
   void initState() {
@@ -33,103 +33,117 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
     await FlutterBluePlus.stopScan();
   }
 
-  // Future<void> _requestPermissionsAndScan() async {
-  //   debugPrint("Requesting permissions...");
-  //
-  //   final bluetoothScan = await Permission.bluetoothScan.request();
-  //   final bluetoothConnect = await Permission.bluetoothConnect.request();
-  //   final location = await Permission.locationWhenInUse.request();
-  //
-  //   if (bluetoothScan.isGranted &&
-  //       bluetoothConnect.isGranted &&
-  //       location.isGranted) {
-  //     debugPrint("All permissions granted");
-  //     final isOn = await FlutterBluePlus.isOn;
-  //     if (!isOn) {
-  //       showCustomToast(
-  //         context: context,
-  //         message: "Please turn on Bluetooth to scan.",
-  //         type: ToastType.error,
-  //       );
-  //     } else {
-  //       _startScan();
-  //     }
-  //   } else {
-  //     showCustomToast(
-  //       context: context,
-  //       message: "Bluetooth & Location permissions are required.",
-  //       type: ToastType.error,
-  //     );
-  //
-  //     debugPrint(
-  //       "Permissions not granted: Scan: $bluetoothScan, Connect: $bluetoothConnect, Location: $location",
-  //     );
-  //   }
-  // }
+  Future<void> _requestPermissionsAndScan() async {
+    // Request Bluetooth & Location permissions
+    final bluetoothScan = await Permission.bluetoothScan.request();
+    final bluetoothConnect = await Permission.bluetoothConnect.request();
+    final location = await Permission.locationWhenInUse.request();
 
-  // void _startScan() async {
-  //   _scannedDevices.clear();
-  //   setState(() => _isScanning = true);
-  //
-  //   try {
-  //     await FlutterBluePlus.startScan(timeout: const Duration(seconds: 6));
-  //     FlutterBluePlus.scanResults.listen((results) {
-  //       for (var result in results) {
-  //         if (!_scannedDevices.any((d) => d.device.id == result.device.id)) {
-  //           setState(() => _scannedDevices.add(result));
-  //         }
-  //       }
-  //     });
-  //   } catch (e) {
-  //     showCustomToast(
-  //       context: context,
-  //       message: "Scan error: ${e.toString()}",
-  //       type: ToastType.error,
-  //     );
-  //   } finally {
-  //     await Future.delayed(const Duration(seconds: 6));
-  //     print("Scanned devices 123: $_scannedDevices");
-  //     setState(() => _isScanning = false);
-  //   }
-  // }
+    // Check if all required permissions are granted
+    if (bluetoothScan.isGranted &&
+        bluetoothConnect.isGranted &&
+        location.isGranted) {
+      // Check if Bluetooth is turned on
+      final isBluetoothOn = await FlutterBluePlus.isOn;
 
-  // void _connectToDevice(ScanResult result) async {
-  //   Navigator.pop(context);
-  //   try {
-  //     showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (_) => const Center(child: CircularProgressIndicator()),
-  //     );
-  //
-  //     await result.device.connect(
-  //       autoConnect: false,
-  //       timeout: const Duration(seconds: 8),
-  //     );
-  //
-  //     if (mounted) Navigator.pop(context);
-  //
-  //     setState(() {
-  //       _connectedDevice = result.device;
-  //       _connectedScanResult = result; // ✅ Store RSSI too
-  //     });
-  //     showCustomToast(
-  //       context: context,
-  //       message:
-  //           "Connected to ${result.device.name.isNotEmpty ? result.device.name : 'Device'}",
-  //       type: ToastType.success,
-  //     );
-  //   } catch (e) {
-  //     if (mounted) Navigator.pop(context);
-  //     showCustomToast(
-  //       context: context,
-  //       message: 'Connection failed',
-  //       type: ToastType.error,
-  //     );
-  //   }
-  // }
+      // Check if Location Services (GPS) are enabled
+      final isLocationServiceOn =
+          await Permission.locationWhenInUse.serviceStatus.isEnabled;
+
+      if (!isBluetoothOn) {
+        showCustomToast(
+          context: context,
+          message: "Please turn on Bluetooth to scan.",
+          type: ToastType.error,
+        );
+      } else if (!isLocationServiceOn) {
+        showCustomToast(
+          context: context,
+          message: "Please enable Location Services (GPS) from settings.",
+          type: ToastType.error,
+        );
+      } else {
+        _startScan(); // ✅ All good: start scanning
+      }
+    } else {
+      showCustomToast(
+        context: context,
+        message: "Bluetooth & Location permissions are required.",
+        type: ToastType.error,
+      );
+    }
+  }
+
+  void _startScan() async {
+    _scannedDevices.clear();
+    setState(() => _isScanning = true);
+
+    try {
+      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 6));
+      FlutterBluePlus.scanResults.listen((results) {
+        for (var result in results) {
+          if (!_scannedDevices.any((d) => d.device.id == result.device.id)) {
+            setState(() => _scannedDevices.add(result));
+          }
+        }
+      });
+    } catch (e) {
+      showCustomToast(
+        context: context,
+        message: "Scan error: ${e.toString()}",
+        type: ToastType.error,
+      );
+    } finally {
+      await Future.delayed(const Duration(seconds: 6));
+      setState(() => _isScanning = false);
+      if (mounted) _showDevicesBottomSheet(); // 🔥 Automatically show
+    }
+  }
+
+  void _connectToDevice(ScanResult result) async {
+    Navigator.pop(context);
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(
+          child: CircularProgressIndicator(color: AppColors.primaryColor),
+        ),
+      );
+
+      await result.device.connect(
+        autoConnect: false,
+        timeout: const Duration(seconds: 8),
+      );
+
+      if (mounted) Navigator.pop(context);
+
+      setState(() {
+        _connectedDevice = result.device;
+        _connectedScanResult = result;
+      });
+
+      showCustomToast(
+        context: context,
+        message:
+            "Connected to ${result.device.name.isNotEmpty ? result.device.name : 'Device'}",
+        type: ToastType.success,
+      );
+    } catch (e) {
+      if (mounted) Navigator.pop(context);
+      showCustomToast(
+        context: context,
+        message: 'Connection failed',
+        type: ToastType.error,
+      );
+    }
+  }
 
   void _showDevicesBottomSheet() {
+    final filteredDevices = _scannedDevices
+        .where((device) => device.device.name.isNotEmpty)
+        .toList();
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -154,43 +168,34 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
               ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Nearby Devices", style: blackText16600),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+                Container(
+                  width: 40,
+                  height: 5,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const Divider(height: 1),
+                Text("Nearby Devices", style: blackText16600),
+                const Divider(),
                 Expanded(
                   child: filteredDevices.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.bluetooth_disabled,
-                                size: 60,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(height: 10),
-                              Text("No devices found", style: greyText14600),
-                            ],
-                          ),
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.bluetooth_disabled,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(height: 10),
+                            Text("No devices found", style: greyText14600),
+                          ],
                         )
                       : ListView.separated(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(8),
                           itemCount: filteredDevices.length,
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 12),
@@ -198,17 +203,10 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                             final device = filteredDevices[index];
                             return Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
                                 color: AppColors.primaryLightColor.withOpacity(
                                   0.1,
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12.withOpacity(0.05),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
+                                borderRadius: BorderRadius.circular(14),
                               ),
                               child: ListTile(
                                 leading: const CircleAvatar(
@@ -227,9 +225,7 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                                   style: greyText12400,
                                 ),
                                 trailing: ElevatedButton(
-                                  onPressed: () {
-                                    // _connectToDevice(device);
-                                  },
+                                  onPressed: () => _connectToDevice(device),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.primaryColor,
                                     padding: const EdgeInsets.symmetric(
@@ -310,29 +306,29 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
               ],
             ),
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.cancel, color: Colors.red),
-          //   onPressed: () async {
-          //     try {
-          //       await _connectedDevice!.disconnect();
-          //       setState(() {
-          //         _connectedDevice = null;
-          //         _connectedScanResult = null;
-          //       });
-          //       showCustomToast(
-          //         context: context,
-          //         message: 'Device disconnected',
-          //         type: ToastType.error,
-          //       );
-          //     } catch (e) {
-          //       showCustomToast(
-          //         context: context,
-          //         message: 'Error: ${e.toString()}',
-          //         type: ToastType.error,
-          //       );
-          //     }
-          //   },
-          // ),
+          IconButton(
+            icon: const Icon(Icons.cancel, color: Colors.red),
+            onPressed: () async {
+              try {
+                await _connectedDevice!.disconnect();
+                setState(() {
+                  _connectedDevice = null;
+                  _connectedScanResult = null;
+                });
+                showCustomToast(
+                  context: context,
+                  message: 'Device disconnected',
+                  type: ToastType.error,
+                );
+              } catch (e) {
+                showCustomToast(
+                  context: context,
+                  message: 'Error: ${e.toString()}',
+                  type: ToastType.error,
+                );
+              }
+            },
+          ),
         ],
       ),
     );
@@ -359,46 +355,45 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                 children: [
                   customBackButton(
                     context: context,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                    onTap: () => Navigator.pop(context),
                   ),
                   horizontalSpacing(15),
                   Text("Connect Device", style: blackText18600),
                 ],
               ),
-              verticalSpacing(100),
-              _buildConnectedDeviceCard(), // ✅ Show connected device info
-              // ElevatedButton.icon(
-              //   onPressed: _isScanning ? null : _requestPermissionsAndScan,
-              //   icon: Icon(
-              //     _isScanning ? Icons.bluetooth_searching : Icons.bluetooth,
-              //     color: Colors.white,
-              //   ),
-              //   label: Text(
-              //     _isScanning ? "Scanning..." : "Scan Devices",
-              //     style: whiteText14600,
-              //   ),
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: AppColors.primaryColor,
-              //     padding: const EdgeInsets.symmetric(
-              //       horizontal: 26,
-              //       vertical: 14,
-              //     ),
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(12),
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(height: 20),
+              Spacer(), verticalSpacing(40),
+
+              // 🟦 Big Bluetooth Icon
+              Icon(Icons.bluetooth, size: 150, color: AppColors.primaryColor),
+
+              verticalSpacing(16),
+              SizedBox(
+                width: screenWidth(context) * 0.7,
+                child: Text(
+                  "Connect to your nearby Bluetooth device easily",
+                  textAlign: TextAlign.center,
+                  style: greyText14600,
+                ),
+              ),
+              verticalSpacing(30),
+
+              // 🔘 Scan Button
               ElevatedButton.icon(
-                onPressed: _showDevicesBottomSheet,
-                icon: const Icon(Icons.devices, color: Colors.white),
-                label: Text("Show Nearby Devices", style: whiteText14600),
+                onPressed: _isScanning ? null : _requestPermissionsAndScan,
+                icon: Icon(
+                  _isScanning
+                      ? Icons.bluetooth_searching
+                      : Icons.bluetooth_audio,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  _isScanning ? "Scanning..." : "Scan for Devices",
+                  style: whiteText14600,
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                    horizontal: 26,
                     vertical: 14,
                   ),
                   shape: RoundedRectangleBorder(
@@ -406,6 +401,9 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                   ),
                 ),
               ),
+              verticalSpacing(40),
+              _buildConnectedDeviceCard(),
+              Spacer(),
             ],
           ),
         ),

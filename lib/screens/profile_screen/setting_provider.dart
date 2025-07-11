@@ -8,9 +8,11 @@ class SettingsProvider extends ChangeNotifier {
     'startStopEv': true,
     'speedLock': true,
     'lockEvApp': true,
+    'showroomsEv': true,
     'batteryTracking': true,
     'chargingStation': true,
     'newRelease': true,
+
   };
 
 

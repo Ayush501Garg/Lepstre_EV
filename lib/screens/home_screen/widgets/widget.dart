@@ -15,8 +15,9 @@ import '../../../widgets/custom_dialod.dart';
 import '../../../widgets/custom_switch.dart';
 import '../../bikes_screen/biike_details_screen.dart';
 import '../../bikes_screen/bikes_screen.dart';
-import '../../map_screen/map_screen/station_screen.dart';
 import '../lock_ev_screen.dart';
+import '../map_screen/map_ev_showrooms/ev_showrooms_screen.dart';
+import '../map_screen/station_screen.dart';
 import '../refer_screen.dart';
 import '../speed_lock_screen.dart';
 
@@ -352,6 +353,79 @@ Widget buildLockEvFeatureSection(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Lock EV via App", style: blackText18600),
+                const SizedBox(height: 3),
+                const Text(
+                  "Secure your EV using BLE connectivity anytime, anywhere from your phone.",
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.black54,
+                    height: 1.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 16,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildEvShowroomsSection(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const StationShowroomPage()),
+      );
+    },
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.08),
+            blurRadius: 12,
+            spreadRadius: 2,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Glowing Icon
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  AppColors.primaryColor.withOpacity(0.35),
+                  AppColors.primaryColor.withOpacity(0.08),
+                ],
+              ),
+            ),
+            child: Icon(Icons.directions_bike, size: 30, color: AppColors.primaryColor),
+          ),
+
+          const SizedBox(width: 18),
+
+          // Info text
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Map For Ev Showrooms", style: blackText18600),
                 const SizedBox(height: 3),
                 const Text(
                   "Secure your EV using BLE connectivity anytime, anywhere from your phone.",

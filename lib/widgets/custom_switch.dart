@@ -1,35 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lepster/core/constants/app_color.dart';
 
-// class CustomSwitchButton extends StatelessWidget {
-//   final bool value;
-//   final ValueChanged<bool> onChanged;
-//   final Color activeThumbColor;
-//   final Color activeTrackColor;
-//   final Color inactiveThumbColor;
-//   final Color inactiveTrackColor;
-//   const CustomSwitchButton({
-//     super.key,
-//     required this.value,
-//     required this.onChanged,
-//     this.activeThumbColor = AppColors.primaryColor,
-//     this.activeTrackColor = AppColors.lightCreame,
-//     this.inactiveThumbColor = Colors.grey,
-//     this.inactiveTrackColor = AppColors.lightCreame,
-//   });
-//   @override
-//   Widget build(BuildContext context) {
-//       value: value,
-//       onChanged: onChanged,
-//       activeColor: activeThumbColor,
-//       activeTrackColor: activeTrackColor.withOpacity(0.6),
-//       inactiveThumbColor: inactiveThumbColor,
-//       inactiveTrackColor: inactiveTrackColor,
-//       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//     );
-//   }
-// }
-
 class CustomSwitchButton extends StatelessWidget {
   final bool value;
   final ValueChanged<bool>? onChanged; // Nullable
@@ -78,3 +49,4 @@ class CustomSwitchButton extends StatelessWidget {
     );
   }
 }
+

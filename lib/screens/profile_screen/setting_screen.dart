@@ -67,6 +67,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         "title": "New Release Setting",
         "icon": Icons.new_releases,
       },
+      {
+        "key": "showroomsEv",
+        "title": "EVs Showrooms Map",
+        "icon": Icons.directions_bike,
+      },
     ];
 
     return Scaffold(

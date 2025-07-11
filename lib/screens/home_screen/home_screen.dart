@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:lepster/a.dart';
 import 'package:lepster/screens/plans/plan_screen.dart';
+import '../../a.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
 import '../../widgets/custom_slider.dart';
+import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
 import '../../data/data.dart';
 import '../profile_screen/setting_provider.dart';
@@ -60,22 +61,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CustomImageSlider(imagePaths: sliderImages),
               ),
 
-              if (settings.isCardVisible("deviceConnectivity", isUserVerified)) ...[
+              if (settings.isCardVisible(
+                "deviceConnectivity",
+                isUserVerified,
+              )) ...[
                 verticalSpacing(10),
-                // DeviceConnectivityCard(
-                //   icon: Icons.bluetooth_connected,
-                //   title: "Device Connection",
-                //   subtitle: "Tap to scan & connect nearby devices",
-                //   onTap: () {
-                //     PaymentService(context: context).doPayment(200);
-                //     // Navigator.push(
-                //     //   context,
-                //     //   MaterialPageRoute(
-                //     //     builder: (_) => const ConnectDevicesScreen(),
-                //     //   ),
-                //     // );
-                //   },
-                // ),
+                DeviceConnectivityCard(
+                  icon: Icons.bluetooth_connected,
+                  title: "Device Connection",
+                  subtitle: "Tap to scan & connect nearby devices",
+                  onTap: () {
+                    PaymentService(context: context).doPayment(200);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => const ConnectDevicesScreen(),
+                    //   ),
+                    // );
+                  },
+                ),
               ],
 
 
@@ -114,6 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
+
+
               // ✅ Start / Stop EV  startStopEv
               if (settings.isCardVisible("startStopEv", isUserVerified)) ...[
                 verticalSpacing(5),
@@ -136,15 +142,16 @@ class _HomeScreenState extends State<HomeScreen> {
               if (settings.isCardVisible("lockEvApp", isUserVerified))
                 buildLockEvFeatureSection(context),
 
+              if (settings.isCardVisible("showroomsEv", isUserVerified))
+                buildEvShowroomsSection(context),
+
               // ✅ Battery Tracking   batteryTracking
               if (settings.isCardVisible("batteryTracking", isUserVerified))
                 BatteryInfoCard(batteryPercentage: 0.2, rangeKm: 180),
 
               verticalSpacing(15),
 
-              buildFeatureIcons(context), // chargingStation
-              if (settings.isCardVisible("chargingStation", isUserVerified)) verticalSpacing(20),
-              verticalSpacing(5),
+
 
               // ✅ Charging Station   chargingStation
               if (settings.isCardVisible("chargingStation", isUserVerified))

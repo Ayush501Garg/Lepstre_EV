@@ -155,6 +155,47 @@ List<Map<String, dynamic>> stations = [
     "distance": "2.8 km",
   },
 ];
+List<Map<String, dynamic>> showrooms = [
+  {
+    "image":
+    "https://images.unsplash.com/photo-1608023568014-6636291b5584?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    // "https://images.unsplash.com/photo-1672542128826-5f0d578713d2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    "name": "AutoSpark EV Showroom",
+    "batteries": 4,
+    "distance": "1.2 km",
+  },
+  {
+    "image":
+    "https://images.unsplash.com/photo-1672542128826-5f0d578713d2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    "name": "ElectroWheel Gallery",
+    "batteries": 2,
+    "distance": "3.6 km",
+  },
+  {
+    "image":
+    // "https://images.unsplash.com/photo-1608023568014-6636291b5584?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    "https://cdn.pixabay.com/photo/2018/04/16/18/06/charging-station-3325418_1280.jpg",
+    "name": "VoltNova EV Center",
+    "batteries": 6,
+    "distance": "0.9 km",
+  },
+  {
+    "image":
+    "https://plus.unsplash.com/premium_photo-1714672716183-c717a99f857f?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    // "https://images.unsplash.com/photo-1672542128826-5f0d578713d2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    "name": "ZapMotors Showroom",
+    "batteries": 5,
+    "distance": "5.1 km",
+  },
+  {
+    "image":
+    "https://plus.unsplash.com/premium_photo-1679389667208-25e919cb452b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGVsZWN0cmljJTIwdmVoaWNsZSUyMGNoYXJnaW5nfGVufDB8fDB8fHww",
+    "name": "EcoDrive EV World",
+    "batteries": 3,
+    "distance": "2.8 km",
+  },
+];
+
 final List<String> sliderImages = [banner1, banner2];
 
 List globalFavoriteVehicleNames = [];

@@ -1,3 +1,0 @@
-var app_url = "https://lisbvbhynvnbgqjionfh.supabase.co";
-var app_key =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxpc2J2Ymh5bnZuYmdxamlvbmZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2OTM2OTQsImV4cCI6MjA2NzI2OTY5NH0.8CfQf6A2SoGaUX_GNzHt_WJLGT7Zf7R6irknbLVLKNg";
