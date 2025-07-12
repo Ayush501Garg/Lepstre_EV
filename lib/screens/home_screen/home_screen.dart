@@ -5,7 +5,6 @@ import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
 import '../../widgets/custom_slider.dart';
-import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
 import '../../data/data.dart';
 import '../profile_screen/setting_provider.dart';
@@ -21,9 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   bool isUserVerified = false;
-
 
   @override
   void initState() {
@@ -37,9 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
       isUserVerified = verified;
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
-
               // if (settings.getSetting("deviceConnectivity")) ...[
               //   verticalSpacing(10),
               //   DeviceConnectivityCard(
@@ -118,8 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
-
-
               // ✅ Start / Stop EV  startStopEv
               if (settings.isCardVisible("startStopEv", isUserVerified)) ...[
                 verticalSpacing(5),
@@ -150,8 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 BatteryInfoCard(batteryPercentage: 0.2, rangeKm: 180),
 
               verticalSpacing(15),
-
-
 
               // ✅ Charging Station   chargingStation
               if (settings.isCardVisible("chargingStation", isUserVerified))

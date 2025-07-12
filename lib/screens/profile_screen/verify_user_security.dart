@@ -13,16 +13,11 @@ import '../../widgets/custome_switch_button.dart';
 class AppSecurity extends StatefulWidget {
   const AppSecurity({super.key});
 
-
-
   @override
   State<AppSecurity> createState() => _AppSecurityState();
 }
 
-
-
 class _AppSecurityState extends State<AppSecurity> {
-
   final LocalAuthentication auth = LocalAuthentication();
   String _status = 'Not Authenticated';
   bool _isAuthenticating = false;
@@ -31,14 +26,11 @@ class _AppSecurityState extends State<AppSecurity> {
 
   IconData statusIcon = Icons.lock_outline;
 
-
-
   @override
   void initState() {
     super.initState();
     _checkPreviousAuthStatus(); // ✅ update
   }
-
 
   Future<void> _checkPreviousAuthStatus() async {
     bool isVerified = await SharedPrefManager.getFingerprintStatus();
@@ -48,7 +40,9 @@ class _AppSecurityState extends State<AppSecurity> {
       _status = isVerified ? '✅ You are a valid person' : '❌ Not Verified';
       print("isVerified  _checkPreviousAuthStatus isVerified : $isVerified");
       _alreadyVerified = isVerified;
-      statusIcon = isVerified ? Icons.verified : Icons.person; // 👈 Update icon here
+      statusIcon = isVerified
+          ? Icons.verified
+          : Icons.person; // 👈 Update icon here
     });
   }
 
@@ -61,7 +55,9 @@ class _AppSecurityState extends State<AppSecurity> {
       _status = 'Not Authenticated';
       statusIcon = Icons.person; // 👈 Reset icon to locked
 
-      print("isVerified  _clearFingerprintStatus _alreadyVerified : $_alreadyVerified");
+      print(
+        "isVerified  _clearFingerprintStatus _alreadyVerified : $_alreadyVerified",
+      );
     });
 
     print('🧹 Fingerprint status cleared');
@@ -98,7 +94,9 @@ class _AppSecurityState extends State<AppSecurity> {
             ? '✅ You are a valid person'
             : '❌ Access Denied!';
         _alreadyVerified = authenticated;
-        statusIcon = authenticated ? Icons.verified : Icons.person; // 👈 Update icon
+        statusIcon = authenticated
+            ? Icons.verified
+            : Icons.person; // 👈 Update icon
         print("isVerified  _authenticate authenticated : $authenticated");
       });
     } catch (e) {
@@ -110,11 +108,9 @@ class _AppSecurityState extends State<AppSecurity> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-     // ✅ icon based on verification
+    // ✅ icon based on verification
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -143,19 +139,7 @@ class _AppSecurityState extends State<AppSecurity> {
                   ),
                 ],
               ),
-
-              child: CustomInfoCard(
-                icon: statusIcon,
-                title: _alreadyVerified ? 'User Verified' : 'Verify yourself',
-                subtitle: "Your identity is secured.", // ✅ Dynamic icon
-                glowColor: Colors.green,
-                onTap: _alreadyVerified ? null : _authenticate,
-              ),
-            )
-
-
-
-
+            ),
           ],
         ),
       ),
@@ -180,8 +164,6 @@ class CustomInfoCard extends StatelessWidget {
     this.subtitle,
     this.glowColor = Colors.blue, // default color
   });
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -231,10 +213,12 @@ class CustomInfoCard extends StatelessWidget {
                       Text(
                         title,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(width: 10),
-                      if(lasticon != null)
+                      if (lasticon != null)
                         Icon(
                           lasticon, // ✅ Yeh important line hai
                           size: 24,
