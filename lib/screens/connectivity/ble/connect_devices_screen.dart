@@ -397,6 +397,22 @@ class _ConnectDevicesScreenState extends State<ConnectDevicesScreen> {
                   ),
                 ),
               ),
+              verticalSpacing(20),
+              ElevatedButton.icon(
+                onPressed: _showDevicesBottomSheet,
+                icon: const Icon(Icons.devices, color: Colors.white),
+                label: Text("Show Nearby Devices", style: whiteText14600),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 14,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
               verticalSpacing(40),
               _buildConnectedDeviceCard(),
               Spacer(),

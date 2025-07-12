@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../screens/profile_screen/setting_provider.dart';
 
 class SharedPrefManager {
 

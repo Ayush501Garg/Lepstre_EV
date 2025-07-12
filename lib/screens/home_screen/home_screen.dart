@@ -1,5 +1,6 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:lepster/screens/plans/plan_screen.dart';
+import '../../controllers/voice_command_controller.dart';
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_sizing.dart';
 import '../../core/utils/shared_preference_service.dart';
@@ -7,6 +8,8 @@ import '../../widgets/custom_slider.dart';
 import '../connectivity/ble/connect_devices_screen.dart';
 import '../connectivity/ble/device_connect_card.dart';
 import '../../data/data.dart';
+import '../map_screen/single_map_screen.dart';
+import '../plans/plan_screen.dart';
 import '../profile_screen/setting_provider.dart';
 import 'lock_ev_screen.dart';
 import 'widgets/widget.dart';
@@ -21,11 +24,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isUserVerified = false;
+  late VoiceCommandController _voiceController;
+  bool _isListening = false; // 👈 Flag to track mic animation
+  dynamic batteryPercentage = 0.2;
 
   @override
   void initState() {
     super.initState();
     _loadVerificationStatus();
+    _voiceController = VoiceCommandController();
+    _voiceController.initialize();
   }
 
   void _loadVerificationStatus() async {
@@ -35,12 +43,86 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _handleVoiceCommand(String command) {
+    print("command $command");
+    setState(() => _isListening = false);
+    if (command.contains("connect device")) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ConnectDevicesScreen()),
+      );
+    } else if (command.contains("open plan") || command.contains("plan")) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => PlanScreen()));
+    } else if (command.contains("on off control") ||
+        command.contains("on off ev") ||
+        command.contains("ev control") ||
+        command.contains("control")) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const LockEvDetailScreen()),
+      );
+    } else if (command.contains("speed")) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Speed lock feature")));
+    } else if (command.contains("open lock control") ||
+        command.contains("ev lock") ||
+        command.contains("ev lock")) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const LockEvDetailScreen()),
+      );
+    } else if (command.contains("battery")) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Battery info shown")));
+    } else if (command.contains("show all charging station") ||
+        command.contains("station") ||
+        command.contains(" charging station")) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const SingleMapScreen()),
+      );
+    } else if (command.contains("new release")) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("New Releases")));
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Unknown command: $command")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final settings = Provider.of<SettingsProvider>(context);
-
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      floatingActionButton: AvatarGlow(
+        glowColor: AppColors.primaryColor,
+        animate: _isListening,
+        repeat: true,
+        child: FloatingActionButton(
+          backgroundColor: AppColors.primaryColor.withOpacity(0.5),
+          shape: CircleBorder(),
+          onPressed: () {
+            _voiceController.listen(
+              context,
+              _handleVoiceCommand,
+              onListeningChanged: (isListening) {
+                setState(() => _isListening = isListening);
+              },
+            );
+          },
+          child: Icon(
+            _isListening ? Icons.mic : Icons.mic_off,
+            color: AppColors.whiteColor,
+            size: 28,
+          ),
+        ),
+      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -49,12 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
               verticalSpacing(20),
               buildHeader(context),
               verticalSpacing(20),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: CustomImageSlider(imagePaths: sliderImages),
               ),
-
               if (settings.isCardVisible(
                 "deviceConnectivity",
                 isUserVerified,
@@ -74,10 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ],
-
-              // ✅ View Our Plan
-
-              // viewPlans
               if (settings.isCardVisible("viewPlans", isUserVerified)) ...[
                 verticalSpacing(5),
                 DeviceConnectivityCard(
@@ -92,8 +168,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ],
-
-              // ✅ Start / Stop EV  startStopEv
               if (settings.isCardVisible("startStopEv", isUserVerified)) ...[
                 verticalSpacing(5),
                 StartStopEVCard(
@@ -107,33 +181,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ],
-              // ✅ Speed Lock speedLock
               if (settings.isCardVisible("speedLock", isUserVerified))
                 buildSpeedLockSection(context),
-
-              // ✅ Lock EV App   lockEvApp
               if (settings.isCardVisible("lockEvApp", isUserVerified))
                 buildLockEvFeatureSection(context),
-
-              // ✅ Battery Tracking   batteryTracking
               if (settings.isCardVisible("batteryTracking", isUserVerified))
-                BatteryInfoCard(batteryPercentage: 0.2, rangeKm: 180),
-
+                BatteryInfoCard(
+                  batteryPercentage: batteryPercentage,
+                  rangeKm: 180,
+                ),
               verticalSpacing(15),
-
-              buildFeatureIcons(context), // chargingStation
+              buildFeatureIcons(context),
               if (settings.isCardVisible("chargingStation", isUserVerified))
                 verticalSpacing(20),
               verticalSpacing(5),
-
-              // ✅ Charging Station   chargingStation
               if (settings.isCardVisible("chargingStation", isUserVerified))
                 buildChargingStationSection(context),
-
-              // ✅ Advanced Settings
               buildAdvancedSection(context),
-
-              verticalSpacing(10), // newRelease
+              verticalSpacing(10),
               if (settings.isCardVisible("newRelease", isUserVerified))
                 buildNewReleasesSection(context),
               verticalSpacing(30),

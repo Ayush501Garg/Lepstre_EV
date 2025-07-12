@@ -6,7 +6,6 @@ import 'package:lepster/screens/notification_screen/notification_screen.dart';
 import 'package:lepster/screens/plans/plan_screen.dart';
 import 'package:lepster/widgets/custom_back_buttom.dart';
 import 'package:lepster/widgets/custom_page_route.dart';
-
 import '../../../core/constants/app_color.dart';
 import '../../../core/constants/app_sizing.dart';
 import '../../../core/constants/image_path.dart';
@@ -15,6 +14,7 @@ import '../../../widgets/custom_dialod.dart';
 import '../../../widgets/custom_switch.dart';
 import '../../bikes_screen/biike_details_screen.dart';
 import '../../bikes_screen/bikes_screen.dart';
+import '../../../a.dart';
 import '../../map_screen/map_screen/station_screen.dart';
 import '../lock_ev_screen.dart';
 import '../refer_screen.dart';
@@ -633,7 +633,7 @@ Widget buildFeatureIcons(BuildContext context) {
       'onTap': () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => StationScreen()),
+          MaterialPageRoute(builder: (context) => GoRideHomePage()),
         );
       },
     },
